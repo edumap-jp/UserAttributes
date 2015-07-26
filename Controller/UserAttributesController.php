@@ -25,7 +25,8 @@ class UserAttributesController extends UserAttributesAppController {
  * @var array
  */
 	public $uses = array(
-		'UserAttributes.UserAttribute'
+		'UserAttributes.UserAttribute',
+		'UserAttributes.UserAttributeLayout',
 	);
 
 /**
@@ -43,8 +44,14 @@ class UserAttributesController extends UserAttributesAppController {
  * @return void
  */
 	public function index() {
-		$userAttributes = $this->UserAttribute->getUserAttributesForLayout();
-var_dump($userAttributes);
+		$userAttributes = $this->UserAttribute->getUserAttributesForLayout(Configure::read('Config.languageId'));
+		$this->set('userAttributes', $userAttributes);
+
+		$userAttributeLayouts = $this->UserAttributeLayout->find('all', array(
+			'recursive' => -1,
+			'order' => array('id' => 'asc'),
+		));
+		$this->set('userAttributeLayouts', $userAttributeLayouts);
 	}
 
 /**

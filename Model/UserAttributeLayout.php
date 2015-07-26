@@ -20,13 +20,6 @@ App::uses('UserAttributesAppModel', 'UserAttributes.Model');
 class UserAttributeLayout extends UserAttributesAppModel {
 
 /**
- * Use database config
- *
- * @var string
- */
-	public $useDbConfig = 'master';
-
-/**
  * Validation rules
  *
  * @var array

@@ -164,11 +164,13 @@ class UserAttribute extends UsersAppModel {
 /**
  * Get UserAttributes data for layout
  *
+ * @param int $langId languages.id
  * @return mixed array UserAttributes data
  */
-	public function getUserAttributesForLayout() {
+	public function getUserAttributesForLayout($langId) {
 		$ret = $this->find('all', array(
 			'recursive' => -1,
+			'conditions' => array('language_id' => (int)$langId),
 			'order' => array('row' => 'asc', 'col' => 'asc', 'weight' => 'asc')
 		));
 

@@ -1,6 +1,8 @@
 <?php
 /**
  * UserAttribute index template
+ *   - $layout: layout
+ *   - $userAttributes: userAttributes
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
@@ -10,10 +12,12 @@
  */
 ?>
 
-<?php $this->assign('title', __d('user_attributes', 'User attributes setting')); ?>
+<div class="panel panel-default" >
+	<div class="panel-header">
+	</div>
+	<div class="panel-body">
+		<div class="row">
 
-<?php foreach ($userAttributeLayouts as $layout) : ?>
-	<?php echo $this->element('UserAttributes/frame_layout', array(
-			'layout' => $layout,
-		)); ?>
-<?php endforeach;
+		</div>
+	</div>
+</div>
