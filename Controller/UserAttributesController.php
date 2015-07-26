@@ -31,7 +31,9 @@ class UserAttributesController extends UserAttributesAppController {
  *
  * @var array
  */
-	//public $components = array();
+	public $components = array(
+		'ControlPanel.ControlPanelLayout'
+	);
 
 /**
  * index
