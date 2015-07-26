@@ -70,11 +70,23 @@ class Init extends CakeMigration {
 					),
 					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 				),
+				'user_attribute_layouts' => array(
+					'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'key' => 'primary', 'comment' => 'Row number'),
+					'col' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 4, 'unsigned' => false),
+					'created_user' => array('type' => 'integer', 'null' => true, 'default' => null, 'unsigned' => false),
+					'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
+					'modified_user' => array('type' => 'integer', 'null' => true, 'default' => null, 'unsigned' => false),
+					'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
+					'indexes' => array(
+						'PRIMARY' => array('column' => 'id', 'unique' => 1),
+					),
+					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
+				),
 			),
 		),
 		'down' => array(
 			'drop_table' => array(
-				'user_attributes', 'user_attribute_choices'
+				'user_attributes', 'user_attribute_choices', 'user_attribute_layouts'
 			),
 		),
 	);

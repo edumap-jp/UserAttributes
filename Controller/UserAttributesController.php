@@ -24,7 +24,9 @@ class UserAttributesController extends UserAttributesAppController {
  *
  * @var array
  */
-	//public $uses = array();
+	public $uses = array(
+		'UserAttributes.UserAttribute'
+	);
 
 /**
  * use component
@@ -41,6 +43,8 @@ class UserAttributesController extends UserAttributesAppController {
  * @return void
  */
 	public function index() {
+		$userAttributes = $this->UserAttribute->getUserAttributesForLayout();
+var_dump($userAttributes);
 	}
 
 /**

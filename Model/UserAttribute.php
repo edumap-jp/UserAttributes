@@ -161,4 +161,23 @@ class UserAttribute extends UsersAppModel {
 	//	)
 	//);
 
+/**
+ * Get UserAttributes data for layout
+ *
+ * @return mixed array UserAttributes data
+ */
+	public function getUserAttributesForLayout() {
+		$ret = $this->find('all', array(
+			'recursive' => -1,
+			'order' => array('row' => 'asc', 'col' => 'asc', 'weight' => 'asc')
+		));
+
+		$userAttributes = array();
+		foreach ($ret as $userAttribute) {
+			$userAttributes[$userAttribute['UserAttribute']['row']][$userAttribute['UserAttribute']['col']][$userAttribute['UserAttribute']['weight']] = $userAttribute;
+		}
+
+		return $userAttributes;
+	}
+
 }
