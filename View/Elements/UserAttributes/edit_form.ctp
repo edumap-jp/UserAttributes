@@ -10,12 +10,32 @@
  */
 ?>
 
+<?php echo $this->Form->hidden($langId . '.' . 'UserAttribute.id'); ?>
+
+<?php echo $this->Form->hidden($langId . '.' . 'UserAttribute.key'); ?>
+
+<?php echo $this->Form->hidden($langId . '.' . 'UserAttribute.language_id'); ?>
+
+<?php echo $this->Form->hidden($langId . '.' . 'UserAttribute.row'); ?>
+
+<?php echo $this->Form->hidden($langId . '.' . 'UserAttribute.col'); ?>
+
+<?php echo $this->Form->hidden($langId . '.' . 'UserAttribute.weight'); ?>
+
 <div class="form-group">
 	<?php echo $this->Form->input($langId . '.' . 'UserAttribute.name', array(
 			'type' => 'text',
 			'label' => __d('user_attributes', 'Item name') . $this->element('NetCommons.required'),
 			'class' => 'form-control',
 		)); ?>
+
+	<?php echo $this->element(
+		'NetCommons.errors', [
+			'errors' => $this->validationErrors,
+			'model' => 'UserAttribute',
+			'field' => 'name',
+		]); ?>
+
 </div>
 
 <div class="form-group">
@@ -29,7 +49,7 @@
 	<?php echo $this->Form->checkbox($langId . '.' . 'UserAttribute.is_system', array(
 			'div' => false,
 			'checked' => (bool)$userAttribute['UserAttribute']['is_system'],
-			'hiddenField' => false
+			//'hiddenField' => false
 		)); ?>
 
 	<?php echo $this->Form->label(
@@ -42,7 +62,7 @@
 	<?php echo $this->Form->checkbox($langId . '.' . 'UserAttribute.required', array(
 			'div' => false,
 			'checked' => (bool)$userAttribute['UserAttribute']['required'],
-			'hiddenField' => false
+			//'hiddenField' => false
 		)); ?>
 
 	<?php echo $this->Form->label(
@@ -55,7 +75,7 @@
 	<?php echo $this->Form->checkbox($langId . '.' . 'UserAttribute.display_label', array(
 			'div' => false,
 			'checked' => (bool)$userAttribute['UserAttribute']['display_label'],
-			'hiddenField' => false
+			//'hiddenField' => false
 		)); ?>
 
 	<?php echo $this->Form->label(
@@ -68,7 +88,7 @@
 	<?php echo $this->Form->checkbox($langId . '.' . 'UserAttribute.display_search_list', array(
 			'div' => false,
 			'checked' => (bool)$userAttribute['UserAttribute']['display_search_list'],
-			'hiddenField' => false
+			//'hiddenField' => false
 		)); ?>
 
 	<?php echo $this->Form->label(
@@ -81,7 +101,7 @@
 	<?php echo $this->Form->checkbox($langId . '.' . 'UserAttribute.self_publicity', array(
 			'div' => false,
 			'checked' => (bool)$userAttribute['UserAttribute']['self_publicity'],
-			'hiddenField' => false
+			//'hiddenField' => false
 		)); ?>
 
 	<?php echo $this->Form->label(
@@ -94,7 +114,7 @@
 	<?php echo $this->Form->checkbox($langId . '.' . 'UserAttribute.self_email_reception_possibility', array(
 			'div' => false,
 			'checked' => (bool)$userAttribute['UserAttribute']['self_email_reception_possibility'],
-			'hiddenField' => false
+			//'hiddenField' => false
 		)); ?>
 
 	<?php echo $this->Form->label(

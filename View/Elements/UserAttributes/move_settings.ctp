@@ -53,22 +53,22 @@
 
 		<li>
 			<a href="" onclick="<?php echo '$(\'#' . $weightInputForm . '\')[0].value = \'' . ($userAttribute['UserAttribute']['weight'] - 1) . '\'; ' . $submit . ';'; ?>">
-				<span class="glyphicon glyphicon-arrow-up"> <?php echo __d('user_attributes', 'Up') ?></span>
+				<span class="glyphicon glyphicon-arrow-up"> <?php echo __d('user_attributes', 'Go to Up') ?></span>
 			</a>
 		</li>
 		<li>
 			<a href="" onclick="<?php echo '$(\'#' . $weightInputForm . '\')[0].value = \'' . ($userAttribute['UserAttribute']['weight'] + 1) . '\'; ' . $submit . ';'; ?>">
-				<span class="glyphicon glyphicon-arrow-down"> <?php echo __d('user_attributes', 'Down') ?></span>
+				<span class="glyphicon glyphicon-arrow-down"> <?php echo __d('user_attributes', 'Go to Down') ?></span>
 			</a>
 		</li>
 		<li>
 			<a href="" onclick="<?php echo '$(\'#' . $colInputForm . '\')[0].value = \'' . ($userAttribute['UserAttribute']['weight'] - 1) . '\'; ' . $submit . ';'; ?>">
-				<span class="glyphicon glyphicon-arrow-left"> <?php echo __d('user_attributes', 'Left') ?></span>
+				<span class="glyphicon glyphicon-arrow-left"> <?php echo __d('user_attributes', 'Go to Left') ?></span>
 			</a>
 		</li>
 		<li>
 			<a href="" onclick="<?php echo '$(\'#' . $colInputForm . '\')[0].value = \'' . ($userAttribute['UserAttribute']['weight'] + 1) . '\'; ' . $submit . ';'; ?>">
-				<span class="glyphicon glyphicon-arrow-right"> <?php echo __d('user_attributes', 'Right') ?></span>
+				<span class="glyphicon glyphicon-arrow-right"> <?php echo __d('user_attributes', 'Go to Right') ?></span>
 			</a>
 		</li>
 

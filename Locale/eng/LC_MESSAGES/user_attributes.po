@@ -13,6 +13,82 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
+#: UserAttributes/Model/UserAttribute.php:146
+#: UserAttributes/View/Elements/UserAttributes/edit_form.ctp:28
+msgid "Item name"
+msgstr ""
+
+#: UserAttributes/View/Elements/UserAttributes/delete_form.ctp:25;35
+msgid "User attribute"
+msgstr ""
+
+#: UserAttributes/View/Elements/UserAttributes/edit_col.ctp:30
+msgid "%s Col"
+msgstr ""
+
+#: UserAttributes/View/Elements/UserAttributes/edit_col.ctp:31
+msgid "%s Cols"
+msgstr ""
+
+#: UserAttributes/View/Elements/UserAttributes/edit_form.ctp:43
+msgid "Input type"
+msgstr ""
+
+#: UserAttributes/View/Elements/UserAttributes/edit_form.ctp:57
+msgid "System items"
+msgstr ""
+
+#: UserAttributes/View/Elements/UserAttributes/edit_form.ctp:70
+msgid "Designate as required items"
+msgstr ""
+
+#: UserAttributes/View/Elements/UserAttributes/edit_form.ctp:83
+msgid "Show the item name"
+msgstr ""
+
+#: UserAttributes/View/Elements/UserAttributes/edit_form.ctp:96
+msgid "Show on the search results"
+msgstr ""
+
+#: UserAttributes/View/Elements/UserAttributes/edit_form.ctp:109
+msgid "Enable individual public/private setting"
+msgstr ""
+
+#: UserAttributes/View/Elements/UserAttributes/edit_form.ctp:122
+msgid "Enable individual email receipt / non-receipt setting"
+msgstr ""
+
+#: UserAttributes/View/Elements/UserAttributes/edit_form.ctp:129
+msgid "Description"
+msgstr ""
+
+#: UserAttributes/View/Elements/UserAttributes/move_settings.ctp:56
+msgid "Go to Up"
+msgstr ""
+
+#: UserAttributes/View/Elements/UserAttributes/move_settings.ctp:61
+msgid "Go to Down"
+msgstr ""
+
+#: UserAttributes/View/Elements/UserAttributes/move_settings.ctp:66
+msgid "Go to Left"
+msgstr ""
+
+#: UserAttributes/View/Elements/UserAttributes/move_settings.ctp:71
+msgid "Go to Right"
+msgstr ""
+
+#: UserAttributes/View/Elements/UserAttributes/move_settings.ctp:80
+msgid "Go to %s row"
+msgstr ""
+
 #: UserAttributes/Config/Migration/001_plugin_records.ctp
+#: UserAttributes/View/UserAttributes/edit.ctp:28
+#: UserAttributes/View/UserAttributes/index.ctp:20
 msgid "User attributes setting"
 msgstr ""
+
+#: UserAttributes/View/UserAttributes/index.ctp:28
+msgid "%s row"
+msgstr ""
+

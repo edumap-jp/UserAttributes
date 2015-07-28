@@ -15,19 +15,33 @@ echo $this->Html->css(
 	),
 	array('plugin' => false)
 );
+
+echo $this->Html->script(
+	array(
+		'/user_attributes/js/user_attributes.js'
+	),
+	array('plugin' => false)
+);
+
 ?>
 
 <?php $this->assign('title', __d('user_attributes', 'User attributes setting')); ?>
 
-<div class="panel panel-default">
-	<div class="panel-body">
-		<?php echo $this->element('UserAttributes.switch_language', array('prefix' => 'user_attribute_')); ?>
+<div class="panel panel-default"
+		ng-controller="UserAttributes"
+		ng-init="initialize(<?php echo h(json_encode(array(
+			'activeLangCode' => h($activeLangCode)
+		), true)); ?>)">
 
-		<?php echo $this->Form->create(null, array('novalidate' => true)); ?>
+	<?php echo $this->Form->create(null, array('novalidate' => true)); ?>
+
+		<div class="panel-body">
+			<?php echo $this->element('UserAttributes.switch_language', array('prefix' => 'user_attribute_')); ?>
+
 			<div class="tab-content">
 				<?php foreach ($languages as $langId => $langCode) : ?>
 					<div id="user_attribute_<?php echo $langCode; ?>"
-							class="tab-pane <?php echo (Configure::read('Config.language') === $langCode ? ' active' : ''); ?>">
+							class="tab-pane<?php echo ($activeLangCode === $langCode ? ' active' : ''); ?>">
 
 						<?php echo $this->element('UserAttributes/edit_form', array(
 								'langId' => $langId,
@@ -36,8 +50,22 @@ echo $this->Html->css(
 					</div>
 				<?php endforeach; ?>
 			</div>
-		<?php echo $this->Form->end(); ?>
-	</div>
+		</div>
 
+		<div class="panel-footer text-center">
+			<a class="btn btn-default btn-workflow" href="<?php echo $this->Html->url('/user_attributes/user_attributes/index/'); ?>">
+				<span class="glyphicon glyphicon-remove"></span>
+				<?php echo __d('net_commons', 'Cancel'); ?>
+			</a>
+
+			<?php echo $this->Form->button(__d('net_commons', 'OK'), array(
+					'class' => 'btn btn-primary btn-workflow',
+					'name' => 'save',
+				)); ?>
+		</div>
+	<?php echo $this->Form->end(); ?>
 </div>
 
+<?php if ($this->request->params['action'] === 'edit') : ?>
+	<?php echo $this->element('UserAttributes/delete_form'); ?>
+<?php endif; 
