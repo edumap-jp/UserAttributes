@@ -68,4 +68,4 @@ echo $this->Html->script(
 
 <?php if ($this->request->params['action'] === 'edit') : ?>
 	<?php echo $this->element('UserAttributes/delete_form'); ?>
-<?php endif; 
+<?php endif;

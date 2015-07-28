@@ -223,7 +223,6 @@ class UserAttribute extends UsersAppModel {
  * Save UserAttributes
  *
  * @param array $data received post data
- * @param bool $created True is created, false is updated
  * @return bool True on success, false on validation errors
  * @throws InternalErrorException
  */
@@ -275,20 +274,20 @@ class UserAttribute extends UsersAppModel {
 		$dataSource->begin();
 
 		try {
-//			//バリデーション
-//			$indexes = array_keys($data['LinkOrders']);
-//			foreach ($indexes as $i) {
-//				if (! $this->validateLinkOrder($data['LinkOrders'][$i])) {
-//					return false;
-//				}
-//			}
-//
-//			//登録処理
-//			foreach ($indexes as $i) {
-//				if (! $this->save($data['LinkOrders'][$i], false, false)) {
-//					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-//				}
-//			}
+			////バリデーション
+			//$indexes = array_keys($data['LinkOrders']);
+			//foreach ($indexes as $i) {
+			//	if (! $this->validateLinkOrder($data['LinkOrders'][$i])) {
+			//		return false;
+			//	}
+			//}
+			//
+			////登録処理
+			//foreach ($indexes as $i) {
+			//	if (! $this->save($data['LinkOrders'][$i], false, false)) {
+			//		throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			//	}
+			//}
 
 			//トランザクションCommit
 			$dataSource->commit();

@@ -21,7 +21,8 @@ $L10n = new L10n();
 			<a class="nc-switch-language" href="#<?php echo $prefix . $langCode ?>" role="tab" data-toggle="tab"
 				ng-click="activeLangCode = '<?php echo $langCode; ?>'">
 
-				<?php $catalog = $L10n->catalog($langCode); echo __($catalog['language']); ?>
+				<?php $catalog = $L10n->catalog($langCode);
+						echo __($catalog['language']); ?>
 			</a>
 		</li>
 	<?php endforeach; ?>

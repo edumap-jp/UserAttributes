@@ -77,6 +77,7 @@ class UserAttributesController extends UserAttributesAppController {
 /**
  * add
  *
+ * @param int $row Add row number
  * @return void
  */
 	public function add($row = null) {
@@ -117,7 +118,7 @@ class UserAttributesController extends UserAttributesAppController {
 			}
 
 		} else {
-			foreach ($languages as $langId => $langCode) {
+			foreach (array_keys($languages) as $langId) {
 				$this->request->data[$langId] = $this->UserAttribute->create(array(
 					'id' => null,
 					'language_id' => $langId,
@@ -140,6 +141,7 @@ class UserAttributesController extends UserAttributesAppController {
 /**
  * edit
  *
+ * @param string $key user_attributes.key
  * @return void
  */
 	public function edit($key = null) {
@@ -179,7 +181,7 @@ class UserAttributesController extends UserAttributesAppController {
 				return;
 			}
 
-			foreach ($languages as $langId => $langCode) {
+			foreach (array_keys($languages) as $langId) {
 				$userAttribute = Hash::extract($userAttributes, '{n}.UserAttribute[language_id=' . $langId . ']');
 				if (! $userAttribute) {
 					$this->request->data[$langId]['UserAttribute'] = $defaultUserAttribute[0];
