@@ -36,7 +36,7 @@ echo $this->Html->script(
 	<?php echo $this->Form->create(null, array('novalidate' => true)); ?>
 
 		<div class="panel-body">
-			<?php echo $this->element('UserAttributes.switch_language', array('prefix' => 'user_attribute_')); ?>
+			<?php echo $this->element('NetCommons.switch_language', array('prefix' => 'user_attribute_')); ?>
 
 			<div class="tab-content">
 				<?php foreach ($languages as $langId => $langCode) : ?>
