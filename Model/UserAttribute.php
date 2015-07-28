@@ -97,7 +97,7 @@ class UserAttribute extends UsersAppModel {
  */
 	public $belongsTo = array(
 		'Language' => array(
-			'className' => 'Language',
+			'className' => 'M17n.Language',
 			'foreignKey' => 'language_id',
 			'conditions' => '',
 			'fields' => '',
@@ -180,6 +180,48 @@ class UserAttribute extends UsersAppModel {
 		}
 
 		return $userAttributes;
+	}
+
+/**
+ * Move Order UserAttributes
+ *
+ * @param array $data received post data
+ * @return bool True on success, false on validation errors
+ * @throws InternalErrorException
+ */
+	public function saveUserAttributesOrder($data) {
+		//トランザクションBegin
+		$this->setDataSource('master');
+		$dataSource = $this->getDataSource();
+		$dataSource->begin();
+
+		try {
+//			//バリデーション
+//			$indexes = array_keys($data['LinkOrders']);
+//			foreach ($indexes as $i) {
+//				if (! $this->validateLinkOrder($data['LinkOrders'][$i])) {
+//					return false;
+//				}
+//			}
+//
+//			//登録処理
+//			foreach ($indexes as $i) {
+//				if (! $this->save($data['LinkOrders'][$i], false, false)) {
+//					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+//				}
+//			}
+
+			//トランザクションCommit
+			$dataSource->commit();
+
+		} catch (Exception $ex) {
+			//トランザクションRollback
+			$dataSource->rollback();
+			CakeLog::error($ex);
+			throw $ex;
+		}
+
+		return true;
 	}
 
 }

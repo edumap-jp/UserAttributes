@@ -36,4 +36,41 @@ class UserAttributeLayout extends UserAttributesAppModel {
 			),
 		),
 	);
+
+/**
+ * Save plugin
+ *
+ * @param array $data Request data
+ * @return bool True on success
+ * @throws InternalErrorException
+ */
+	public function saveUserAttributeLayout($data) {
+		$this->loadModels([
+			'UserAttributeLayout' => 'UserAttributes.UserAttributeLayout',
+		]);
+
+		//トランザクションBegin
+		$this->setDataSource('master');
+		$dataSource = $this->getDataSource();
+		$dataSource->begin();
+
+		try {
+			//AttributeLayoutテーブルの登録
+			if (! $this->save($data)) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
+
+			//トランザクションCommit
+			$dataSource->commit();
+
+		} catch (Exception $ex) {
+			//トランザクションRollback
+			$dataSource->rollback();
+			CakeLog::error($ex);
+			throw $ex;
+		}
+
+		return true;
+	}
+
 }
