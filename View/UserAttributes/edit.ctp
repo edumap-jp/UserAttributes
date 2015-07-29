@@ -27,16 +27,12 @@ echo $this->Html->script(
 
 <?php $this->assign('title', __d('user_attributes', 'User attributes setting')); ?>
 
-<div class="panel panel-default"
-		ng-controller="UserAttributes"
-		ng-init="initialize(<?php echo h(json_encode(array(
-			'activeLangCode' => h($activeLangCode)
-		), true)); ?>)">
+<div class="panel panel-default">
 
 	<?php echo $this->Form->create(null, array('novalidate' => true)); ?>
 
 		<div class="panel-body">
-			<?php echo $this->element('NetCommons.switch_language', array('prefix' => 'user_attribute_')); ?>
+			<?php echo $this->SwitchLanguage->tablist('user_attribute_'); ?>
 
 			<div class="tab-content">
 				<?php foreach ($languages as $langId => $langCode) : ?>

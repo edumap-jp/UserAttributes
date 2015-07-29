@@ -36,7 +36,8 @@ class UserAttributesController extends UserAttributesAppController {
  * @var array
  */
 	public $components = array(
-		'ControlPanel.ControlPanelLayout'
+		'ControlPanel.ControlPanelLayout',
+		'M17n.SwitchLanguage'
 	);
 
 /**
@@ -47,7 +48,7 @@ class UserAttributesController extends UserAttributesAppController {
 	public $helpers = array(
 		'DataTypes.DataTypeForm' => array(
 			'plugin' => 'users'
-		)
+		),
 	);
 
 /**
@@ -82,9 +83,6 @@ class UserAttributesController extends UserAttributesAppController {
  */
 	public function add($row = null) {
 		$this->view = 'edit';
-
-		//初期処理
-		$this->__prepare();
 
 		if ($this->request->isPost()) {
 			$data = $this->data;
@@ -139,9 +137,6 @@ class UserAttributesController extends UserAttributesAppController {
  * @return void
  */
 	public function edit($key = null) {
-		//初期処理
-		$this->__prepare();
-
 		if ($this->request->isPost()) {
 			$data = $this->data;
 
@@ -223,26 +218,6 @@ class UserAttributesController extends UserAttributesAppController {
 
 		$this->UserAttribute->deleteUserAttribute($this->data[Configure::read('Config.languageId')]);
 		$this->redirect('/user_attributes/user_attributes/index/');
-	}
-
-/**
- * prepare
- *
- * @return void
- */
-	private function __prepare() {
-		//言語データ取得
-		$languages = $this->Language->find('list', array(
-			'fields' => array('Language.id', 'Language.code'),
-			'conditions' => array('Language.code' => Configure::read('Config.language')) //多言語の登録処理を後で追加
-		));
-		$this->set('languages', $languages);
-
-		if (isset($this->data['active_lang_code'])) {
-			$this->set('activeLangCode', $this->data['active_lang_code']);
-		} else {
-			$this->set('activeLangCode', Configure::read('Config.language'));
-		}
 	}
 
 }
