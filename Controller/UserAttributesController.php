@@ -88,18 +88,8 @@ class UserAttributesController extends UserAttributesAppController {
 			return;
 		}
 
-		//言語データ取得
-		$languages = $this->Language->find('list', array(
-			'fields' => array('Language.id', 'Language.code'),
-			'conditions' => array('Language.code' => Configure::read('Config.language')) //多言語の登録処理を後で追加
-		));
-		$this->set('languages', $languages);
-
-		if (isset($this->data['active_lang_code'])) {
-			$this->set('activeLangCode', $this->data['active_lang_code']);
-		} else {
-			$this->set('activeLangCode', Configure::read('Config.language'));
-		}
+		//初期処理
+		$this->__prepare();
 
 		if ($this->request->isPost()) {
 			$data = $this->data;
@@ -118,7 +108,7 @@ class UserAttributesController extends UserAttributesAppController {
 			}
 
 		} else {
-			foreach (array_keys($languages) as $langId) {
+			foreach (array_keys($this->viewVars['languages']) as $langId) {
 				$this->request->data[$langId] = $this->UserAttribute->create(array(
 					'id' => null,
 					'language_id' => $langId,
@@ -145,18 +135,8 @@ class UserAttributesController extends UserAttributesAppController {
  * @return void
  */
 	public function edit($key = null) {
-		//言語データ取得
-		$languages = $this->Language->find('list', array(
-			'fields' => array('Language.id', 'Language.code'),
-			'conditions' => array('Language.code' => Configure::read('Config.language')) //多言語の登録処理を後で追加
-		));
-		$this->set('languages', $languages);
-
-		if (isset($this->data['active_lang_code'])) {
-			$this->set('activeLangCode', $this->data['active_lang_code']);
-		} else {
-			$this->set('activeLangCode', Configure::read('Config.language'));
-		}
+		//初期処理
+		$this->__prepare();
 
 		if ($this->request->isPost()) {
 			$data = $this->data;
@@ -181,7 +161,7 @@ class UserAttributesController extends UserAttributesAppController {
 				return;
 			}
 
-			foreach (array_keys($languages) as $langId) {
+			foreach (array_keys($this->viewVars['languages']) as $langId) {
 				$userAttribute = Hash::extract($userAttributes, '{n}.UserAttribute[language_id=' . $langId . ']');
 				if (! $userAttribute) {
 					$this->request->data[$langId]['UserAttribute'] = $defaultUserAttribute[0];
@@ -234,4 +214,25 @@ class UserAttributesController extends UserAttributesAppController {
 		$this->UserAttribute->deleteUserAttribute($this->data[Configure::read('Config.languageId')]);
 		$this->redirect('/user_attributes/user_attributes/index/');
 	}
+
+/**
+ * prepare
+ *
+ * @return void
+ */
+	private function __prepare() {
+		//言語データ取得
+		$languages = $this->Language->find('list', array(
+			'fields' => array('Language.id', 'Language.code'),
+			'conditions' => array('Language.code' => Configure::read('Config.language')) //多言語の登録処理を後で追加
+		));
+		$this->set('languages', $languages);
+
+		if (isset($this->data['active_lang_code'])) {
+			$this->set('activeLangCode', $this->data['active_lang_code']);
+		} else {
+			$this->set('activeLangCode', Configure::read('Config.language'));
+		}
+	}
+
 }
