@@ -88,7 +88,11 @@ class UserAttributesController extends UserAttributesAppController {
 
 		if ($this->request->isPost()) {
 			$data = $this->data;
+
+			//不要パラメータ除去
 			unset($data['save'], $data['active_lang_code']);
+
+			//登録処理
 			foreach ($data as $i => $userAttribute) {
 				$row = $userAttribute['UserAttribute']['row'];
 				$col = $userAttribute['UserAttribute']['col'];
@@ -102,10 +106,12 @@ class UserAttributesController extends UserAttributesAppController {
 			}
 
 		} else {
+			//レイアウトデータ取得
 			if (! $userAttributeLayout = $this->UserAttributeLayout->findById($row)) {
 				$this->throwBadRequest();
 				return;
 			}
+			//初期値セット
 			foreach (array_keys($this->viewVars['languages']) as $langId) {
 				$this->request->data[$langId] = $this->UserAttribute->create(array(
 					'id' => null,
@@ -138,7 +144,11 @@ class UserAttributesController extends UserAttributesAppController {
 
 		if ($this->request->isPost()) {
 			$data = $this->data;
+
+			//不要パラメータ除去
 			unset($data['save'], $data['active_lang_code']);
+
+			//登録処理
 			$this->UserAttribute->saveUserAttribute($this->data);
 			if ($this->handleValidationError($this->UserAttribute->validationErrors)) {
 				//正常の場合
@@ -147,18 +157,20 @@ class UserAttributesController extends UserAttributesAppController {
 			}
 
 		} else {
+			//既存データ取得
 			$options = array(
 				'recursive' => -1,
 				'conditions' => array('key' => $key)
 			);
 			$userAttributes = $this->UserAttribute->find('all', $options);
 
+			//デフォルトのデータ取得(現在の言語のデータ)
 			$defaultUserAttribute = Hash::extract($userAttributes, '{n}.UserAttribute[language_id=' . Configure::read('Config.languageId') . ']');
 			if (! $defaultUserAttribute) {
-				$this->throwBadRequest();
-				return;
+				$defaultUserAttribute = Hash::extract($userAttributes, '0');
 			}
 
+			//request->dataにセット
 			foreach (array_keys($this->viewVars['languages']) as $langId) {
 				$userAttribute = Hash::extract($userAttributes, '{n}.UserAttribute[language_id=' . $langId . ']');
 				if (! $userAttribute) {
