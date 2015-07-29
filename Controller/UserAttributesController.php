@@ -83,11 +83,6 @@ class UserAttributesController extends UserAttributesAppController {
 	public function add($row = null) {
 		$this->view = 'edit';
 
-		if (! $userAttributeLayout = $this->UserAttributeLayout->findById($row)) {
-			$this->throwBadRequest();
-			return;
-		}
-
 		//初期処理
 		$this->__prepare();
 
@@ -99,7 +94,6 @@ class UserAttributesController extends UserAttributesAppController {
 				$col = $userAttribute['UserAttribute']['col'];
 				$data[$i]['UserAttribute']['weight'] = $this->UserAttribute->getMaxWeight($row, $col) + 1;
 			}
-
 			$this->UserAttribute->saveUserAttribute($data);
 			if ($this->handleValidationError($this->UserAttribute->validationErrors)) {
 				//正常の場合
@@ -108,6 +102,10 @@ class UserAttributesController extends UserAttributesAppController {
 			}
 
 		} else {
+			if (! $userAttributeLayout = $this->UserAttributeLayout->findById($row)) {
+				$this->throwBadRequest();
+				return;
+			}
 			foreach (array_keys($this->viewVars['languages']) as $langId) {
 				$this->request->data[$langId] = $this->UserAttribute->create(array(
 					'id' => null,
