@@ -28,7 +28,6 @@ echo $this->Html->script(
 <?php $this->assign('title', __d('user_attributes', 'User attributes setting')); ?>
 
 <div class="panel panel-default">
-
 	<?php echo $this->Form->create(null, array('novalidate' => true)); ?>
 
 		<div class="panel-body">
