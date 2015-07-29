@@ -31,7 +31,7 @@ echo $this->Html->script(
 	<?php echo $this->Form->create(null, array('novalidate' => true)); ?>
 
 		<div class="panel-body">
-			<?php echo $this->SwitchLanguage->tablist('user_attribute_'); ?>
+			<?php echo $this->SwitchLanguage->tablist('user_attributes_'); ?>
 
 			<div class="tab-content">
 				<?php foreach ($languages as $langId => $langCode) : ?>
