@@ -35,8 +35,8 @@ msgid "Input type"
 msgstr "入力タイプ"
 
 #: UserAttributes/View/Elements/UserAttributes/edit_form.ctp:57
-msgid "System items"
-msgstr "管理項目とする"
+msgid "To prohibit the reading and writing of non-members administrator"
+msgstr "会員管理者以外の読み書きを禁ずる"
 
 #: UserAttributes/View/Elements/UserAttributes/edit_form.ctp:70
 msgid "Designate as required items"

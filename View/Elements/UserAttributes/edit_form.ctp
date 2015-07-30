@@ -35,40 +35,6 @@
 			'model' => 'UserAttribute',
 			'field' => 'name',
 		]); ?>
-
-</div>
-
-<div class="form-group">
-	<?php echo $this->DataTypeForm->selectDataTypes($langId . '.' . 'UserAttribute.data_type_template_key', array(
-			'label' => __d('user_attributes', 'Input type'),
-			'class' => 'form-control',
-		)); ?>
-</div>
-
-<div class="form-group">
-	<?php echo $this->Form->checkbox($langId . '.' . 'UserAttribute.is_system', array(
-			'div' => false,
-			'checked' => (bool)$userAttribute['UserAttribute']['is_system'],
-			//'hiddenField' => false
-		)); ?>
-
-	<?php echo $this->Form->label(
-			$langId . '.' . 'UserAttribute.is_system',
-			__d('user_attributes', 'System items')
-		); ?>
-</div>
-
-<div class="form-group">
-	<?php echo $this->Form->checkbox($langId . '.' . 'UserAttribute.required', array(
-			'div' => false,
-			'checked' => (bool)$userAttribute['UserAttribute']['required'],
-			//'hiddenField' => false
-		)); ?>
-
-	<?php echo $this->Form->label(
-			$langId . '.' . 'UserAttribute.required',
-			__d('user_attributes', 'Designate as required items')
-		); ?>
 </div>
 
 <div class="form-group">
@@ -85,15 +51,35 @@
 </div>
 
 <div class="form-group">
-	<?php echo $this->Form->checkbox($langId . '.' . 'UserAttribute.display_search_list', array(
+	<?php echo $this->DataTypeForm->selectDataTypes($langId . '.' . 'UserAttribute.data_type_template_key', array(
+			'label' => __d('user_attributes', 'Input type'),
+			'class' => 'form-control',
+		)); ?>
+</div>
+
+<div class="form-group">
+	<?php echo $this->Form->checkbox($langId . '.' . 'UserAttribute.required', array(
 			'div' => false,
-			'checked' => (bool)$userAttribute['UserAttribute']['display_search_list'],
+			'checked' => (bool)$userAttribute['UserAttribute']['required'],
 			//'hiddenField' => false
 		)); ?>
 
 	<?php echo $this->Form->label(
-			$langId . '.' . 'UserAttribute.display_search_list',
-			__d('user_attributes', 'Show on the search results')
+			$langId . '.' . 'UserAttribute.required',
+			__d('user_attributes', 'Designate as required items')
+		); ?>
+</div>
+
+<div class="form-group">
+	<?php echo $this->Form->checkbox($langId . '.' . 'UserAttribute.is_system', array(
+			'div' => false,
+			'checked' => (bool)$userAttribute['UserAttribute']['is_system'],
+			//'hiddenField' => false
+		)); ?>
+
+	<?php echo $this->Form->label(
+			$langId . '.' . 'UserAttribute.is_system',
+			__d('user_attributes', 'To prohibit the reading and writing of non-members administrator')
 		); ?>
 </div>
 

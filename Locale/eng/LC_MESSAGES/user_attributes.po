@@ -35,7 +35,7 @@ msgid "Input type"
 msgstr ""
 
 #: UserAttributes/View/Elements/UserAttributes/edit_form.ctp:57
-msgid "System items"
+msgid "To prohibit the reading and writing of non-members administrator"
 msgstr ""
 
 #: UserAttributes/View/Elements/UserAttributes/edit_form.ctp:70
