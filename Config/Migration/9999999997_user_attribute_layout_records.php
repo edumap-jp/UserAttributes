@@ -13,7 +13,7 @@ App::uses('NetCommonsMigration', 'NetCommons.Config/Migration');
 /**
  * Insert records migration
  *
- * @package NetCommons\Users\Config\Migration
+ * @package NetCommons\UserAttributes\Config\Migration
  */
 class UserAttributeLayoutRecords extends NetCommonsMigration {
 

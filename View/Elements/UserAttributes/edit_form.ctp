@@ -10,20 +10,20 @@
  */
 ?>
 
-<?php echo $this->Form->hidden($langId . '.' . 'UserAttribute.id'); ?>
+<?php echo $this->Form->hidden($index . '.' . 'UserAttribute.id'); ?>
 
-<?php echo $this->Form->hidden($langId . '.' . 'UserAttribute.key'); ?>
+<?php echo $this->Form->hidden($index . '.' . 'UserAttribute.key'); ?>
 
-<?php echo $this->Form->hidden($langId . '.' . 'UserAttribute.language_id'); ?>
+<?php echo $this->Form->hidden($index . '.' . 'UserAttribute.language_id'); ?>
 
-<?php echo $this->Form->hidden($langId . '.' . 'UserAttribute.row'); ?>
+<?php echo $this->Form->hidden($index . '.' . 'UserAttribute.row'); ?>
 
-<?php echo $this->Form->hidden($langId . '.' . 'UserAttribute.col'); ?>
+<?php echo $this->Form->hidden($index . '.' . 'UserAttribute.col'); ?>
 
-<?php echo $this->Form->hidden($langId . '.' . 'UserAttribute.weight'); ?>
+<?php echo $this->Form->hidden($index . '.' . 'UserAttribute.weight'); ?>
 
 <div class="form-group">
-	<?php echo $this->Form->input($langId . '.' . 'UserAttribute.name', array(
+	<?php echo $this->Form->input($index . '.' . 'UserAttribute.name', array(
 			'type' => 'text',
 			'label' => __d('user_attributes', 'Item name') . $this->element('NetCommons.required'),
 			'class' => 'form-control',
@@ -38,79 +38,79 @@
 </div>
 
 <div class="form-group">
-	<?php echo $this->Form->checkbox($langId . '.' . 'UserAttribute.display_label', array(
+	<?php echo $this->Form->checkbox($index . '.' . 'UserAttribute.display_label', array(
 			'div' => false,
-			'checked' => (bool)$userAttribute['UserAttribute']['display_label'],
+			//'checked' => (bool)$userAttribute['UserAttribute']['display_label'],
 			//'hiddenField' => false
 		)); ?>
 
 	<?php echo $this->Form->label(
-			$langId . '.' . 'UserAttribute.display_label',
+			$index . '.' . 'UserAttribute.display_label',
 			__d('user_attributes', 'Show the item name')
 		); ?>
 </div>
 
 <div class="form-group">
-	<?php echo $this->DataTypeForm->selectDataTypes($langId . '.' . 'UserAttribute.data_type_template_key', array(
+	<?php echo $this->DataTypeForm->selectDataTypes($index . '.' . 'UserAttribute.data_type_template_key', array(
 			'label' => __d('user_attributes', 'Input type'),
 			'class' => 'form-control',
 		)); ?>
 </div>
 
 <div class="form-group">
-	<?php echo $this->Form->checkbox($langId . '.' . 'UserAttribute.required', array(
+	<?php echo $this->Form->checkbox($index . '.' . 'UserAttribute.required', array(
 			'div' => false,
-			'checked' => (bool)$userAttribute['UserAttribute']['required'],
+			//'checked' => (bool)$userAttribute['UserAttribute']['required'],
 			//'hiddenField' => false
 		)); ?>
 
 	<?php echo $this->Form->label(
-			$langId . '.' . 'UserAttribute.required',
+			$index . '.' . 'UserAttribute.required',
 			__d('user_attributes', 'Designate as required items')
 		); ?>
 </div>
 
 <div class="form-group">
-	<?php echo $this->Form->checkbox($langId . '.' . 'UserAttribute.is_system', array(
+	<?php echo $this->Form->checkbox($index . '.' . 'UserAttribute.is_system', array(
 			'div' => false,
-			'checked' => (bool)$userAttribute['UserAttribute']['is_system'],
+			//'checked' => (bool)$userAttribute['UserAttribute']['is_system'],
 			//'hiddenField' => false
 		)); ?>
 
 	<?php echo $this->Form->label(
-			$langId . '.' . 'UserAttribute.is_system',
+			$index . '.' . 'UserAttribute.is_system',
 			__d('user_attributes', 'To prohibit the reading and writing of non-members administrator')
 		); ?>
 </div>
 
 <div class="form-group">
-	<?php echo $this->Form->checkbox($langId . '.' . 'UserAttribute.self_publicity', array(
+	<?php echo $this->Form->checkbox($index . '.' . 'UserAttribute.self_publicity', array(
 			'div' => false,
-			'checked' => (bool)$userAttribute['UserAttribute']['self_publicity'],
+			//'checked' => (bool)$userAttribute['UserAttribute']['self_publicity'],
 			//'hiddenField' => false
 		)); ?>
 
 	<?php echo $this->Form->label(
-			$langId . '.' . 'UserAttribute.self_publicity',
+			$index . '.' . 'UserAttribute.self_publicity',
 			__d('user_attributes', 'Enable individual public/private setting')
 		); ?>
 </div>
 
 <div class="form-group">
-	<?php echo $this->Form->checkbox($langId . '.' . 'UserAttribute.self_email_reception_possibility', array(
+	<?php echo $this->Form->checkbox($index . '.' . 'UserAttribute.self_email_reception_possibility', array(
 			'div' => false,
-			'checked' => (bool)$userAttribute['UserAttribute']['self_email_reception_possibility'],
+			//'checked' => (bool)$userAttribute['UserAttribute']['self_email_reception_possibility'],
 			//'hiddenField' => false
 		)); ?>
 
 	<?php echo $this->Form->label(
-			$langId . '.' . 'UserAttribute.self_email_reception_possibility',
+			$index . '.' . 'UserAttribute.self_email_reception_possibility',
 			__d('user_attributes', 'Enable individual email receipt / non-receipt setting')
 		); ?>
 </div>
 
 <div class="form-group">
-	<?php echo $this->Form->input($langId . '.' . 'UserAttribute.description', array(
+	<?php echo $this->Form->input($index . '.' . 'UserAttribute.description', array(
 			'type' => 'textarea',
 			'label' => __d('user_attributes', 'Description'),
 			'class' => 'form-control',

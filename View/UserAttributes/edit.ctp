@@ -33,13 +33,13 @@ echo $this->Html->script(
 		<?php echo $this->SwitchLanguage->tablist('user-attributes-'); ?>
 
 		<div class="tab-content">
-			<?php foreach ($languages as $langId => $langCode) : ?>
-				<div id="user-attributes-<?php echo $langCode; ?>"
-						class="tab-pane<?php echo ($activeLangCode === $langCode ? ' active' : ''); ?>">
+			<?php foreach ($this->data as $index => $userAttribute) : ?>
+				<div id="user-attributes-<?php echo $userAttribute['UserAttribute']['language_id']; ?>"
+						class="tab-pane<?php echo ($activeLangId === $userAttribute['UserAttribute']['language_id'] ? ' active' : ''); ?>">
 
 					<?php echo $this->element('UserAttributes/edit_form', array(
-							'langId' => $langId,
-							'userAttribute' => $this->data[$langId]
+							'index' => $index,
+							//'userAttribute' => $this->data[$langId]
 						)); ?>
 				</div>
 			<?php endforeach; ?>

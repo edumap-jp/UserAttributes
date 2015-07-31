@@ -88,7 +88,7 @@ class UserAttributesController extends UserAttributesAppController {
 			$data = $this->data;
 
 			//不要パラメータ除去
-			unset($data['save'], $data['active_lang_code']);
+			unset($data['save'], $data['active_language_id']);
 
 			//登録処理
 			foreach ($data as $i => $userAttribute) {
@@ -111,7 +111,9 @@ class UserAttributesController extends UserAttributesAppController {
 			}
 			//初期値セット
 			foreach (array_keys($this->viewVars['languages']) as $langId) {
-				$this->request->data[$langId] = $this->UserAttribute->create(array(
+				$index = count($this->request->data);
+
+				$this->request->data[$index] = $this->UserAttribute->create(array(
 					'id' => null,
 					'language_id' => $langId,
 					'key' => '',
@@ -141,7 +143,7 @@ class UserAttributesController extends UserAttributesAppController {
 			$data = $this->data;
 
 			//不要パラメータ除去
-			unset($data['save'], $data['active_lang_code']);
+			unset($data['save'], $data['active_language_id']);
 
 			//登録処理
 			$this->UserAttribute->saveUserAttribute($this->data);
@@ -157,25 +159,7 @@ class UserAttributesController extends UserAttributesAppController {
 				'recursive' => -1,
 				'conditions' => array('key' => $key)
 			);
-			$userAttributes = $this->UserAttribute->find('all', $options);
-
-			//デフォルトのデータ取得(現在の言語のデータ)
-			$defaultUserAttribute = Hash::extract($userAttributes, '{n}.UserAttribute[language_id=' . Configure::read('Config.languageId') . ']');
-			if (! $defaultUserAttribute) {
-				$defaultUserAttribute = Hash::extract($userAttributes, '0');
-			}
-
-			//request->dataにセット
-			foreach (array_keys($this->viewVars['languages']) as $langId) {
-				$userAttribute = Hash::extract($userAttributes, '{n}.UserAttribute[language_id=' . $langId . ']');
-				if (! $userAttribute) {
-					$this->request->data[$langId]['UserAttribute'] = $defaultUserAttribute[0];
-					$this->request->data[$langId]['UserAttribute']['id'] = null;
-					$this->request->data[$langId]['UserAttribute']['language_id'] = $langId;
-				} else {
-					$this->request->data[$langId]['UserAttribute'] = $userAttribute[0];
-				}
-			}
+			$this->request->data = $this->UserAttribute->find('all', $options);
 		}
 	}
 

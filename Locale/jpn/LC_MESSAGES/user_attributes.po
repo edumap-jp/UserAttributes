@@ -82,12 +82,6 @@ msgstr "右に移動"
 msgid "Go to %s row"
 msgstr "%s段目に移動"
 
-#: UserAttributes/Config/Migration/001_plugin_records.ctp
-#: UserAttributes/View/UserAttributes/edit.ctp:28
-#: UserAttributes/View/UserAttributes/index.ctp:20
-msgid "User attributes setting"
-msgstr "会員項目設定"
-
 #: UserAttributes/View/UserAttributes/index.ctp:28
 msgid "%s row"
 msgstr "%s 段目"
