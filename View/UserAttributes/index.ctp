@@ -17,8 +17,6 @@ echo $this->Html->css(
 );
 ?>
 
-<?php $this->assign('title', __d('user_attributes', 'User attributes setting')); ?>
-
 <?php foreach ($userAttributeLayouts as $layout) : ?>
 	<?php $row = $layout['UserAttributeLayout']['id']; ?>
 
