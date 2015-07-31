@@ -32,7 +32,11 @@ echo $this->Html->script(
 
 		<div class="tab-content">
 			<?php foreach ($this->data as $index => $userAttribute) : ?>
-				<div id="user-attributes-<?php echo $userAttribute['UserAttribute']['language_id']; ?>"
+				<?php if (! isset($languages[$userAttribute['UserAttribute']['language_id']])) : ?>
+					<?php continue; ?>
+				<?php endif; ?>
+
+				<div role="tabpanel" id="user-attributes-<?php echo $userAttribute['UserAttribute']['language_id']; ?>"
 						class="tab-pane<?php echo ($activeLangId === $userAttribute['UserAttribute']['language_id'] ? ' active' : ''); ?>">
 
 					<?php echo $this->element('UserAttributes/edit_form', array(
