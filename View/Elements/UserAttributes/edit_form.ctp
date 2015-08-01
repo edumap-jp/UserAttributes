@@ -40,8 +40,6 @@
 <div class="form-group">
 	<?php echo $this->Form->checkbox($index . '.' . 'UserAttribute.display_label', array(
 			'div' => false,
-			//'checked' => (bool)$userAttribute['UserAttribute']['display_label'],
-			//'hiddenField' => false
 		)); ?>
 
 	<?php echo $this->Form->label(
@@ -60,8 +58,6 @@
 <div class="form-group">
 	<?php echo $this->Form->checkbox($index . '.' . 'UserAttribute.required', array(
 			'div' => false,
-			//'checked' => (bool)$userAttribute['UserAttribute']['required'],
-			//'hiddenField' => false
 		)); ?>
 
 	<?php echo $this->Form->label(
@@ -73,8 +69,6 @@
 <div class="form-group">
 	<?php echo $this->Form->checkbox($index . '.' . 'UserAttribute.is_system', array(
 			'div' => false,
-			//'checked' => (bool)$userAttribute['UserAttribute']['is_system'],
-			//'hiddenField' => false
 		)); ?>
 
 	<?php echo $this->Form->label(
@@ -86,8 +80,6 @@
 <div class="form-group">
 	<?php echo $this->Form->checkbox($index . '.' . 'UserAttribute.self_publicity', array(
 			'div' => false,
-			//'checked' => (bool)$userAttribute['UserAttribute']['self_publicity'],
-			//'hiddenField' => false
 		)); ?>
 
 	<?php echo $this->Form->label(
@@ -99,8 +91,6 @@
 <div class="form-group">
 	<?php echo $this->Form->checkbox($index . '.' . 'UserAttribute.self_email_reception_possibility', array(
 			'div' => false,
-			//'checked' => (bool)$userAttribute['UserAttribute']['self_email_reception_possibility'],
-			//'hiddenField' => false
 		)); ?>
 
 	<?php echo $this->Form->label(
