@@ -22,6 +22,10 @@
 
 <?php echo $this->Form->hidden($index . '.' . 'UserAttribute.weight'); ?>
 
+<?php echo $this->Form->hidden($index . '.' . 'UserAttribute.display'); ?>
+
+<?php echo $this->Form->hidden($index . '.' . 'UserAttribute.is_systemized'); ?>
+
 <div class="form-group">
 	<?php echo $this->Form->input($index . '.' . 'UserAttribute.name', array(
 			'type' => 'text',
@@ -67,12 +71,12 @@
 </div>
 
 <div class="form-group">
-	<?php echo $this->Form->checkbox($index . '.' . 'UserAttribute.is_system', array(
+	<?php echo $this->Form->checkbox($index . '.' . 'UserAttribute.only_administrator', array(
 			'div' => false,
 		)); ?>
 
 	<?php echo $this->Form->label(
-			$index . '.' . 'UserAttribute.is_system',
+			$index . '.' . 'UserAttribute.only_administrator',
 			__d('user_attributes', 'To prohibit the reading and writing of non-members administrator')
 		); ?>
 </div>

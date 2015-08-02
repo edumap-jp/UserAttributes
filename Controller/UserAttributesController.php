@@ -47,9 +47,7 @@ class UserAttributesController extends UserAttributesAppController {
  * @var array
  */
 	public $helpers = array(
-		'DataTypes.DataTypeForm' => array(
-			'plugin' => 'users'
-		),
+		'DataTypes.DataTypeForm',
 	);
 
 /**
@@ -73,7 +71,7 @@ class UserAttributesController extends UserAttributesAppController {
 			$data = $this->data;
 
 			//不要パラメータ除去
-			unset($data['save'], $data['active_language_id']);
+			unset($data['save'], $data['active_lang_id']);
 
 			//登録処理
 			foreach ($data as $i => $userAttribute) {
@@ -111,7 +109,9 @@ class UserAttributesController extends UserAttributesAppController {
 					'row' => $userAttributeLayout[0]['id'],
 					'col' => $userAttributeLayout[0]['col'],
 					'required' => false,
-					'is_system' => false,
+					'display' => true,
+					'only_administrator' => false,
+					'is_systemized' => false,
 					'display_label' => true,
 					'display_search_list' => false,
 					'self_publicity' => false,
@@ -132,7 +132,7 @@ class UserAttributesController extends UserAttributesAppController {
 			$data = $this->data;
 
 			//不要パラメータ除去
-			unset($data['save'], $data['active_language_id']);
+			unset($data['save'], $data['active_lang_id']);
 
 			//登録処理
 			$this->UserAttribute->saveUserAttribute($this->data);

@@ -25,7 +25,7 @@ echo $this->Html->script(
 ?>
 
 <div class="panel panel-default">
-	<?php echo $this->Form->create(null, array('novalidate' => true)); ?>
+	<?php echo $this->Form->create('UserAttribute', array('novalidate' => true)); ?>
 
 	<div class="panel-body">
 		<?php echo $this->SwitchLanguage->tablist('user-attributes-'); ?>
