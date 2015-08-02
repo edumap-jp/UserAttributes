@@ -36,7 +36,7 @@ echo $this->Html->script(
 
 				<?php if (isset($languages[$languageId])) : ?>
 					<div role="tabpanel" id="user-attributes-<?php echo $languageId; ?>"
-							class="tab-pane<?php echo ($activeLangId === $languageId ? ' active' : ''); ?>">
+							class="tab-pane<?php echo ($activeLangId === (string)$languageId ? ' active' : ''); ?>">
 
 						<?php echo $this->element('UserAttributes/edit_form', array(
 								'index' => $index,

@@ -25,9 +25,9 @@ class UserAttributesController extends UserAttributesAppController {
  * @var array
  */
 	public $uses = array(
+		'M17n.Language',
 		'UserAttributes.UserAttribute',
 		'UserAttributes.UserAttributeLayout',
-		'M17n.Language'
 	);
 
 /**
@@ -37,7 +37,8 @@ class UserAttributesController extends UserAttributesAppController {
  */
 	public $components = array(
 		'ControlPanel.ControlPanelLayout',
-		'M17n.SwitchLanguage'
+		'M17n.SwitchLanguage',
+		'UserAttributes.UserAttributeLayouts',
 	);
 
 /**
@@ -57,22 +58,6 @@ class UserAttributesController extends UserAttributesAppController {
  * @return void
  */
 	public function index() {
-		$userAttributes = $this->UserAttribute->getUserAttributesForLayout(Configure::read('Config.languageId'));
-		$this->set('userAttributes', $userAttributes);
-
-		$userAttributeLayouts = $this->UserAttributeLayout->find('all', array(
-			'recursive' => -1,
-			'order' => array('id' => 'asc'),
-		));
-		$this->set('userAttributeLayouts', $userAttributeLayouts);
-	}
-
-/**
- * view
- *
- * @return void
- */
-	public function view() {
 	}
 
 /**
@@ -105,10 +90,14 @@ class UserAttributesController extends UserAttributesAppController {
 
 		} else {
 			//レイアウトデータ取得
-			if (! $userAttributeLayout = $this->UserAttributeLayout->findById($row)) {
+			if (! $userAttributeLayout = Hash::extract(
+					$this->viewVars['userAttributeLayouts'],
+					'{n}.UserAttributeLayout[id=' . $row . ']'
+			)) {
 				$this->throwBadRequest();
 				return;
 			}
+
 			//初期値セット
 			foreach (array_keys($this->viewVars['languages']) as $langId) {
 				$index = count($this->request->data);
@@ -119,8 +108,8 @@ class UserAttributesController extends UserAttributesAppController {
 					'key' => '',
 					'name' => '',
 					'data_type_template_key' => 'text',
-					'row' => $userAttributeLayout['UserAttributeLayout']['id'],
-					'col' => $userAttributeLayout['UserAttributeLayout']['col'],
+					'row' => $userAttributeLayout[0]['id'],
+					'col' => $userAttributeLayout[0]['col'],
 					'required' => false,
 					'is_system' => false,
 					'display_label' => true,
