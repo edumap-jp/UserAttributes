@@ -56,7 +56,6 @@ class UserAttributeBehavior extends ModelBehavior {
 					(bool)Hash::extract($pluginsRoles, '{n}.PluginsRole[role_key=' . $params['role_key'] . ']');
 
 			$userAttributeRole = $model->UserAttributesRole->defaultUserAttributeRolePermissions($params);
-
 			if (! $model->UserAttributesRole->save($userAttributeRole, array('validate' => false))) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
