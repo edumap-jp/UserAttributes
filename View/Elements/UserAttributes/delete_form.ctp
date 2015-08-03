@@ -11,7 +11,7 @@
 ?>
 
 <div ng-init="dangerZone=false;">
-	<?php echo $this->Form->create(null, array('type' => 'delete', 'url' => array('action' => 'delete'))); ?>
+	<?php echo $this->Form->create('UserAttribute', array('type' => 'delete', 'url' => array('action' => 'delete'))); ?>
 		<accordion close-others="false">
 			<accordion-group is-open="dangerZone" class="panel-danger">
 				<accordion-heading style="cursor: pointer">
@@ -25,9 +25,9 @@
 					<?php echo sprintf(__d('net_commons', 'Delete all data associated with the %s.'), __d('user_attributes', 'User attribute')); ?>
 				</div>
 
-				<?php echo $this->Form->hidden(Configure::read('Config.languageId') . '.' . 'UserAttribute.id'); ?>
+				<?php echo $this->Form->hidden('0.UserAttribute.id'); ?>
 
-				<?php echo $this->Form->hidden(Configure::read('Config.languageId') . '.' . 'UserAttribute.key'); ?>
+				<?php echo $this->Form->hidden('0.UserAttribute.key'); ?>
 
 				<?php echo $this->Form->button('<span class="glyphicon glyphicon-trash"> </span> ' . __d('net_commons', 'Delete'), array(
 						'name' => 'delete',

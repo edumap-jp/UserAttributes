@@ -189,7 +189,7 @@ class UserAttributesController extends UserAttributesAppController {
 			return;
 		}
 
-		$this->UserAttribute->deleteUserAttribute($this->data[Configure::read('Config.languageId')]);
+		$this->UserAttribute->deleteUserAttribute($this->data[0]);
 		$this->redirect('/user_attributes/user_attributes/index/');
 	}
 
