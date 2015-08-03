@@ -135,7 +135,7 @@ class UserAttributesController extends UserAttributesAppController {
 			unset($data['save'], $data['active_lang_id']);
 
 			//登録処理
-			$this->UserAttribute->saveUserAttribute($this->data);
+			$this->UserAttribute->saveUserAttribute($data);
 			if ($this->handleValidationError($this->UserAttribute->validationErrors)) {
 				//正常の場合
 				$this->redirect('/user_attributes/user_attributes/index/');

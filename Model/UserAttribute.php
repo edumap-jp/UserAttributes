@@ -27,6 +27,7 @@ class UserAttribute extends UsersAppModel {
  */
 	public $actsAs = array(
 		'NetCommons.OriginalKey',
+		'UserAttributes.UserAttribute'
 	);
 
 /**
@@ -233,6 +234,7 @@ class UserAttribute extends UsersAppModel {
 		$dataSource->begin();
 
 		//バリデーション
+		$userAttributeKey = $data[0]['UserAttribute']['key'];
 		foreach ($data as $userAttribute) {
 			if (! $this->validateUserAttribute($userAttribute)) {
 				return false;
@@ -241,11 +243,17 @@ class UserAttribute extends UsersAppModel {
 
 		try {
 			//登録処理
-			foreach ($data as $userAttribute) {
-				if (! $this->save($userAttribute, false, false)) {
+			$userAttributes = array();
+			foreach ($data as $i => $userAttribute) {
+				$userAttribute['UserAttribute']['key'] = $userAttributeKey;
+				if (! $userAttributes[$i] = $this->save($userAttribute, false, false)) {
 					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 				}
+				$userAttributeKey = $userAttributes[$i]['UserAttribute']['key'];
 			}
+
+			//UserAttributesRoleのデフォルトデータ登録処理
+			$this->saveDefaultUserAttributeRoles($userAttributes[0]);
 
 			//トランザクションCommit
 			$dataSource->commit();
