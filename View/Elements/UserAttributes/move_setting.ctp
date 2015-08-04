@@ -13,7 +13,7 @@
 <div class="btn-group">
 	<?php echo $this->Form->create(null, array(
 			'novalidate' => true,
-			'name' => 'UserAttributeForm' . $userAttribute['UserAttribute']['id'],
+			'name' => 'UserAttributeMoveForm' . $userAttribute['UserAttribute']['id'],
 			'url' => array(
 				'plugin' => 'user_attributes',
 				'controller' => 'user_attributes',
@@ -49,7 +49,7 @@
 		<?php $rowInputForm = 'UserAttributeRow' . $userAttribute['UserAttribute']['id']; ?>
 		<?php $colInputForm = 'UserAttributeCol' . $userAttribute['UserAttribute']['id']; ?>
 		<?php $weightInputForm = 'UserAttributeWeight' . $userAttribute['UserAttribute']['id']; ?>
-		<?php $submit = '$(\'form[name=' . 'UserAttributeForm' . $userAttribute['UserAttribute']['id'] . ']\')[0].submit()'; ?>
+		<?php $submit = '$(\'form[name=' . 'UserAttributeMoveForm' . $userAttribute['UserAttribute']['id'] . ']\')[0].submit()'; ?>
 
 		<li>
 			<a href="" onclick="<?php echo '$(\'#' . $weightInputForm . '\')[0].value = \'' . ($userAttribute['UserAttribute']['weight'] - 1) . '\'; ' . $submit . ';'; ?>">

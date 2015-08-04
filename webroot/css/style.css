@@ -9,3 +9,8 @@
 ul.user-attribute-edit {
 	padding-left: 0px;
 }
+
+.user-attribute-move,
+.user-attribute-display {
+	margin-right: 10px;
+}

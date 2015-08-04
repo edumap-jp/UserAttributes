@@ -17,8 +17,11 @@
 	<?php foreach ($userAttributes[$row][$col] as $userAttribute) : ?>
 		<ul class="user-attribute-edit">
 			<li class="list-group-item clearfix">
-				<div class="pull-left" style="margin-right: 10px;">
-					<?php echo $this->element('UserAttributes/move_settings', array('userAttribute' => $userAttribute)); ?>
+				<div class="pull-left user-attribute-display">
+					<?php echo $this->element('UserAttributes/display_setting', array('userAttribute' => $userAttribute)); ?>
+				</div>
+				<div class="pull-left user-attribute-move">
+					<?php echo $this->element('UserAttributes/move_setting', array('userAttribute' => $userAttribute)); ?>
 				</div>
 
 				<div class="pull-left">
