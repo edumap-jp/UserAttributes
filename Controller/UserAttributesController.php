@@ -27,7 +27,7 @@ class UserAttributesController extends UserAttributesAppController {
 	public $uses = array(
 		'M17n.Language',
 		'UserAttributes.UserAttribute',
-		'UserAttributes.UserAttributeLayout',
+		//'UserAttributes.UserAttributeLayout',
 	);
 
 /**

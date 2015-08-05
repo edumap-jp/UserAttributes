@@ -20,23 +20,29 @@ App::uses('Component', 'Controller');
 class UserAttributeLayoutsComponent extends Component {
 
 /**
- * startup
+ * Called after the Controller::beforeFilter() and before the controller action
  *
- * @param Controller $controller Controller
+ * @param Controller $controller Controller with components to startup
  * @return void
+ * @link http://book.cakephp.org/2.0/en/controllers/components.html#Component::startup
  */
 	public function startup(Controller $controller) {
-		$this->controller = $controller;
-
 		//RequestActionの場合、スキップする
-		if (! empty($this->controller->request->params['requested'])) {
+		if (! empty($controller->request->params['requested'])) {
 			return;
 		}
+		$this->controller = $controller;
 
-		$userAttributes = $this->controller->UserAttribute->getUserAttributesForLayout(Configure::read('Config.languageId'));
+		//Modelの呼び出し
+		$this->UserAttributeLayout = ClassRegistry::init('UserAttributes.UserAttributeLayout');
+		$this->UserAttribute = ClassRegistry::init('UserAttributes.UserAttribute');
+
+		//UserAttributeデータセット
+		$userAttributes = $this->UserAttribute->getUserAttributesForLayout(Configure::read('Config.languageId'));
 		$this->controller->set('userAttributes', $userAttributes);
 
-		$userAttributeLayouts = $this->controller->UserAttributeLayout->find('all', array(
+		//UserAttributeLayoutデータセット
+		$userAttributeLayouts = $this->UserAttributeLayout->find('all', array(
 			'recursive' => -1,
 			'order' => array('id' => 'asc'),
 		));
