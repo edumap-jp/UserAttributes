@@ -13,12 +13,10 @@
 NetCommonsApp.controller('UserAttributes', function($scope) {
 
   /**
-   * initialize
+   * activeLangId
    *
    * @return {void}
    */
-  $scope.initialize = function(data) {
-    $scope.activeLangCode = data.activeLangCode;
-  };
+  $scope.activeLangId = '';
 
 });

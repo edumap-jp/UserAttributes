@@ -10,103 +10,115 @@
  */
 ?>
 
-<?php echo $this->Form->hidden($index . '.' . 'UserAttribute.id'); ?>
+<?php foreach ($this->request->data['UserAttribute'] as $index => $userAttribute) : ?>
+	<?php $languageId = $userAttribute['UserAttribute']['language_id']; ?>
 
-<?php echo $this->Form->hidden($index . '.' . 'UserAttribute.key'); ?>
+	<?php if (isset($languages[$languageId])) : ?>
+		<?php echo $this->Form->hidden('UserAttribute.' . $index . '.' . 'UserAttribute.id'); ?>
 
-<?php echo $this->Form->hidden($index . '.' . 'UserAttribute.language_id'); ?>
+		<?php echo $this->Form->hidden('UserAttribute.' . $index . '.' . 'UserAttribute.key'); ?>
 
-<?php echo $this->Form->hidden($index . '.' . 'UserAttribute.row'); ?>
+		<?php echo $this->Form->hidden('UserAttribute.' . $index . '.' . 'UserAttribute.language_id'); ?>
 
-<?php echo $this->Form->hidden($index . '.' . 'UserAttribute.col'); ?>
+<div class="form-group" ng-show="activeLangId === '<?php echo (string)$languageId; ?>'" ng-cloak>
+			<?php echo $this->Form->input('UserAttribute.' . $index . '.' . 'UserAttribute.name', array(
+					'type' => 'text',
+					'label' => __d('user_attributes', 'Item name') . $this->element('NetCommons.required'),
+					'class' => 'form-control',
+				)); ?>
 
-<?php echo $this->Form->hidden($index . '.' . 'UserAttribute.weight'); ?>
+			<?php echo $this->element(
+				'NetCommons.errors', [
+					'errors' => $this->validationErrors,
+					'model' => 'UserAttribute',
+					'field' => 'name',
+				]); ?>
+		</div>
+	<?php endif; ?>
+<?php endforeach; ?>
 
-<?php echo $this->Form->hidden($index . '.' . 'UserAttribute.display'); ?>
+<?php echo $this->Form->hidden('UserAttributeSetting.row'); ?>
 
-<?php echo $this->Form->hidden($index . '.' . 'UserAttribute.is_systemized'); ?>
+<?php echo $this->Form->hidden('UserAttributeSetting.col'); ?>
+
+<?php echo $this->Form->hidden('UserAttributeSetting.weight'); ?>
+
+<?php echo $this->Form->hidden('UserAttributeSetting.display'); ?>
+
+<?php echo $this->Form->hidden('UserAttributeSetting.is_systemized'); ?>
 
 <div class="form-group">
-	<?php echo $this->Form->input($index . '.' . 'UserAttribute.name', array(
-			'type' => 'text',
-			'label' => __d('user_attributes', 'Item name') . $this->element('NetCommons.required'),
-			'class' => 'form-control',
-		)); ?>
-
-	<?php echo $this->element(
-		'NetCommons.errors', [
-			'errors' => $this->validationErrors,
-			'model' => 'UserAttribute',
-			'field' => 'name',
-		]); ?>
-</div>
-
-<div class="form-group">
-	<?php echo $this->Form->checkbox($index . '.' . 'UserAttribute.display_label', array(
+	<?php echo $this->Form->checkbox('UserAttributeSetting.display_label', array(
 			'div' => false,
 		)); ?>
 
 	<?php echo $this->Form->label(
-			$index . '.' . 'UserAttribute.display_label',
+			'UserAttributeSetting.display_label',
 			__d('user_attributes', 'Show the item name')
 		); ?>
 </div>
 
 <div class="form-group">
-	<?php echo $this->DataTypeForm->selectDataTypes($index . '.' . 'UserAttribute.data_type_template_key', array(
+	<?php echo $this->DataTypeForm->selectDataTypes('UserAttributeSetting.data_type_template_key', array(
 			'label' => __d('user_attributes', 'Input type'),
 			'class' => 'form-control',
 		)); ?>
 </div>
 
 <div class="form-group">
-	<?php echo $this->Form->checkbox($index . '.' . 'UserAttribute.required', array(
+	<?php echo $this->Form->checkbox('UserAttributeSetting.required', array(
 			'div' => false,
 		)); ?>
 
 	<?php echo $this->Form->label(
-			$index . '.' . 'UserAttribute.required',
+			'UserAttributeSetting.required',
 			__d('user_attributes', 'Designate as required items')
 		); ?>
 </div>
 
 <div class="form-group">
-	<?php echo $this->Form->checkbox($index . '.' . 'UserAttribute.only_administrator', array(
+	<?php echo $this->Form->checkbox('UserAttributeSetting.only_administrator', array(
 			'div' => false,
 		)); ?>
 
 	<?php echo $this->Form->label(
-			$index . '.' . 'UserAttribute.only_administrator',
+			'UserAttributeSetting.only_administrator',
 			__d('user_attributes', 'To prohibit the reading and writing of non-members administrator')
 		); ?>
 </div>
 
 <div class="form-group">
-	<?php echo $this->Form->checkbox($index . '.' . 'UserAttribute.self_publicity', array(
+	<?php echo $this->Form->checkbox('UserAttributeSetting.self_publicity', array(
 			'div' => false,
 		)); ?>
 
 	<?php echo $this->Form->label(
-			$index . '.' . 'UserAttribute.self_publicity',
+			'UserAttributeSetting.self_publicity',
 			__d('user_attributes', 'Enable individual public/private setting')
 		); ?>
 </div>
 
 <div class="form-group">
-	<?php echo $this->Form->checkbox($index . '.' . 'UserAttribute.self_email_reception_possibility', array(
+	<?php echo $this->Form->checkbox('UserAttributeSetting.self_email_reception_possibility', array(
 			'div' => false,
 		)); ?>
 
 	<?php echo $this->Form->label(
-			$index . '.' . 'UserAttribute.self_email_reception_possibility',
+			'UserAttributeSetting.self_email_reception_possibility',
 			__d('user_attributes', 'Enable individual email receipt / non-receipt setting')
 		); ?>
 </div>
 
-<div class="form-group">
-	<?php echo $this->Form->input($index . '.' . 'UserAttribute.description', array(
-			'type' => 'textarea',
-			'label' => __d('user_attributes', 'Description'),
-			'class' => 'form-control',
-		)); ?>
-</div>
+<?php foreach ($this->request->data['UserAttribute'] as $index => $userAttribute) : ?>
+	<?php $languageId = $userAttribute['UserAttribute']['language_id']; ?>
+
+	<?php if (isset($languages[$languageId])) : ?>
+		<div class="form-group" ng-show="activeLangId === '<?php echo (string)$languageId; ?>'" ng-cloak>
+			<?php echo $this->Form->input('UserAttribute.' . $index . '.' . 'UserAttribute.description', array(
+					'type' => 'textarea',
+					'label' => __d('user_attributes', 'Description'),
+					'class' => 'form-control',
+				)); ?>
+		</div>
+	<?php endif; ?>
+<?php endforeach;

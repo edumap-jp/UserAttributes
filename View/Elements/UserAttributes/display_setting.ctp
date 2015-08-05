@@ -13,21 +13,21 @@
 
 <?php echo $this->Form->create(null, array(
 		'novalidate' => true,
-		'name' => 'UserAttributeDidplayForm' . $userAttribute['UserAttribute']['id'],
+		'name' => 'UserAttributeDidplayForm' . $userAttribute['UserAttributeSetting']['id'],
 		'url' => array(
 			'plugin' => 'user_attributes',
 			'controller' => 'user_attributes',
 			'action' => 'display',
-			$userAttribute['UserAttribute']['id']
+			$userAttribute['UserAttributeSetting']['id']
 		),
 	)); ?>
 
-<?php echo $this->Form->hidden('UserAttribute.id', array(
-		'value' => $userAttribute['UserAttribute']['id'],
+<?php echo $this->Form->hidden('UserAttributeSetting.id', array(
+		'value' => $userAttribute['UserAttributeSetting']['id'],
 	)); ?>
 
-<button class="btn btn-xs btn-default<?php echo ($userAttribute['UserAttribute']['display'] ? ' active' : ''); ?>" type="button">
-	<?php if ($userAttribute['UserAttribute']['display']) : ?>
+<button class="btn btn-xs btn-default<?php echo ($userAttribute['UserAttributeSetting']['display'] ? ' active' : ''); ?>" type="button">
+	<?php if ($userAttribute['UserAttributeSetting']['display']) : ?>
 		<span class="glyphicon glyphicon-eye-open"> </span>
 	<?php else : ?>
 		<span class="glyphicon glyphicon-eye-close"> </span>

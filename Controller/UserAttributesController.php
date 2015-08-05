@@ -27,7 +27,7 @@ class UserAttributesController extends UserAttributesAppController {
 	public $uses = array(
 		'M17n.Language',
 		'UserAttributes.UserAttribute',
-		//'UserAttributes.UserAttributeLayout',
+		'UserAttributes.UserAttributeSetting',
 	);
 
 /**
@@ -74,11 +74,10 @@ class UserAttributesController extends UserAttributesAppController {
 			unset($data['save'], $data['active_lang_id']);
 
 			//登録処理
-			foreach ($data as $i => $userAttribute) {
-				$row = $userAttribute['UserAttribute']['row'];
-				$col = $userAttribute['UserAttribute']['col'];
-				$data[$i]['UserAttribute']['weight'] = $this->UserAttribute->getMaxWeight($row, $col) + 1;
-			}
+			$row = $data['UserAttributeSetting']['row'];
+			$col = $data['UserAttributeSetting']['col'];
+			$data['UserAttributeSetting']['weight'] = $this->UserAttributeSetting->getMaxWeight($row, $col) + 1;
+
 			$this->UserAttribute->saveUserAttribute($data);
 			if ($this->handleValidationError($this->UserAttribute->validationErrors)) {
 				//正常の場合
@@ -97,14 +96,22 @@ class UserAttributesController extends UserAttributesAppController {
 			}
 
 			//初期値セット
+			$this->request->data['UserAttribute'] = array();
 			foreach (array_keys($this->viewVars['languages']) as $langId) {
-				$index = count($this->request->data);
+				$index = count($this->request->data['UserAttribute']);
 
-				$this->request->data[$index] = $this->UserAttribute->create(array(
+				$this->request->data['UserAttribute'][$index] = $this->UserAttribute->create(array(
 					'id' => null,
 					'language_id' => $langId,
 					'key' => '',
 					'name' => '',
+				));
+			}
+
+			$this->request->data = Hash::merge($this->request->data,
+				$this->UserAttributeSetting->create(array(
+					'id' => null,
+					'user_attribute_key' => '',
 					'data_type_template_key' => 'text',
 					'row' => $userAttributeLayout[0]['id'],
 					'col' => $userAttributeLayout[0]['col'],
@@ -116,8 +123,9 @@ class UserAttributesController extends UserAttributesAppController {
 					'display_search_list' => false,
 					'self_publicity' => false,
 					'self_email_reception_possibility' => false,
-				));
-			}
+				))
+			);
+
 		}
 	}
 
@@ -148,7 +156,15 @@ class UserAttributesController extends UserAttributesAppController {
 				'recursive' => -1,
 				'conditions' => array('key' => $key)
 			);
-			$this->request->data = $this->UserAttribute->find('all', $options);
+			$this->request->data['UserAttribute'] = $this->UserAttribute->find('all', $options);
+
+			$data = $this->UserAttributeSetting->find('first', array(
+				'recursive' => -1,
+				'conditions' => array(
+					'user_attribute_key' => $key
+				),
+			));
+			$this->request->data = Hash::merge($this->request->data, $data);
 		}
 	}
 
@@ -163,13 +179,13 @@ class UserAttributesController extends UserAttributesAppController {
 			return;
 		}
 
-		$this->UserAttribute->id = $this->data['UserAttribute']['id'];
-		if (! $this->UserAttribute->exists()) {
+		$this->UserAttributeSetting->id = $this->data['UserAttributeSetting']['id'];
+		if (! $this->UserAttributeSetting->exists()) {
 			$this->throwBadRequest();
 			return;
 		}
 
-		if (! $this->UserAttribute->saveUserAttributesOrder($this->data)) {
+		if (! $this->UserAttributeSetting->saveUserAttributesOrder($this->data)) {
 			$this->throwBadRequest();
 			return;
 		}

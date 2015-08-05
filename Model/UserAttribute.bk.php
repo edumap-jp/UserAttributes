@@ -13,12 +13,12 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('UserAttributesAppModel', 'UserAttributes.Model');
+App::uses('UsersAppModel', 'Users.Model');
 
 /**
  * UserAttribute Model
  */
-class UserAttribute extends UserAttributesAppModel {
+class UserAttribute extends UsersAppModel {
 
 /**
  * use behaviors
@@ -51,13 +51,6 @@ class UserAttribute extends UserAttributesAppModel {
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
-		),
-		'UserAttributeSetting' => array(
-			'className' => 'UserAttributes.UserAttributeSetting',
-			'foreignKey' => false,
-			'conditions' => 'UserAttribute.key = UserAttributeSetting.user_attribute_key',
-			'fields' => '',
-			'order' => ''
 		)
 	);
 
@@ -82,6 +75,7 @@ class UserAttribute extends UserAttributesAppModel {
 		)
 	);
 
+
 /**
  * hasAndBelongsToMany associations
  *
@@ -89,8 +83,8 @@ class UserAttribute extends UserAttributesAppModel {
  */
 	//public $hasAndBelongsToMany = array(
 	//	'Role' => array(
-	//		'className' => 'RolesRole',
-	//		'joinTable' => 'user_attributes_roles',
+	//		'className' => 'Role',
+	//		'joinTable' => 'roles_user_attributes',
 	//		'foreignKey' => 'user_attribute_id',
 	//		'associationForeignKey' => 'role_id',
 	//		'unique' => 'keepExisting',
@@ -137,10 +131,40 @@ class UserAttribute extends UserAttributesAppModel {
 					//'on' => 'create', // Limit validation to 'create' or 'update' operations
 				),
 			),
+			'data_type_template_key' => array(
+				'notEmpty' => array(
+					'rule' => array('notEmpty'),
+					//'message' => 'Your custom message here',
+					//'allowEmpty' => false,
+					//'required' => false,
+					//'last' => false, // Stop validation after this rule
+					//'on' => 'create', // Limit validation to 'create' or 'update' operations
+				),
+			),
 			'name' => array(
 				'notEmpty' => array(
 					'rule' => array('notEmpty'),
 					'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('user_attributes', 'Item name')),
+					//'allowEmpty' => false,
+					//'required' => false,
+					//'last' => false, // Stop validation after this rule
+					//'on' => 'create', // Limit validation to 'create' or 'update' operations
+				),
+			),
+			'row' => array(
+				'numeric' => array(
+					'rule' => array('numeric'),
+					//'message' => 'Your custom message here',
+					//'allowEmpty' => false,
+					//'required' => false,
+					//'last' => false, // Stop validation after this rule
+					//'on' => 'create', // Limit validation to 'create' or 'update' operations
+				),
+			),
+			'col' => array(
+				'numeric' => array(
+					'rule' => array('numeric'),
+					//'message' => 'Your custom message here',
 					//'allowEmpty' => false,
 					//'required' => false,
 					//'last' => false, // Stop validation after this rule
@@ -153,6 +177,29 @@ class UserAttribute extends UserAttributesAppModel {
 	}
 
 /**
+ * getMaxWeight
+ *
+ * @param int $row Row number
+ * @param int $col Col number
+ * @return int $weight user_attributes.weight
+ */
+	public function getMaxWeight($row, $col) {
+		$order = $this->find('first', array(
+				'recursive' => -1,
+				'fields' => array('weight'),
+				'conditions' => array('row' => $row, 'col' => $col),
+				'order' => array('weight' => 'DESC')
+			));
+
+		if (isset($order[$this->alias]['weight'])) {
+			$weight = (int)$order[$this->alias]['weight'];
+		} else {
+			$weight = 0;
+		}
+		return $weight;
+	}
+
+/**
  * Get UserAttributes data for layout
  *
  * @param int $langId languages.id
@@ -160,23 +207,14 @@ class UserAttribute extends UserAttributesAppModel {
  */
 	public function getUserAttributesForLayout($langId) {
 		$ret = $this->find('all', array(
-			'recursive' => 0,
-			'conditions' => array(
-				'UserAttribute.language_id' => (int)$langId
-			),
-			'order' => array(
-				'UserAttributeSetting.row' => 'asc',
-				'UserAttributeSetting.col' => 'asc',
-				'UserAttributeSetting.weight' => 'asc'
-			)
+			'recursive' => -1,
+			'conditions' => array('language_id' => (int)$langId),
+			'order' => array('row' => 'asc', 'col' => 'asc', 'weight' => 'asc')
 		));
 
 		$userAttributes = array();
 		foreach ($ret as $userAttribute) {
-			$row = $userAttribute['UserAttributeSetting']['row'];
-			$col = $userAttribute['UserAttributeSetting']['col'];
-			$weight = $userAttribute['UserAttributeSetting']['weight'];
-			$userAttributes[$row][$col][$weight] = $userAttribute;
+			$userAttributes[$userAttribute['UserAttribute']['row']][$userAttribute['UserAttribute']['col']][$userAttribute['UserAttribute']['weight']] = $userAttribute;
 		}
 
 		return $userAttributes;
@@ -190,32 +228,23 @@ class UserAttribute extends UserAttributesAppModel {
  * @throws InternalErrorException
  */
 	public function saveUserAttribute($data) {
-		$this->loadModels([
-			'UserAttribute' => 'UserAttributes.UserAttribute',
-			'UserAttributeSetting' => 'UserAttributes.UserAttributeSetting',
-		]);
-
 		//トランザクションBegin
 		$this->setDataSource('master');
 		$dataSource = $this->getDataSource();
 		$dataSource->begin();
 
 		//バリデーション
-		$userAttributeKey = $data['UserAttribute'][0]['UserAttribute']['key'];
-		foreach ($data['UserAttribute'] as $userAttribute) {
+		$userAttributeKey = $data[0]['UserAttribute']['key'];
+		foreach ($data as $userAttribute) {
 			if (! $this->validateUserAttribute($userAttribute)) {
 				return false;
 			}
-		}
-		if (! $this->UserAttributeSetting->validateUserAttributeSetting($data['UserAttributeSetting'])) {
-			$this->validationErrors = Hash::merge($this->validationErrors, $this->UserAttributeSetting->validationErrors);
-			return false;
 		}
 
 		try {
 			//登録処理
 			$userAttributes = array();
-			foreach ($data['UserAttribute'] as $i => $userAttribute) {
+			foreach ($data as $i => $userAttribute) {
 				$userAttribute['UserAttribute']['key'] = $userAttributeKey;
 				if (! $userAttributes[$i] = $this->save($userAttribute, false, false)) {
 					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
@@ -223,13 +252,50 @@ class UserAttribute extends UserAttributesAppModel {
 				$userAttributeKey = $userAttributes[$i]['UserAttribute']['key'];
 			}
 
-			$data['UserAttributeSetting']['user_attribute_key'] = $userAttributeKey;
-			if (! $this->UserAttributeSetting->save($data['UserAttributeSetting'], false)) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			}
-
 			//UserAttributesRoleのデフォルトデータ登録処理
-			$this->saveDefaultUserAttributeRoles($data);
+			$this->saveDefaultUserAttributeRoles($userAttributes[0]);
+
+			//トランザクションCommit
+			$dataSource->commit();
+
+		} catch (Exception $ex) {
+			//トランザクションRollback
+			$dataSource->rollback();
+			CakeLog::error($ex);
+			throw $ex;
+		}
+
+		return true;
+	}
+
+/**
+ * Move Order UserAttributes
+ *
+ * @param array $data received post data
+ * @return bool True on success, false on validation errors
+ * @throws InternalErrorException
+ */
+	public function saveUserAttributesOrder($data) {
+		//トランザクションBegin
+		$this->setDataSource('master');
+		$dataSource = $this->getDataSource();
+		$dataSource->begin();
+
+		try {
+			////バリデーション
+			//$indexes = array_keys($data['LinkOrders']);
+			//foreach ($indexes as $i) {
+			//	if (! $this->validateLinkOrder($data['LinkOrders'][$i])) {
+			//		return false;
+			//	}
+			//}
+			//
+			////登録処理
+			//foreach ($indexes as $i) {
+			//	if (! $this->save($data['LinkOrders'][$i], false, false)) {
+			//		throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			//	}
+			//}
 
 			//トランザクションCommit
 			$dataSource->commit();
@@ -248,13 +314,16 @@ class UserAttribute extends UserAttributesAppModel {
  * validate of UserAttribute
  *
  * @param array $data received post data
+ * @param array $contains Optional validate sets
  * @return bool True on success, false on validation errors
  */
-	public function validateUserAttribute($data) {
+	public function validateUserAttribute($data, $contains = []) {
 		$this->set($data);
 		$this->validates();
 		if ($this->validationErrors) {
 			return false;
+		}
+		if (in_array('UserAttributeChoices', $contains, true)) {
 		}
 		return true;
 	}
@@ -268,8 +337,7 @@ class UserAttribute extends UserAttributesAppModel {
  */
 	public function deleteUserAttribute($data) {
 		$this->loadModels([
-			'UserAttribute' => 'UserAttributes.UserAttribute',
-			'UserAttributeSetting' => 'UserAttributes.UserAttributeSetting',
+			'UserAttributes' => 'UserAttributes.UserAttribute',
 		]);
 
 		//トランザクションBegin
@@ -282,10 +350,6 @@ class UserAttribute extends UserAttributesAppModel {
 
 			//削除処理
 			if (! $this->deleteAll(array($this->alias . '.key' => $data['UserAttribute']['key']), false)) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			}
-			$userAttributeKey = $this->UserAttributeSetting->alias . '.user_attribute_key';
-			if (! $this->UserAttributeSetting->deleteAll(array($userAttributeKey => $data['UserAttribute']['key']), false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 

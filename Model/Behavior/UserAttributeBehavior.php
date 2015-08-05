@@ -47,9 +47,9 @@ class UserAttributeBehavior extends ModelBehavior {
 			$params = array(
 				'role_key' => $userRoleSetting['UserRoleSetting']['role_key'],
 				'default_role_key' => $userRoleSetting['UserRoleSetting']['default_role_key'],
-				'user_attribute_key' => $data['UserAttribute']['key'],
-				'only_administrator' => (bool)$data['UserAttribute']['only_administrator'],
-				'is_systemized' => (bool)$data['UserAttribute']['is_systemized']
+				'user_attribute_key' => $data['UserAttributeSetting']['user_attribute_key'],
+				'only_administrator' => (bool)$data['UserAttributeSetting']['only_administrator'],
+				'is_systemized' => (bool)$data['UserAttributeSetting']['is_systemized']
 			);
 
 			$params['is_usable_user_manager'] =

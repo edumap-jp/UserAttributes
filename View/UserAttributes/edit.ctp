@@ -24,26 +24,14 @@ echo $this->Html->script(
 );
 ?>
 
-<div class="panel panel-default">
+<div class="panel panel-default" ng-controller="UserAttributes">
 	<?php echo $this->Form->create('UserAttribute', array('novalidate' => true)); ?>
 
 	<div class="panel-body">
 		<?php echo $this->SwitchLanguage->tablist('user-attributes-'); ?>
 
 		<div class="tab-content">
-			<?php foreach ($this->data as $index => $userAttribute) : ?>
-				<?php $languageId = $userAttribute['UserAttribute']['language_id']; ?>
-
-				<?php if (isset($languages[$languageId])) : ?>
-					<div role="tabpanel" id="user-attributes-<?php echo $languageId; ?>"
-							class="tab-pane<?php echo ($activeLangId === (string)$languageId ? ' active' : ''); ?>">
-
-						<?php echo $this->element('UserAttributes/edit_form', array(
-								'index' => $index,
-							)); ?>
-					</div>
-				<?php endif; ?>
-			<?php endforeach; ?>
+			<?php echo $this->element('UserAttributes/edit_form'); ?>
 		</div>
 	</div>
 
