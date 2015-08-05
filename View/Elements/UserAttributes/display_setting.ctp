@@ -26,7 +26,7 @@
 		'value' => $userAttribute['UserAttribute']['id'],
 	)); ?>
 
-<button class="btn btn-xs btn-default<?php if ($userAttribute['UserAttribute']['display']) : ?> active<?php endif; ?>" type="button">
+<button class="btn btn-xs btn-default<?php echo ($userAttribute['UserAttribute']['display'] ? ' active' : ''); ?>" type="button">
 	<?php if ($userAttribute['UserAttribute']['display']) : ?>
 		<span class="glyphicon glyphicon-eye-open"> </span>
 	<?php else : ?>

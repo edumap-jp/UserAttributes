@@ -70,8 +70,6 @@ class UserAttributeTest extends CakeTestCase {
  * test mock
  *
  * @return void
- *
- * @author Jun Nishikawa <topaz2@m0n0m0n0.com>
  */
 	public function test() {
 	}

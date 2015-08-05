@@ -49,4 +49,11 @@ class UserAttributeLayoutTest extends CakeTestCase {
 		parent::tearDown();
 	}
 
+/**
+ * test mock
+ *
+ * @return void
+ */
+	public function test() {
+	}
 }
