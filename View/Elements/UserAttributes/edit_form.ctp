@@ -20,7 +20,7 @@
 
 		<?php echo $this->Form->hidden('UserAttribute.' . $index . '.' . 'UserAttribute.language_id'); ?>
 
-<div class="form-group" ng-show="activeLangId === '<?php echo (string)$languageId; ?>'" ng-cloak>
+		<div class="form-group" ng-show="activeLangId === '<?php echo (string)$languageId; ?>'" ng-cloak>
 			<?php echo $this->Form->input('UserAttribute.' . $index . '.' . 'UserAttribute.name', array(
 					'type' => 'text',
 					'label' => __d('user_attributes', 'Item name') . $this->element('NetCommons.required'),
