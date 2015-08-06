@@ -178,7 +178,6 @@ class UserAttribute extends UserAttributesAppModel {
 			$weight = $userAttribute['UserAttributeSetting']['weight'];
 			$userAttributes[$row][$col][$weight] = $userAttribute;
 		}
-
 		return $userAttributes;
 	}
 
