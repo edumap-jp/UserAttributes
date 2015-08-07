@@ -100,12 +100,13 @@ class UserAttributesController extends UserAttributesAppController {
 			foreach (array_keys($this->viewVars['languages']) as $langId) {
 				$index = count($this->request->data['UserAttribute']);
 
-				$this->request->data['UserAttribute'][$index] = $this->UserAttribute->create(array(
+				$userAttribute = $this->UserAttribute->create(array(
 					'id' => null,
 					'language_id' => $langId,
 					'key' => '',
 					'name' => '',
 				));
+				$this->request->data['UserAttribute'][$index] = $userAttribute['UserAttribute'];
 			}
 
 			$this->request->data = Hash::merge($this->request->data,
@@ -156,7 +157,8 @@ class UserAttributesController extends UserAttributesAppController {
 				'recursive' => -1,
 				'conditions' => array('key' => $key)
 			);
-			$this->request->data['UserAttribute'] = $this->UserAttribute->find('all', $options);
+			$userAttribute = $this->UserAttribute->find('all', $options);
+			$this->request->data['UserAttribute'] = Hash::extract($userAttribute, '{n}.UserAttribute');
 
 			$data = $this->UserAttributeSetting->find('first', array(
 				'recursive' => -1,
@@ -205,7 +207,7 @@ class UserAttributesController extends UserAttributesAppController {
 			return;
 		}
 
-		$this->UserAttribute->deleteUserAttribute($this->data[0]);
+		$this->UserAttribute->deleteUserAttribute($this->data['UserAttribute'][0]);
 		$this->redirect('/user_attributes/user_attributes/index/');
 	}
 

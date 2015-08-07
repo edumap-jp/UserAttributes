@@ -25,9 +25,9 @@
 					<?php echo sprintf(__d('net_commons', 'Delete all data associated with the %s.'), __d('user_attributes', 'User attribute')); ?>
 				</div>
 
-				<?php echo $this->Form->hidden('0.UserAttribute.id'); ?>
+				<?php echo $this->Form->hidden('UserAttribute.0.id'); ?>
 
-				<?php echo $this->Form->hidden('0.UserAttribute.key'); ?>
+				<?php echo $this->Form->hidden('UserAttribute.0.key'); ?>
 
 				<?php echo $this->Form->button('<span class="glyphicon glyphicon-trash"> </span> ' . __d('net_commons', 'Delete'), array(
 						'name' => 'delete',

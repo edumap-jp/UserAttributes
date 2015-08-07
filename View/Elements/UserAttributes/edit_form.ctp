@@ -11,17 +11,17 @@
 ?>
 
 <?php foreach ($this->request->data['UserAttribute'] as $index => $userAttribute) : ?>
-	<?php $languageId = $userAttribute['UserAttribute']['language_id']; ?>
+	<?php $languageId = $userAttribute['language_id']; ?>
 
 	<?php if (isset($languages[$languageId])) : ?>
-		<?php echo $this->Form->hidden('UserAttribute.' . $index . '.' . 'UserAttribute.id'); ?>
+		<?php echo $this->Form->hidden('UserAttribute.' . $index . '.id'); ?>
 
-		<?php echo $this->Form->hidden('UserAttribute.' . $index . '.' . 'UserAttribute.key'); ?>
+		<?php echo $this->Form->hidden('UserAttribute.' . $index . '.key'); ?>
 
-		<?php echo $this->Form->hidden('UserAttribute.' . $index . '.' . 'UserAttribute.language_id'); ?>
+		<?php echo $this->Form->hidden('UserAttribute.' . $index . '.language_id'); ?>
 
 		<div class="form-group" ng-show="activeLangId === '<?php echo (string)$languageId; ?>'" ng-cloak>
-			<?php echo $this->Form->input('UserAttribute.' . $index . '.' . 'UserAttribute.name', array(
+			<?php echo $this->Form->input('UserAttribute.' . $index . '.' . 'name', array(
 					'type' => 'text',
 					'label' => __d('user_attributes', 'Item name') . $this->element('NetCommons.required'),
 					'class' => 'form-control',
@@ -110,11 +110,11 @@
 </div>
 
 <?php foreach ($this->request->data['UserAttribute'] as $index => $userAttribute) : ?>
-	<?php $languageId = $userAttribute['UserAttribute']['language_id']; ?>
+	<?php $languageId = $userAttribute['language_id']; ?>
 
 	<?php if (isset($languages[$languageId])) : ?>
 		<div class="form-group" ng-show="activeLangId === '<?php echo (string)$languageId; ?>'" ng-cloak>
-			<?php echo $this->Form->input('UserAttribute.' . $index . '.' . 'UserAttribute.description', array(
+			<?php echo $this->Form->input('UserAttribute.' . $index . '.description', array(
 					'type' => 'textarea',
 					'label' => __d('user_attributes', 'Description'),
 					'class' => 'form-control',

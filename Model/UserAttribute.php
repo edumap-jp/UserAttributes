@@ -200,7 +200,7 @@ class UserAttribute extends UserAttributesAppModel {
 		$dataSource->begin();
 
 		//バリデーション
-		$userAttributeKey = $data['UserAttribute'][0]['UserAttribute']['key'];
+		$userAttributeKey = $data['UserAttribute'][0]['key'];
 		foreach ($data['UserAttribute'] as $userAttribute) {
 			if (! $this->validateUserAttribute($userAttribute)) {
 				return false;
@@ -215,7 +215,7 @@ class UserAttribute extends UserAttributesAppModel {
 			//登録処理
 			$userAttributes = array();
 			foreach ($data['UserAttribute'] as $i => $userAttribute) {
-				$userAttribute['UserAttribute']['key'] = $userAttributeKey;
+				$userAttribute['key'] = $userAttributeKey;
 				if (! $userAttributes[$i] = $this->save($userAttribute, false, false)) {
 					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 				}
@@ -280,11 +280,11 @@ class UserAttribute extends UserAttributesAppModel {
 			//後で追加、、DELETEする前に順番の変更
 
 			//削除処理
-			if (! $this->deleteAll(array($this->alias . '.key' => $data['UserAttribute']['key']), false)) {
+			if (! $this->deleteAll(array($this->alias . '.key' => $data['key']), false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 			$userAttributeKey = $this->UserAttributeSetting->alias . '.user_attribute_key';
-			if (! $this->UserAttributeSetting->deleteAll(array($userAttributeKey => $data['UserAttribute']['key']), false)) {
+			if (! $this->UserAttributeSetting->deleteAll(array($userAttributeKey => $data['key']), false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
