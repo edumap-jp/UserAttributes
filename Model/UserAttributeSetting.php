@@ -22,8 +22,8 @@ class UserAttributeSetting extends UserAttributesAppModel {
  */
 	public $validate = array(
 		'user_attribute_key' => array(
-			'notEmpty' => array(
-				'rule' => array('notEmpty'),
+			'notBlank' => array(
+				'rule' => array('notBlank'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,
@@ -32,8 +32,8 @@ class UserAttributeSetting extends UserAttributesAppModel {
 			),
 		),
 		'data_type_template_key' => array(
-			'notEmpty' => array(
-				'rule' => array('notEmpty'),
+			'notBlank' => array(
+				'rule' => array('notBlank'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,

@@ -138,8 +138,8 @@ class UserAttribute extends UserAttributesAppModel {
 				),
 			),
 			'name' => array(
-				'notEmpty' => array(
-					'rule' => array('notEmpty'),
+				'notBlank' => array(
+					'rule' => array('notBlank'),
 					'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('user_attributes', 'Item name')),
 					//'allowEmpty' => false,
 					//'required' => false,
