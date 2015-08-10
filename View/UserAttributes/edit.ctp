@@ -13,14 +13,22 @@ echo $this->Html->css(
 	array(
 		'/user_attributes/css/style.css'
 	),
-	array('plugin' => false)
+	array(
+		'plugin' => false,
+		'once' => true,
+		'inline' => false
+	)
 );
 
 echo $this->Html->script(
 	array(
 		'/user_attributes/js/user_attributes.js'
 	),
-	array('plugin' => false)
+	array(
+		'plugin' => false,
+		'once' => true,
+		'inline' => false
+	)
 );
 ?>
 
