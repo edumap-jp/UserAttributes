@@ -21,19 +21,19 @@ class UserAttributeTest extends CakeTestCase {
  */
 	public $fixtures = array(
 		'plugin.user_attributes.user_attribute',
-		'plugin.user_attributes.language',
-		'plugin.user_attributes.user',
-		'plugin.user_attributes.role',
-		'plugin.user_attributes.plugin',
-		'plugin.user_attributes.plugins_role',
-		'plugin.user_attributes.room',
-		'plugin.user_attributes.space',
-		'plugin.user_attributes.spaces_language',
-		'plugin.user_attributes.rooms_language',
-		'plugin.user_attributes.roles_room',
+		//'plugin.user_attributes.language',
+		//'plugin.user_attributes.user',
+		//'plugin.user_attributes.role',
+		//'plugin.user_attributes.plugin',
+		//'plugin.user_attributes.plugins_role',
+		//'plugin.user_attributes.room',
+		//'plugin.user_attributes.space',
+		//'plugin.user_attributes.spaces_language',
+		//'plugin.user_attributes.rooms_language',
+		//'plugin.user_attributes.roles_room',
 		'plugin.user_attributes.user_attribute_choice',
 		'plugin.user_attributes.user_attributes_role',
-		'plugin.user_attributes.user_attributes_user'
+		//'plugin.user_attributes.user_attributes_user'
 	);
 
 /**
