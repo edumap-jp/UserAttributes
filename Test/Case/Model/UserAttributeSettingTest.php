@@ -23,7 +23,7 @@ class UserAttributeSettingTest extends CakeTestCase {
  */
 	public $fixtures = array(
 		'plugin.user_attributes.user_attribute_setting',
-		'plugin.user_attributes.user',
+		'plugin.users.user',
 		//'plugin.user_attributes.role',
 		//'plugin.user_attributes.language',
 		//'plugin.user_attributes.plugin',
@@ -54,6 +54,14 @@ class UserAttributeSettingTest extends CakeTestCase {
 		unset($this->UserAttributeSetting);
 
 		parent::tearDown();
+	}
+
+/**
+ * test mock
+ *
+ * @return void
+ */
+	public function test() {
 	}
 
 }

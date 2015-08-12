@@ -33,8 +33,8 @@ class UserAttributeTest extends CakeTestCase {
 		//'plugin.user_attributes.spaces_language',
 		//'plugin.user_attributes.rooms_language',
 		//'plugin.user_attributes.roles_room',
-		'plugin.user_attributes.user_attribute_choice',
-		'plugin.user_attributes.user_attributes_role',
+		//'plugin.user_attributes.user_attribute_choice',
+		//'plugin.user_attributes.user_attributes_role',
 		//'plugin.user_attributes.user_attributes_user'
 	);
 
@@ -57,6 +57,14 @@ class UserAttributeTest extends CakeTestCase {
 		unset($this->UserAttribute);
 
 		parent::tearDown();
+	}
+
+/**
+ * test mock
+ *
+ * @return void
+ */
+	public function test() {
 	}
 
 }
