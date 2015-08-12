@@ -1,0 +1,93 @@
+# LANGUAGE translation of CakePHP Application
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: UserAttributes/Model/UserAttribute.php:146
+#: UserAttributes/View/Elements/UserAttributes/edit_form.ctp:28
+msgid "Item name"
+msgstr ""
+
+#: UserAttributes/View/Elements/UserAttributes/delete_form.ctp:25;35
+msgid "User attribute"
+msgstr ""
+
+#: UserAttributes/View/Elements/UserAttributes/edit_col.ctp:30
+msgid "%s Col"
+msgstr ""
+
+#: UserAttributes/View/Elements/UserAttributes/edit_col.ctp:31
+msgid "%s Cols"
+msgstr ""
+
+#: UserAttributes/View/Elements/UserAttributes/edit_form.ctp:43
+msgid "Input type"
+msgstr ""
+
+#: UserAttributes/View/Elements/UserAttributes/edit_form.ctp:57
+msgid "To prohibit the reading and writing of non-members administrator"
+msgstr ""
+
+#: UserAttributes/View/Elements/UserAttributes/edit_form.ctp:70
+msgid "Designate as required items"
+msgstr ""
+
+#: UserAttributes/View/Elements/UserAttributes/edit_form.ctp:83
+msgid "Show the item name"
+msgstr ""
+
+#: UserAttributes/View/Elements/UserAttributes/edit_form.ctp:96
+msgid "Show on the search results"
+msgstr ""
+
+#: UserAttributes/View/Elements/UserAttributes/edit_form.ctp:109
+msgid "Enable individual public/private setting"
+msgstr ""
+
+#: UserAttributes/View/Elements/UserAttributes/edit_form.ctp:122
+msgid "Enable individual email receipt / non-receipt setting"
+msgstr ""
+
+#: UserAttributes/View/Elements/UserAttributes/edit_form.ctp:129
+msgid "Description"
+msgstr ""
+
+#: UserAttributes/View/Elements/UserAttributes/move_settings.ctp:56
+msgid "Go to Up"
+msgstr ""
+
+#: UserAttributes/View/Elements/UserAttributes/move_settings.ctp:61
+msgid "Go to Down"
+msgstr ""
+
+#: UserAttributes/View/Elements/UserAttributes/move_settings.ctp:66
+msgid "Go to Left"
+msgstr ""
+
+#: UserAttributes/View/Elements/UserAttributes/move_settings.ctp:71
+msgid "Go to Right"
+msgstr ""
+
+#: UserAttributes/View/Elements/UserAttributes/move_settings.ctp:80
+msgid "Go to %s row"
+msgstr ""
+
+#: UserAttributes/View/UserAttributes/edit.ctp:28
+#: UserAttributes/View/UserAttributes/index.ctp:20
+msgid "User attributes setting"
+msgstr ""
+
+#: UserAttributes/View/UserAttributes/index.ctp:28
+msgid "%s row"
+msgstr ""
+
