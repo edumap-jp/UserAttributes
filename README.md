@@ -8,4 +8,4 @@ UserAttributes for NetComomns3
 
 | dependencies  | status |
 | ------------- | ------ |
-| composer.json | [![Dependency Status](https://www.versioneye.com/user/projects/(versioneye_project_ID)/badge.png)](https://www.versioneye.com/user/projects/(versioneye_project_ID)) |
+| composer.json | [![Dependency Status](https://www.versioneye.com/user/projects/55cbc0a1b7d70b000f000250/badge.png)](https://www.versioneye.com/user/projects/55cbc0a1b7d70b000f000250) |
