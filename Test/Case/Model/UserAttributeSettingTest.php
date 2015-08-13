@@ -24,15 +24,6 @@ class UserAttributeSettingTest extends CakeTestCase {
 	public $fixtures = array(
 		'plugin.user_attributes.user_attribute_setting',
 		'plugin.users.user',
-		//'plugin.user_attributes.role',
-		//'plugin.user_attributes.language',
-		//'plugin.user_attributes.plugin',
-		//'plugin.user_attributes.plugins_role',
-		//'plugin.user_attributes.room',
-		//'plugin.user_attributes.space',
-		//'plugin.user_attributes.spaces_language',
-		//'plugin.user_attributes.rooms_language',
-		//'plugin.user_attributes.roles_room'
 	);
 
 /**
