@@ -159,26 +159,86 @@ class UserAttribute extends UserAttributesAppModel {
  * @return mixed array UserAttributes data
  */
 	public function getUserAttributesForLayout($langId) {
-		$ret = $this->find('all', array(
-			'recursive' => 0,
+		$this->DataTypeTemplate = ClassRegistry::init('DataTypes.DataTypeTemplate');
+		$this->DataTypeChoice = ClassRegistry::init('DataTypes.DataTypeChoice');
+
+		//UserAttributeデータ取得
+		$userAttributes = $this->find('all', array(
+			'recursive' => -1,
+			'fields' => array(
+				$this->alias . '.*',
+				$this->UserAttributeSetting->alias . '.*',
+				$this->DataTypeTemplate->alias . '.*',
+			),
 			'conditions' => array(
-				'UserAttribute.language_id' => (int)$langId
+				$this->alias . '.language_id' => (int)$langId
+			),
+			'joins' => array(
+				array(
+					'table' => $this->UserAttributeSetting->table,
+					'alias' => $this->UserAttributeSetting->alias,
+					'type' => 'INNER',
+					'conditions' => array(
+						$this->UserAttributeSetting->alias . '.user_attribute_key' . ' = ' . $this->alias . ' .key',
+					),
+				),
+				array(
+					'table' => $this->DataTypeTemplate->table,
+					'alias' => $this->DataTypeTemplate->alias,
+					'type' => 'INNER',
+					'conditions' => array(
+						$this->DataTypeTemplate->alias . '.key' . ' = ' . $this->UserAttributeSetting->alias . ' .data_type_template_key',
+						$this->DataTypeTemplate->alias . '.language_id' => Configure::read('Config.languageId')
+					),
+				),
 			),
 			'order' => array(
-				'UserAttributeSetting.row' => 'asc',
-				'UserAttributeSetting.col' => 'asc',
-				'UserAttributeSetting.weight' => 'asc'
+				$this->UserAttributeSetting->alias . '.row' => 'asc',
+				$this->UserAttributeSetting->alias . '.col' => 'asc',
+				$this->UserAttributeSetting->alias . '.weight' => 'asc'
 			)
 		));
 
-		$userAttributes = array();
-		foreach ($ret as $userAttribute) {
+		//UserAttributeChoiceデータ取得
+		$userAttributeIds = Hash::extract($userAttributes, '{n}.UserAttribute.id');
+		$userAttributeChoices = $this->UserAttributeChoice->find('all', array(
+			'recursive' => -1,
+			'conditions' => array(
+				'user_attribute_id' => $userAttributeIds
+			),
+		));
+		$userAttributeChoices = Hash::combine($userAttributeChoices, '{n}.UserAttributeChoice.id', '{n}.UserAttributeChoice', '{n}.UserAttributeChoice.user_attribute_id');
+
+		//DataTypeChoiceデータ取得
+		$dataTypeTemplateKeys = array_unique(Hash::extract($userAttributes, '{n}.DataTypeTemplate.key'));
+		$dataTypeChoices = $this->DataTypeChoice->find('all', array(
+			'recursive' => -1,
+			'conditions' => array(
+				'data_type_template_key' => $dataTypeTemplateKeys,
+				'language_id' => Configure::read('Config.languageId')
+			),
+		));
+		$dataTypeChoices = Hash::combine($dataTypeChoices, '{n}.DataTypeChoice.id', '{n}.DataTypeChoice', '{n}.DataTypeChoice.data_type_template_key');
+
+		$results = array();
+		foreach ($userAttributes as $userAttribute) {
+			$userAttributeId = $userAttribute['UserAttribute']['id'];
+			$dataTypeTemplateKey = $userAttribute['UserAttributeSetting']['data_type_template_key'];
+
 			$row = $userAttribute['UserAttributeSetting']['row'];
 			$col = $userAttribute['UserAttributeSetting']['col'];
 			$weight = $userAttribute['UserAttributeSetting']['weight'];
-			$userAttributes[$row][$col][$weight] = $userAttribute;
+			$results[$row][$col][$weight] = $userAttribute;
+
+			if (isset($dataTypeChoices[$dataTypeTemplateKey])) {
+				$results[$row][$col][$weight]['UserAttributeChoice'] = $dataTypeChoices[$dataTypeTemplateKey];
+			}
+			if (isset($userAttributeChoices[$userAttributeId])) {
+				$results[$row][$col][$weight]['UserAttributeChoice'] = $userAttributeChoices[$userAttributeId];
+			}
 		}
-		return $userAttributes;
+
+		return $results;
 	}
 
 /**
