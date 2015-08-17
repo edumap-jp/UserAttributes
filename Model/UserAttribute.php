@@ -161,6 +161,7 @@ class UserAttribute extends UserAttributesAppModel {
 	public function getUserAttributesForLayout($langId) {
 		$this->DataTypeTemplate = ClassRegistry::init('DataTypes.DataTypeTemplate');
 		$this->DataTypeChoice = ClassRegistry::init('DataTypes.DataTypeChoice');
+		$this->UserRole = ClassRegistry::init('UserRoles.UserRole');
 
 		//UserAttributeデータ取得
 		$userAttributes = $this->find('all', array(
@@ -220,6 +221,21 @@ class UserAttribute extends UserAttributesAppModel {
 		));
 		$dataTypeChoices = Hash::combine($dataTypeChoices, '{n}.DataTypeChoice.id', '{n}.DataTypeChoice', '{n}.DataTypeChoice.data_type_template_key');
 
+		//UserRoleデータの取得
+		$userRoles = $this->UserRole->find('all', array(
+			'recursive' => -1,
+			'fields' => array(
+				'id', 'key', 'name'
+			),
+			'conditions' => array(
+				'type' => UserRole::ROLE_TYPE_USER,
+				'language_id' => Configure::read('Config.languageId'),
+				'key !=' => UserRole::USER_ROLE_KEY_SYSTEM_ADMINISTRATOR,
+			),
+			'order' => 'id'
+		));
+
+		//戻り値の設定
 		$results = array();
 		foreach ($userAttributes as $userAttribute) {
 			$userAttributeId = $userAttribute['UserAttribute']['id'];
@@ -230,9 +246,15 @@ class UserAttribute extends UserAttributesAppModel {
 			$weight = $userAttribute['UserAttributeSetting']['weight'];
 			$results[$row][$col][$weight] = $userAttribute;
 
+			//権限の設定
+			if ($userAttribute['UserAttribute']['key'] === 'role_key') {
+				$results[$row][$col][$weight]['UserAttributeChoice'] = Hash::combine($userRoles, '{n}.UserRole.id', '{n}.UserRole');
+			}
+			//DataTypeChoiceにデータがある場合
 			if (isset($dataTypeChoices[$dataTypeTemplateKey])) {
 				$results[$row][$col][$weight]['UserAttributeChoice'] = $dataTypeChoices[$dataTypeTemplateKey];
 			}
+			//UserAttributeChoiceにデータがある場合
 			if (isset($userAttributeChoices[$userAttributeId])) {
 				$results[$row][$col][$weight]['UserAttributeChoice'] = $userAttributeChoices[$userAttributeId];
 			}
