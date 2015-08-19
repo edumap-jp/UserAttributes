@@ -21,6 +21,15 @@ App::uses('UserAttributesAppModel', 'UserAttributes.Model');
 class UserAttribute extends UserAttributesAppModel {
 
 /**
+ * Field format
+ *
+ * @var const
+ */
+	const
+		PUBLIC_FIELD_FORMAT = 'is_%s_public',
+		FILE_FIELD_FORMAT = '%s_file_id';
+
+/**
  * use behaviors
  *
  * @var array
@@ -230,7 +239,7 @@ class UserAttribute extends UserAttributesAppModel {
 			'conditions' => array(
 				'type' => UserRole::ROLE_TYPE_USER,
 				'language_id' => Configure::read('Config.languageId'),
-				'key !=' => UserRole::USER_ROLE_KEY_SYSTEM_ADMINISTRATOR,
+				//'key !=' => UserRole::USER_ROLE_KEY_SYSTEM_ADMINISTRATOR,
 			),
 			'order' => 'id'
 		));
