@@ -27,12 +27,11 @@
 					'class' => 'form-control',
 				)); ?>
 
-			<?php echo $this->element(
-				'NetCommons.errors', [
-					'errors' => $this->validationErrors,
-					'model' => 'UserAttribute',
-					'field' => 'name',
-				]); ?>
+			<div class="has-error">
+				<?php echo $this->Form->error('UserAttribute.' . $index . '.' . 'name', null, array(
+						'class' => 'help-block'
+					)); ?>
+			</div>
 		</div>
 	<?php endif; ?>
 <?php endforeach; ?>
