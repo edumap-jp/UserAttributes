@@ -192,7 +192,7 @@ class UserAttributesController extends UserAttributesAppController {
 			return;
 		}
 
-		$this->setFlashNotification(__d('net_commons', 'Successfully saved.'), array('class' => 'success'));
+		$this->setFlashNotification(__d('net_commons', 'Successfully saved.'), array('type' => 'success'));
 		$this->redirect('/user_attributes/user_attributes/index/');
 	}
 
