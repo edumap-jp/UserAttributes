@@ -46,7 +46,7 @@ class UserAttributeBehavior extends ModelBehavior {
 		foreach ($userRoleSettings as $userRoleSetting) {
 			$params = array(
 				'role_key' => $userRoleSetting['UserRoleSetting']['role_key'],
-				'default_role_key' => $userRoleSetting['UserRoleSetting']['default_role_key'],
+				'origin_role_key' => $userRoleSetting['UserRoleSetting']['origin_role_key'],
 				'user_attribute_key' => $data['UserAttributeSetting']['user_attribute_key'],
 				'only_administrator' => (bool)$data['UserAttributeSetting']['only_administrator'],
 				'is_systemized' => (bool)$data['UserAttributeSetting']['is_systemized']
