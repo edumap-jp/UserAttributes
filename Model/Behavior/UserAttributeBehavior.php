@@ -64,4 +64,51 @@ class UserAttributeBehavior extends ModelBehavior {
 		return true;
 	}
 
+/**
+ * Find options for layout
+ *
+ * @param Model $model Model using this behavior
+ * @param int $langId languages.id
+ * @return array findOptions
+ */
+	public function findOptionsForLayout(Model $model, $langId) {
+		$options = array(
+			'recursive' => -1,
+			'fields' => array(
+				$model->alias . '.*',
+				$model->UserAttributeSetting->alias . '.*',
+				$model->DataTypeTemplate->alias . '.*',
+			),
+			'conditions' => array(
+				$model->alias . '.language_id' => (int)$langId
+			),
+			'joins' => array(
+				array(
+					'table' => $model->UserAttributeSetting->table,
+					'alias' => $model->UserAttributeSetting->alias,
+					'type' => 'INNER',
+					'conditions' => array(
+						$model->UserAttributeSetting->alias . '.user_attribute_key' . ' = ' . $model->alias . ' .key',
+					),
+				),
+				array(
+					'table' => $model->DataTypeTemplate->table,
+					'alias' => $model->DataTypeTemplate->alias,
+					'type' => 'INNER',
+					'conditions' => array(
+						$model->DataTypeTemplate->alias . '.key' . ' = ' . $model->UserAttributeSetting->alias . ' .data_type_template_key',
+						$model->DataTypeTemplate->alias . '.language_id' => Configure::read('Config.languageId')
+					),
+				),
+			),
+			'order' => array(
+				$model->UserAttributeSetting->alias . '.row' => 'asc',
+				$model->UserAttributeSetting->alias . '.col' => 'asc',
+				$model->UserAttributeSetting->alias . '.weight' => 'asc'
+			)
+		);
+
+		return $options;
+	}
+
 }

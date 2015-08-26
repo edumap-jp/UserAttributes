@@ -173,41 +173,7 @@ class UserAttribute extends UserAttributesAppModel {
 		$this->UserRole = ClassRegistry::init('UserRoles.UserRole');
 
 		//UserAttributeデータ取得
-		$userAttributes = $this->find('all', array(
-			'recursive' => -1,
-			'fields' => array(
-				$this->alias . '.*',
-				$this->UserAttributeSetting->alias . '.*',
-				$this->DataTypeTemplate->alias . '.*',
-			),
-			'conditions' => array(
-				$this->alias . '.language_id' => (int)$langId
-			),
-			'joins' => array(
-				array(
-					'table' => $this->UserAttributeSetting->table,
-					'alias' => $this->UserAttributeSetting->alias,
-					'type' => 'INNER',
-					'conditions' => array(
-						$this->UserAttributeSetting->alias . '.user_attribute_key' . ' = ' . $this->alias . ' .key',
-					),
-				),
-				array(
-					'table' => $this->DataTypeTemplate->table,
-					'alias' => $this->DataTypeTemplate->alias,
-					'type' => 'INNER',
-					'conditions' => array(
-						$this->DataTypeTemplate->alias . '.key' . ' = ' . $this->UserAttributeSetting->alias . ' .data_type_template_key',
-						$this->DataTypeTemplate->alias . '.language_id' => Configure::read('Config.languageId')
-					),
-				),
-			),
-			'order' => array(
-				$this->UserAttributeSetting->alias . '.row' => 'asc',
-				$this->UserAttributeSetting->alias . '.col' => 'asc',
-				$this->UserAttributeSetting->alias . '.weight' => 'asc'
-			)
-		));
+		$userAttributes = $this->find('all', $this->findOptionsForLayout($langId));
 
 		//UserAttributeChoiceデータ取得
 		$userAttributeIds = Hash::extract($userAttributes, '{n}.UserAttribute.id');
