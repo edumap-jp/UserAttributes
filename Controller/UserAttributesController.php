@@ -68,9 +68,9 @@ class UserAttributesController extends UserAttributesAppController {
 		$this->view = 'edit';
 
 		if ($this->request->isPost()) {
-			$data = $this->data;
 
 			//不要パラメータ除去
+			$data = $this->data;
 			unset($data['save'], $data['active_lang_id']);
 
 			//登録処理
@@ -78,12 +78,12 @@ class UserAttributesController extends UserAttributesAppController {
 			$col = $data['UserAttributeSetting']['col'];
 			$data['UserAttributeSetting']['weight'] = $this->UserAttributeSetting->getMaxWeight($row, $col) + 1;
 
-			$this->UserAttribute->saveUserAttribute($data);
-			if ($this->handleValidationError($this->UserAttribute->validationErrors)) {
+			if ($this->UserAttribute->saveUserAttribute($data)) {
 				//正常の場合
 				$this->redirect('/user_attributes/user_attributes/index/');
 				return;
 			}
+			$this->handleValidationError($this->UserAttribute->validationErrors);
 
 		} else {
 			//レイアウトデータ取得
@@ -144,12 +144,12 @@ class UserAttributesController extends UserAttributesAppController {
 			unset($data['save'], $data['active_lang_id']);
 
 			//登録処理
-			$this->UserAttribute->saveUserAttribute($data);
-			if ($this->handleValidationError($this->UserAttribute->validationErrors)) {
+			if ($this->UserAttribute->saveUserAttribute($data)) {
 				//正常の場合
 				$this->redirect('/user_attributes/user_attributes/index/');
 				return;
 			}
+			$this->handleValidationError($this->UserAttribute->validationErrors);
 
 		} else {
 			//既存データ取得

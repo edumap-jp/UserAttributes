@@ -21,6 +21,15 @@ App::uses('UserAttributesAppModel', 'UserAttributes.Model');
 class UserAttribute extends UserAttributesAppModel {
 
 /**
+ * Field format
+ *
+ * @var const
+ */
+	const
+		PUBLIC_FIELD_FORMAT = 'is_%s_public',
+		FILE_FIELD_FORMAT = '%s_file_id';
+
+/**
  * use behaviors
  *
  * @var array
@@ -159,26 +168,74 @@ class UserAttribute extends UserAttributesAppModel {
  * @return mixed array UserAttributes data
  */
 	public function getUserAttributesForLayout($langId) {
-		$ret = $this->find('all', array(
-			'recursive' => 0,
+		$this->DataTypeTemplate = ClassRegistry::init('DataTypes.DataTypeTemplate');
+		$this->DataTypeChoice = ClassRegistry::init('DataTypes.DataTypeChoice');
+		$this->UserRole = ClassRegistry::init('UserRoles.UserRole');
+
+		//UserAttributeデータ取得
+		$userAttributes = $this->find('all', $this->findOptionsForLayout($langId));
+
+		//UserAttributeChoiceデータ取得
+		$userAttributeIds = Hash::extract($userAttributes, '{n}.UserAttribute.id');
+		$userAttributeChoices = $this->UserAttributeChoice->find('all', array(
+			'recursive' => -1,
 			'conditions' => array(
-				'UserAttribute.language_id' => (int)$langId
+				'user_attribute_id' => $userAttributeIds
 			),
-			'order' => array(
-				'UserAttributeSetting.row' => 'asc',
-				'UserAttributeSetting.col' => 'asc',
-				'UserAttributeSetting.weight' => 'asc'
-			)
+		));
+		$userAttributeChoices = Hash::combine($userAttributeChoices, '{n}.UserAttributeChoice.id', '{n}.UserAttributeChoice', '{n}.UserAttributeChoice.user_attribute_id');
+
+		//DataTypeChoiceデータ取得
+		$dataTypeTemplateKeys = array_unique(Hash::extract($userAttributes, '{n}.DataTypeTemplate.key'));
+		$dataTypeChoices = $this->DataTypeChoice->find('all', array(
+			'recursive' => -1,
+			'conditions' => array(
+				'data_type_template_key' => $dataTypeTemplateKeys,
+				'language_id' => Configure::read('Config.languageId')
+			),
+		));
+		$dataTypeChoices = Hash::combine($dataTypeChoices, '{n}.DataTypeChoice.id', '{n}.DataTypeChoice', '{n}.DataTypeChoice.data_type_template_key');
+
+		//UserRoleデータの取得
+		$userRoles = $this->UserRole->find('all', array(
+			'recursive' => -1,
+			'fields' => array(
+				'id', 'key', 'name'
+			),
+			'conditions' => array(
+				'type' => UserRole::ROLE_TYPE_USER,
+				'language_id' => Configure::read('Config.languageId'),
+				//'key !=' => UserRole::USER_ROLE_KEY_SYSTEM_ADMINISTRATOR,
+			),
+			'order' => 'id'
 		));
 
-		$userAttributes = array();
-		foreach ($ret as $userAttribute) {
+		//戻り値の設定
+		$results = array();
+		foreach ($userAttributes as $userAttribute) {
+			$userAttributeId = $userAttribute['UserAttribute']['id'];
+			$dataTypeTemplateKey = $userAttribute['UserAttributeSetting']['data_type_template_key'];
+
 			$row = $userAttribute['UserAttributeSetting']['row'];
 			$col = $userAttribute['UserAttributeSetting']['col'];
 			$weight = $userAttribute['UserAttributeSetting']['weight'];
-			$userAttributes[$row][$col][$weight] = $userAttribute;
+			$results[$row][$col][$weight] = $userAttribute;
+
+			//権限の設定
+			if ($userAttribute['UserAttribute']['key'] === 'role_key') {
+				$results[$row][$col][$weight]['UserAttributeChoice'] = Hash::combine($userRoles, '{n}.UserRole.id', '{n}.UserRole');
+			}
+			//DataTypeChoiceにデータがある場合
+			if (isset($dataTypeChoices[$dataTypeTemplateKey])) {
+				$results[$row][$col][$weight]['UserAttributeChoice'] = $dataTypeChoices[$dataTypeTemplateKey];
+			}
+			//UserAttributeChoiceにデータがある場合
+			if (isset($userAttributeChoices[$userAttributeId])) {
+				$results[$row][$col][$weight]['UserAttributeChoice'] = $userAttributeChoices[$userAttributeId];
+			}
 		}
-		return $userAttributes;
+
+		return $results;
 	}
 
 /**
