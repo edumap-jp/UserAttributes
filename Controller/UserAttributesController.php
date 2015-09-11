@@ -83,7 +83,7 @@ class UserAttributesController extends UserAttributesAppController {
 				$this->redirect('/user_attributes/user_attributes/index/');
 				return;
 			}
-			$this->handleValidationError($this->UserAttribute->validationErrors);
+			$this->NetCommons->handleValidationError($this->UserAttribute->validationErrors);
 
 		} else {
 			//レイアウトデータ取得
@@ -149,7 +149,7 @@ class UserAttributesController extends UserAttributesAppController {
 				$this->redirect('/user_attributes/user_attributes/index/');
 				return;
 			}
-			$this->handleValidationError($this->UserAttribute->validationErrors);
+			$this->NetCommons->handleValidationError($this->UserAttribute->validationErrors);
 
 		} else {
 			//既存データ取得
@@ -192,7 +192,7 @@ class UserAttributesController extends UserAttributesAppController {
 			return;
 		}
 
-		$this->setFlashNotification(__d('net_commons', 'Successfully saved.'), array('class' => 'success'));
+		$this->NetCommons->setFlashNotification(__d('net_commons', 'Successfully saved.'), array('class' => 'success'));
 		$this->redirect('/user_attributes/user_attributes/index/');
 	}
 
