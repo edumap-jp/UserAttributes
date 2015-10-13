@@ -9,12 +9,7 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-echo $this->Html->css(
-	array(
-		'/user_attributes/css/style.css'
-	),
-	array('plugin' => false)
-);
+echo $this->NetCommonsHtml->css('/user_attributes/css/style.css');
 ?>
 
 <?php foreach ($userAttributeLayouts as $layout) : ?>
