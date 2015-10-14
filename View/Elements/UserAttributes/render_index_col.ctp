@@ -13,32 +13,34 @@
  */
 ?>
 
-<div class="col-xs-12 col-sm-<?php echo (12 / $layout['UserAttributeLayout']['col']); ?>">
-	<?php foreach ($userAttributes[$row][$col] as $userAttribute) : ?>
-		<ul class="user-attribute-edit">
-			<li class="list-group-item clearfix">
-				<div class="pull-left user-attribute-display">
-					<?php echo $this->element('UserAttributes/display_setting', array('userAttribute' => $userAttribute)); ?>
-				</div>
-				<div class="pull-left user-attribute-move">
-					<?php echo $this->element('UserAttributes/move_setting', array('userAttribute' => $userAttribute)); ?>
-				</div>
+<?php if (isset($userAttributes[$row][$col])) : ?>
+	<div class="col-xs-12 col-sm-<?php echo (12 / $layout['UserAttributeLayout']['col']); ?>">
+		<?php foreach ($userAttributes[$row][$col] as $userAttribute) : ?>
+			<ul class="user-attribute-edit">
+				<li class="list-group-item clearfix">
+					<div class="pull-left user-attribute-display">
+						<?php echo $this->element('UserAttributes/display_setting', array('userAttribute' => $userAttribute)); ?>
+					</div>
+					<div class="pull-left user-attribute-move">
+						<?php echo $this->element('UserAttributes/move_setting', array('userAttribute' => $userAttribute)); ?>
+					</div>
 
-				<div class="pull-left">
-					<?php echo h($userAttribute['UserAttribute']['name']); ?>
-					<?php if ($userAttribute['UserAttributeSetting']['required']) : ?>
-						<?php echo $this->element('NetCommons.required'); ?>
-					<?php endif; ?>
-				</div>
+					<div class="pull-left">
+						<?php echo h($userAttribute['UserAttribute']['name']); ?>
+						<?php if ($userAttribute['UserAttributeSetting']['required']) : ?>
+							<?php echo $this->element('NetCommons.required'); ?>
+						<?php endif; ?>
+					</div>
 
-				<div class="pull-right">
-					<a href="<?php echo $this->NetCommonsHtml->url(array('action' => 'edit',  h($userAttribute['UserAttribute']['key']))); ?>"
-						class="btn btn-xs btn-primary">
+					<div class="pull-right">
+						<a href="<?php echo $this->NetCommonsHtml->url(array('action' => 'edit',  h($userAttribute['UserAttribute']['key']))); ?>"
+							class="btn btn-xs btn-primary">
 
-						<span class="glyphicon glyphicon-edit"> </span>
-					</a>
-				</div>
-			</li>
-		</ul>
-	<?php endforeach; ?>
-</div>
+							<span class="glyphicon glyphicon-edit"> </span>
+						</a>
+					</div>
+				</li>
+			</ul>
+		<?php endforeach; ?>
+	</div>
+<?php endif;

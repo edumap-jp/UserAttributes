@@ -20,6 +20,11 @@ App::uses('UserAttributesAppModel', 'UserAttributes.Model');
 class UserAttributeLayout extends UserAttributesAppModel {
 
 /**
+ * レイアウト列数
+ */
+	const LAYOUT_COL_NUMBER = 2;
+
+/**
  * Validation rules
  *
  * @var array

@@ -68,17 +68,15 @@ class UserAttributesController extends UserAttributesAppController {
 		$this->view = 'edit';
 
 		if ($this->request->isPost()) {
-
 			//不要パラメータ除去
-			$data = $this->data;
-			unset($data['save'], $data['active_lang_id']);
+			unset($this->request->data['save'], $this->request->data['active_lang_id']);
 
 			//登録処理
-			$row = $data['UserAttributeSetting']['row'];
-			$col = $data['UserAttributeSetting']['col'];
-			$data['UserAttributeSetting']['weight'] = $this->UserAttributeSetting->getMaxWeight($row, $col) + 1;
+			$row = $this->request->data['UserAttributeSetting']['row'];
+			$col = $this->request->data['UserAttributeSetting']['col'];
+			$this->request->data['UserAttributeSetting']['weight'] = $this->UserAttributeSetting->getMaxWeight($row, $col) + 1;
 
-			if ($this->UserAttribute->saveUserAttribute($data)) {
+			if ($this->UserAttribute->saveUserAttribute($this->request->data)) {
 				//正常の場合
 				$this->redirect('/user_attributes/user_attributes/index/');
 				return;
@@ -138,13 +136,11 @@ class UserAttributesController extends UserAttributesAppController {
  */
 	public function edit($key = null) {
 		if ($this->request->isPost()) {
-			$data = $this->data;
-
 			//不要パラメータ除去
-			unset($data['save'], $data['active_lang_id']);
+			unset($this->request->data['save'], $this->request->data['active_lang_id']);
 
 			//登録処理
-			if ($this->UserAttribute->saveUserAttribute($data)) {
+			if ($this->UserAttribute->saveUserAttribute($this->request->data)) {
 				//正常の場合
 				$this->redirect('/user_attributes/user_attributes/index/');
 				return;
