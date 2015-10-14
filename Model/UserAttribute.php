@@ -17,6 +17,9 @@ App::uses('UserAttributesAppModel', 'UserAttributes.Model');
 
 /**
  * UserAttribute Model
+ *
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
+ * @package NetCommons\UserAttributes\Model
  */
 class UserAttribute extends UserAttributesAppModel {
 
@@ -251,19 +254,11 @@ class UserAttribute extends UserAttributesAppModel {
 		]);
 
 		//トランザクションBegin
-		$this->setDataSource('master');
-		$dataSource = $this->getDataSource();
-		$dataSource->begin();
+		$this->begin();
 
 		//バリデーション
 		$userAttributeKey = $data['UserAttribute'][0]['key'];
-		foreach ($data['UserAttribute'] as $userAttribute) {
-			if (! $this->validateUserAttribute($userAttribute)) {
-				return false;
-			}
-		}
-		if (! $this->UserAttributeSetting->validateUserAttributeSetting($data['UserAttributeSetting'])) {
-			$this->validationErrors = Hash::merge($this->validationErrors, $this->UserAttributeSetting->validationErrors);
+		if (! $this->validateUserAttribute($data)) {
 			return false;
 		}
 
@@ -287,13 +282,11 @@ class UserAttribute extends UserAttributesAppModel {
 			$this->saveDefaultUserAttributeRoles($data);
 
 			//トランザクションCommit
-			$dataSource->commit();
+			$this->commit();
 
 		} catch (Exception $ex) {
 			//トランザクションRollback
-			$dataSource->rollback();
-			CakeLog::error($ex);
-			throw $ex;
+			$this->rollback($ex);
 		}
 
 		return true;
@@ -306,11 +299,18 @@ class UserAttribute extends UserAttributesAppModel {
  * @return bool True on success, false on validation errors
  */
 	public function validateUserAttribute($data) {
-		$this->set($data);
-		$this->validates();
-		if ($this->validationErrors) {
+		foreach ($data['UserAttribute'] as $userAttribute) {
+			$this->set($userAttribute);
+			if (! $this->validates()) {
+				return false;
+			}
+		}
+		$this->UserAttributeSetting->set($data['UserAttributeSetting']);
+		if (! $this->UserAttributeSetting->validates()) {
+			$this->validationErrors = Hash::merge($this->validationErrors, $this->UserAttributeSetting->validationErrors);
 			return false;
 		}
+
 		return true;
 	}
 
@@ -328,9 +328,7 @@ class UserAttribute extends UserAttributesAppModel {
 		]);
 
 		//トランザクションBegin
-		$this->setDataSource('master');
-		$dataSource = $this->getDataSource();
-		$dataSource->begin();
+		$this->begin();
 
 		try {
 			//後で追加、、DELETEする前に順番の変更
@@ -345,14 +343,11 @@ class UserAttribute extends UserAttributesAppModel {
 			}
 
 			//トランザクションCommit
-			$dataSource->commit();
+			$this->commit();
 
 		} catch (Exception $ex) {
 			//トランザクションRollback
-			$dataSource->rollback();
-			//エラー出力
-			CakeLog::error($ex);
-			throw $ex;
+			$this->rollback($ex);
 		}
 
 		return true;

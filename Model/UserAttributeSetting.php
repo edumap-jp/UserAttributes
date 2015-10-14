@@ -95,9 +95,7 @@ class UserAttributeSetting extends UserAttributesAppModel {
  */
 	public function saveUserAttributesOrder($data) {
 		//トランザクションBegin
-		$this->setDataSource('master');
-		$dataSource = $this->getDataSource();
-		$dataSource->begin();
+		$this->begin();
 
 		try {
 			////バリデーション
@@ -116,13 +114,11 @@ class UserAttributeSetting extends UserAttributesAppModel {
 			//}
 
 			//トランザクションCommit
-			$dataSource->commit();
+			$this->commit();
 
 		} catch (Exception $ex) {
 			//トランザクションRollback
-			$dataSource->rollback();
-			CakeLog::error($ex);
-			throw $ex;
+			$this->rollback($ex);
 		}
 
 		return true;
@@ -134,13 +130,13 @@ class UserAttributeSetting extends UserAttributesAppModel {
  * @param array $data received post data
  * @return bool True on success, false on validation errors
  */
-	public function validateUserAttributeSetting($data) {
-		$this->set($data);
-		$this->validates();
-		if ($this->validationErrors) {
-			return false;
-		}
-		return true;
-	}
+	//public function validateUserAttributeSetting($data) {
+	//	$this->set($data);
+	//	$this->validates();
+	//	if ($this->validationErrors) {
+	//		return false;
+	//	}
+	//	return true;
+	//}
 
 }
