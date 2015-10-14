@@ -164,16 +164,15 @@ class UserAttribute extends UserAttributesAppModel {
 /**
  * Get UserAttributes data for layout
  *
- * @param int $langId languages.id
  * @return mixed array UserAttributes data
  */
-	public function getUserAttributesForLayout($langId) {
+	public function getUserAttributesForLayout() {
 		$this->DataTypeTemplate = ClassRegistry::init('DataTypes.DataTypeTemplate');
 		$this->DataTypeChoice = ClassRegistry::init('DataTypes.DataTypeChoice');
 		$this->UserRole = ClassRegistry::init('UserRoles.UserRole');
 
 		//UserAttributeデータ取得
-		$userAttributes = $this->find('all', $this->findOptionsForLayout($langId));
+		$userAttributes = $this->find('all', $this->findOptionsForLayout(Current::read('Language.id')));
 
 		//UserAttributeChoiceデータ取得
 		$userAttributeIds = Hash::extract($userAttributes, '{n}.UserAttribute.id');
@@ -191,7 +190,7 @@ class UserAttribute extends UserAttributesAppModel {
 			'recursive' => -1,
 			'conditions' => array(
 				'data_type_template_key' => $dataTypeTemplateKeys,
-				'language_id' => Configure::read('Config.languageId')
+				'language_id' => Current::read('Language.id')
 			),
 		));
 		$dataTypeChoices = Hash::combine($dataTypeChoices, '{n}.DataTypeChoice.id', '{n}.DataTypeChoice', '{n}.DataTypeChoice.data_type_template_key');
@@ -204,7 +203,7 @@ class UserAttribute extends UserAttributesAppModel {
 			),
 			'conditions' => array(
 				'type' => UserRole::ROLE_TYPE_USER,
-				'language_id' => Configure::read('Config.languageId'),
+				'language_id' => Current::read('Language.id'),
 				//'key !=' => UserRole::USER_ROLE_KEY_SYSTEM_ADMINISTRATOR,
 			),
 			'order' => 'id'

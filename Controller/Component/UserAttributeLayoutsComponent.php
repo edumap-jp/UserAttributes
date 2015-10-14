@@ -38,7 +38,7 @@ class UserAttributeLayoutsComponent extends Component {
 		$this->UserAttribute = ClassRegistry::init('UserAttributes.UserAttribute');
 
 		//UserAttributeデータセット
-		$userAttributes = $this->UserAttribute->getUserAttributesForLayout(Configure::read('Config.languageId'));
+		$userAttributes = $this->UserAttribute->getUserAttributesForLayout();
 		$this->controller->set('userAttributes', $userAttributes);
 
 		//UserAttributeLayoutデータセット
