@@ -24,14 +24,15 @@
 
 	<div class="panel-body">
 		<p class="text-right">
-			<a class="btn btn-sm btn-success" href="<?php echo $this->Html->url('/user_attributes/user_attributes/add/' . $row . '/'); ?>">
+			<a class="btn btn-sm btn-success" href="<?php echo $this->NetCommonsHtml->url(array('action' => 'add', $row)); ?>">
 				<span class="glyphicon glyphicon-plus"> </span>
 			</a>
 		</p>
 
 		<div class="row">
 			<?php for($col = 1; $col <= $layout['UserAttributeLayout']['col']; $col++) : ?>
-				<?php echo $this->element('UserAttributes/render_index_col', array('row' => $row, 'col' => $col, 'layout' => $layout)); ?>
+				<?php echo $this->element('UserAttributes/render_index_col',
+						array('row' => $row, 'col' => $col, 'layout' => $layout)); ?>
 			<?php endfor; ?>
 		</div>
 	</div>

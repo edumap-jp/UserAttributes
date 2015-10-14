@@ -26,7 +26,7 @@ echo $this->NetCommonsHtml->script('/user_attributes/js/user_attributes.js');
 	</div>
 
 	<div class="panel-footer text-center">
-		<a class="btn btn-default btn-workflow" href="<?php echo $this->Html->url('/user_attributes/user_attributes/index/'); ?>">
+		<a class="btn btn-default btn-workflow" href="<?php echo $this->NetCommonsHtml->url(array('action' => 'index')); ?>">
 			<span class="glyphicon glyphicon-remove"></span>
 			<?php echo __d('net_commons', 'Cancel'); ?>
 		</a>

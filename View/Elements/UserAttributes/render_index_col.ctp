@@ -32,7 +32,7 @@
 				</div>
 
 				<div class="pull-right">
-					<a href="<?php echo $this->Html->url('/user_attributes/user_attributes/edit/' . h($userAttribute['UserAttribute']['key'])); ?>"
+					<a href="<?php echo $this->NetCommonsHtml->url(array('action' => 'edit',  h($userAttribute['UserAttribute']['key']))); ?>"
 						class="btn btn-xs btn-primary">
 
 						<span class="glyphicon glyphicon-edit"> </span>
