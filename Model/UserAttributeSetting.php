@@ -126,7 +126,7 @@ class UserAttributeSetting extends UserAttributesAppModel {
 
 /**
  * 表示・非表示の切り替え
- * 
+ *
  * @param array $data リクエストデータ
  * @param string $fieldName フィールド名
  * @return bool True on success
@@ -143,7 +143,7 @@ class UserAttributeSetting extends UserAttributesAppModel {
 
 		try {
 			//UserAttributeSettingテーブルの登録
-			if (! $this->saveField($fieldName, $data[$this->alias][$fieldName])) {
+			if (! $this->saveField($fieldName, $data[$this->alias][$fieldName], false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
