@@ -11,18 +11,17 @@
  */
 ?>
 
-<?php echo $this->Form->create(null, array(
+<?php echo $this->NetCommonsForm->create(null, array(
 		'novalidate' => true,
 		'name' => 'UserAttributeDidplayForm' . $userAttribute['UserAttributeSetting']['id'],
-		'url' => array(
-			'plugin' => 'user_attributes',
-			'controller' => 'user_attributes',
+		'url' => $this->NetCommonsHtml->url(array(
+			'controller' => 'user_attribute_settings',
 			'action' => 'display',
 			$userAttribute['UserAttributeSetting']['id']
-		),
+		)),
 	)); ?>
 
-<?php echo $this->Form->hidden('UserAttributeSetting.id', array(
+<?php echo $this->NetCommonsForm->hidden('UserAttributeSetting.id', array(
 		'value' => $userAttribute['UserAttributeSetting']['id'],
 	)); ?>
 
@@ -34,4 +33,4 @@
 	<?php endif; ?>
 </button>
 
-<?php echo $this->Form->end();
+<?php echo $this->NetCommonsForm->end();

@@ -125,18 +125,36 @@ class UserAttributeSetting extends UserAttributesAppModel {
 	}
 
 /**
- * validate of UserAttribute
+ * Save plugin
  *
- * @param array $data received post data
- * @return bool True on success, false on validation errors
+ * @param array $data Request data
+ * @return bool True on success
+ * @throws InternalErrorException
  */
-	//public function validateUserAttributeSetting($data) {
-	//	$this->set($data);
-	//	$this->validates();
-	//	if ($this->validationErrors) {
-	//		return false;
-	//	}
-	//	return true;
-	//}
+	public function saveUserAttributeSetting($data) {
+		//トランザクションBegin
+		$this->begin();
+
+		$this->id = $data[$this->alias]['id'];
+		if (! $this->exists()) {
+			return false;
+		}
+
+		try {
+			//UserAttributeSettingテーブルの登録
+			if (! $this->save($data)) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
+
+			//トランザクションCommit
+			$this->commit();
+
+		} catch (Exception $ex) {
+			//トランザクションRollback
+			$this->rollback($ex);
+		}
+
+		return true;
+	}
 
 }

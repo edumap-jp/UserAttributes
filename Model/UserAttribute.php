@@ -170,8 +170,8 @@ class UserAttribute extends UserAttributesAppModel {
  * @return mixed array UserAttributes data
  */
 	public function getUserAttributesForLayout() {
-		$this->DataTypeTemplate = ClassRegistry::init('DataTypes.DataTypeTemplate');
-		$this->DataTypeChoice = ClassRegistry::init('DataTypes.DataTypeChoice');
+//		$this->DataTypeTemplate = ClassRegistry::init('DataTypes.DataTypeTemplate');
+//		$this->DataTypeChoice = ClassRegistry::init('DataTypes.DataTypeChoice');
 		$this->UserRole = ClassRegistry::init('UserRoles.UserRole');
 
 		//UserAttributeデータ取得
@@ -187,16 +187,16 @@ class UserAttribute extends UserAttributesAppModel {
 		));
 		$userAttributeChoices = Hash::combine($userAttributeChoices, '{n}.UserAttributeChoice.id', '{n}.UserAttributeChoice', '{n}.UserAttributeChoice.user_attribute_id');
 
-		//DataTypeChoiceデータ取得
-		$dataTypeTemplateKeys = array_unique(Hash::extract($userAttributes, '{n}.DataTypeTemplate.key'));
-		$dataTypeChoices = $this->DataTypeChoice->find('all', array(
-			'recursive' => -1,
-			'conditions' => array(
-				'data_type_template_key' => $dataTypeTemplateKeys,
-				'language_id' => Current::read('Language.id')
-			),
-		));
-		$dataTypeChoices = Hash::combine($dataTypeChoices, '{n}.DataTypeChoice.id', '{n}.DataTypeChoice', '{n}.DataTypeChoice.data_type_template_key');
+//		//DataTypeChoiceデータ取得
+//		$dataTypeTemplateKeys = array_unique(Hash::extract($userAttributes, '{n}.DataTypeTemplate.key'));
+//		$dataTypeChoices = $this->DataTypeChoice->find('all', array(
+//			'recursive' => -1,
+//			'conditions' => array(
+//				'data_type_template_key' => $dataTypeTemplateKeys,
+//				'language_id' => Current::read('Language.id')
+//			),
+//		));
+//		$dataTypeChoices = Hash::combine($dataTypeChoices, '{n}.DataTypeChoice.id', '{n}.DataTypeChoice', '{n}.DataTypeChoice.data_type_template_key');
 
 		//UserRoleデータの取得
 		$userRoles = $this->UserRole->find('all', array(
@@ -227,10 +227,10 @@ class UserAttribute extends UserAttributesAppModel {
 			if ($userAttribute['UserAttribute']['key'] === 'role_key') {
 				$results[$row][$col][$weight]['UserAttributeChoice'] = Hash::combine($userRoles, '{n}.UserRole.id', '{n}.UserRole');
 			}
-			//DataTypeChoiceにデータがある場合
-			if (isset($dataTypeChoices[$dataTypeTemplateKey])) {
-				$results[$row][$col][$weight]['UserAttributeChoice'] = $dataTypeChoices[$dataTypeTemplateKey];
-			}
+//			//DataTypeChoiceにデータがある場合
+//			if (isset($dataTypeChoices[$dataTypeTemplateKey])) {
+//				$results[$row][$col][$weight]['UserAttributeChoice'] = $dataTypeChoices[$dataTypeTemplateKey];
+//			}
 			//UserAttributeChoiceにデータがある場合
 			if (isset($userAttributeChoices[$userAttributeId])) {
 				$results[$row][$col][$weight]['UserAttributeChoice'] = $userAttributeChoices[$userAttributeId];

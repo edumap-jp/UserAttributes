@@ -11,7 +11,7 @@
  */
 ?>
 
-<?php echo $this->Form->create(null, array(
+<?php echo $this->NetCommonsForm->create(null, array(
 		'novalidate' => true,
 		'url' => array(
 			'plugin' => 'user_attributes',

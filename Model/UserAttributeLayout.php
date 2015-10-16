@@ -50,15 +50,16 @@ class UserAttributeLayout extends UserAttributesAppModel {
  * @throws InternalErrorException
  */
 	public function saveUserAttributeLayout($data) {
-		$this->loadModels([
-			'UserAttributeLayout' => 'UserAttributes.UserAttributeLayout',
-		]);
-
 		//トランザクションBegin
 		$this->begin();
 
+		$this->id = $data[$this->alias]['id'];
+		if (! $this->exists()) {
+			return false;
+		}
+
 		try {
-			//AttributeLayoutテーブルの登録
+			//UserAttributeLayoutテーブルの登録
 			if (! $this->save($data)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}

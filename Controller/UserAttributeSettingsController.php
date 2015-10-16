@@ -12,12 +12,12 @@
 App::uses('UserAttributesAppController', 'UserAttributes.Controller');
 
 /**
- * UserAttributes Controller
+ * UserAttributeSettingsController
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\UserAttributes\Controller
  */
-class UserAttributeLayoutsController extends UserAttributesAppController {
+class UserAttributeSettingsController extends UserAttributesAppController {
 
 /**
  * use model
@@ -25,7 +25,7 @@ class UserAttributeLayoutsController extends UserAttributesAppController {
  * @var array
  */
 	public $uses = array(
-		'UserAttributes.UserAttributeLayout',
+		'UserAttributes.UserAttributeSetting',
 	);
 
 /**
@@ -33,13 +33,19 @@ class UserAttributeLayoutsController extends UserAttributesAppController {
  *
  * @return void
  */
-	public function edit() {
+	public function display() {
 		if (! $this->request->isPost()) {
 			$this->throwBadRequest();
 			return;
 		}
 
-		if (! $this->UserAttributeLayout->saveUserAttributeLayout($this->data)) {
+		$this->UserAttributeSetting->id = $this->data['UserAttributeSetting']['id'];
+		if (! $this->UserAttributeSetting->exists()) {
+			$this->throwBadRequest();
+			return;
+		}
+
+		if (! $this->UserAttributeSetting->saveUserAttributeSetting($this->data)) {
 			$this->throwBadRequest();
 			return;
 		}

@@ -47,7 +47,7 @@ class UserAttributesController extends UserAttributesAppController {
  * @var array
  */
 	public $helpers = array(
-		'DataTypes.DataTypeForm',
+//		'DataTypes.DataTypeForm',
 	);
 
 /**
