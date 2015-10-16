@@ -39,7 +39,7 @@ class UserAttributeLayoutsController extends UserAttributesAppController {
 			return;
 		}
 
-		if (! $this->UserAttributeLayout->saveUserAttributeLayout($this->data)) {
+		if (! $this->UserAttributeLayout->saveUserAttributeLayout($this->data, 'col')) {
 			$this->throwBadRequest();
 			return;
 		}

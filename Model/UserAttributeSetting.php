@@ -125,13 +125,14 @@ class UserAttributeSetting extends UserAttributesAppModel {
 	}
 
 /**
- * Save plugin
- *
- * @param array $data Request data
+ * 表示・非表示の切り替え
+ * 
+ * @param array $data リクエストデータ
+ * @param string $fieldName フィールド名
  * @return bool True on success
  * @throws InternalErrorException
  */
-	public function saveUserAttributeSetting($data) {
+	public function saveUserAttributeSetting($data, $fieldName) {
 		//トランザクションBegin
 		$this->begin();
 
@@ -142,7 +143,7 @@ class UserAttributeSetting extends UserAttributesAppModel {
 
 		try {
 			//UserAttributeSettingテーブルの登録
-			if (! $this->save($data)) {
+			if (! $this->saveField($fieldName, $data[$this->alias][$fieldName])) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 

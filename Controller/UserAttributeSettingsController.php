@@ -39,13 +39,7 @@ class UserAttributeSettingsController extends UserAttributesAppController {
 			return;
 		}
 
-		$this->UserAttributeSetting->id = $this->data['UserAttributeSetting']['id'];
-		if (! $this->UserAttributeSetting->exists()) {
-			$this->throwBadRequest();
-			return;
-		}
-
-		if (! $this->UserAttributeSetting->saveUserAttributeSetting($this->data)) {
+		if (! $this->UserAttributeSetting->saveUserAttributeSetting($this->data, 'display')) {
 			$this->throwBadRequest();
 			return;
 		}

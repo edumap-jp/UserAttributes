@@ -43,13 +43,14 @@ class UserAttributeLayout extends UserAttributesAppModel {
 	);
 
 /**
- * Save plugin
+ * レイアウトの保存
  *
- * @param array $data Request data
+ * @param array $data リクエストデータ
+ * @param string $fieldName フィールド名
  * @return bool True on success
  * @throws InternalErrorException
  */
-	public function saveUserAttributeLayout($data) {
+	public function saveUserAttributeLayout($data, $fieldName) {
 		//トランザクションBegin
 		$this->begin();
 
@@ -60,7 +61,7 @@ class UserAttributeLayout extends UserAttributesAppModel {
 
 		try {
 			//UserAttributeLayoutテーブルの登録
-			if (! $this->save($data)) {
+			if (! $this->saveField($fieldName, $data[$this->alias][$fieldName])) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 

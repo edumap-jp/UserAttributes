@@ -25,12 +25,18 @@
 		'value' => $userAttribute['UserAttributeSetting']['id'],
 	)); ?>
 
-<button class="btn btn-xs btn-default<?php echo ($userAttribute['UserAttributeSetting']['display'] ? ' active' : ''); ?>" type="button">
-	<?php if ($userAttribute['UserAttributeSetting']['display']) : ?>
-		<span class="glyphicon glyphicon-eye-open"> </span>
-	<?php else : ?>
-		<span class="glyphicon glyphicon-eye-close"> </span>
-	<?php endif; ?>
-</button>
+<?php
+	if ($userAttribute['UserAttributeSetting']['display']) {
+		echo $this->NetCommonsForm->hidden('UserAttributeSetting.display', array('value' => false));
+		$buttonIcon = 'glyphicon-eye-open';
+	} else {
+		echo $this->NetCommonsForm->hidden('UserAttributeSetting.display', array('value' => true));
+		$buttonIcon = 'glyphicon-eye-close';
+	}
+?>
+
+<?php echo $this->Button->save('<span class="glyphicon ' . $buttonIcon . '"> </span>', array(
+	'class' => 'btn btn-xs btn-default' . ($userAttribute['UserAttributeSetting']['display'] ? ' active' : '')
+)); ?>
 
 <?php echo $this->NetCommonsForm->end();
