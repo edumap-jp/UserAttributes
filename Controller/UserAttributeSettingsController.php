@@ -29,7 +29,7 @@ class UserAttributeSettingsController extends UserAttributesAppController {
 	);
 
 /**
- * edit
+ * 会員項目の表示・非表示の切り替え
  *
  * @return void
  */
@@ -47,4 +47,36 @@ class UserAttributeSettingsController extends UserAttributesAppController {
 		$this->NetCommons->setFlashNotification(__d('net_commons', 'Successfully saved.'), array('class' => 'success'));
 		$this->redirect('/user_attributes/user_attributes/index/');
 	}
+
+/**
+ * 会員項目の移動
+ *
+ * @return void
+ */
+	public function move() {
+		if (! $this->request->isPost()) {
+			$this->throwBadRequest();
+			return;
+		}
+		$data['UserAttributeSetting']['id'] = $this->data['UserAttributeSetting']['id'];
+		foreach (['row', 'col', 'weight'] as $field) {
+			if (! isset($this->data['UserAttributeSetting'][$field . '_' . $data['UserAttributeSetting']['id']])) {
+				$this->throwBadRequest();
+				return;
+			}
+			if (! $this->data['UserAttributeSetting'][$field . '_' . $data['UserAttributeSetting']['id']]) {
+				continue;
+			}
+			$data['UserAttributeSetting'][$field] = $this->data['UserAttributeSetting'][$field . '_' . $data['UserAttributeSetting']['id']];
+		}
+
+		if (! $this->UserAttributeSetting->saveUserAttributesOrder($data)) {
+			$this->throwBadRequest();
+			return;
+		}
+
+		$this->NetCommons->setFlashNotification(__d('net_commons', 'Successfully saved.'), array('class' => 'success'));
+		$this->redirect('/user_attributes/user_attributes/index/');
+	}
+
 }

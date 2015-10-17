@@ -10,6 +10,8 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
  */
+
+$row = $layout['UserAttributeLayout']['id'];
 ?>
 
 <div class="panel panel-default">
@@ -18,22 +20,17 @@
 			<strong><?php echo sprintf(__d('user_attributes', '%s row'), $row); ?></strong>
 		</div>
 		<div class="pull-right">
-			<?php echo $this->element('UserAttributes/edit_col', array('layout' => $layout)); ?>
+			<?php echo $this->UserAttributeLayout->editCol($layout); ?>
 		</div>
 	</div>
 
 	<div class="panel-body">
 		<p class="text-right">
-			<a class="btn btn-sm btn-success" href="<?php echo $this->NetCommonsHtml->url(array('action' => 'add', $row)); ?>">
-				<span class="glyphicon glyphicon-plus"> </span>
-			</a>
+			<?php echo $this->Button->addLink('', array('action' => 'add', $row), array('iconSize' => 'btn-sm')); ?>
 		</p>
 
 		<div class="row">
-			<?php for($col = 1; $col <= UserAttributeLayout::LAYOUT_COL_NUMBER; $col++) : ?>
-				<?php echo $this->element('UserAttributes/render_index_col',
-						array('row' => $row, 'col' => $col, 'layout' => $layout)); ?>
-			<?php endfor; ?>
+			<?php echo $this->UserAttributeLayout->renderCol($layout); ?>
 		</div>
 	</div>
 </div>

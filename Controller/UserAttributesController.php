@@ -38,16 +38,7 @@ class UserAttributesController extends UserAttributesAppController {
 	public $components = array(
 		'ControlPanel.ControlPanelLayout',
 		'M17n.SwitchLanguage',
-		'UserAttributes.UserAttributeLayouts',
-	);
-
-/**
- * use component
- *
- * @var array
- */
-	public $helpers = array(
-//		'DataTypes.DataTypeForm',
+		'UserAttributes.UserAttributeLayout',
 	);
 
 /**
@@ -164,32 +155,6 @@ class UserAttributesController extends UserAttributesAppController {
 			));
 			$this->request->data = Hash::merge($this->request->data, $data);
 		}
-	}
-
-/**
- * move
- *
- * @return void
- */
-	public function move() {
-		if (! $this->request->isPost()) {
-			$this->throwBadRequest();
-			return;
-		}
-
-		$this->UserAttributeSetting->id = $this->data['UserAttributeSetting']['id'];
-		if (! $this->UserAttributeSetting->exists()) {
-			$this->throwBadRequest();
-			return;
-		}
-
-		if (! $this->UserAttributeSetting->saveUserAttributesOrder($this->data)) {
-			$this->throwBadRequest();
-			return;
-		}
-
-		$this->NetCommons->setFlashNotification(__d('net_commons', 'Successfully saved.'), array('class' => 'success'));
-		$this->redirect('/user_attributes/user_attributes/index/');
 	}
 
 /**

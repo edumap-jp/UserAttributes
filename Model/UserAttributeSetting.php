@@ -97,21 +97,47 @@ class UserAttributeSetting extends UserAttributesAppModel {
 		//トランザクションBegin
 		$this->begin();
 
+		$before = $this->find('first', array(
+			'recursive' => -1,
+			'conditions' => array('id' => $data[$this->alias]['id'])
+		));
+		if (! $before) {
+			return false;
+		}
+CakeLog::debug(print_r($before, true));
+CakeLog::debug(print_r($data, true));
+
+		$after = Hash::merge($before, $data);
+		unset($after[$this->alias]['modified'], $after[$this->alias]['modified_user']);
+
 		try {
-			////バリデーション
-			//$indexes = array_keys($data['LinkOrders']);
-			//foreach ($indexes as $i) {
-			//	if (! $this->validateLinkOrder($data['LinkOrders'][$i])) {
-			//		return false;
-			//	}
-			//}
-			//
-			////登録処理
-			//foreach ($indexes as $i) {
-			//	if (! $this->save($data['LinkOrders'][$i], false, false)) {
-			//		throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			//	}
-			//}
+			$result = $this->updateAll(
+				array($this->alias . '.weight' => $this->alias . '.weight - 1'),
+				array(
+					$this->alias . '.weight >' => $before[$this->alias]['weight'],
+					$this->alias . '.row' => $before[$this->alias]['row'],
+					$this->alias . '.col' => $before[$this->alias]['col'],
+				)
+			);
+			if (! $result) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
+
+			$result = $this->updateAll(
+				array($this->alias . '.weight' => $this->alias . '.weight + 1'),
+				array(
+					$this->alias . '.weight >=' => $after[$this->alias]['weight'],
+					$this->alias . '.row' => $after[$this->alias]['row'],
+					$this->alias . '.col' => $after[$this->alias]['col'],
+				)
+			);
+			if (! $result) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
+
+			if (! $this->save($after)) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
 
 			//トランザクションCommit
 			$this->commit();

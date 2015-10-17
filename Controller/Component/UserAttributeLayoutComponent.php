@@ -17,7 +17,7 @@ App::uses('Component', 'Controller');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\ControlPanel\Controller
  */
-class UserAttributeLayoutsComponent extends Component {
+class UserAttributeLayoutComponent extends Component {
 
 /**
  * Called after the Controller::beforeFilter() and before the controller action
@@ -47,6 +47,8 @@ class UserAttributeLayoutsComponent extends Component {
 			'order' => array('id' => 'asc'),
 		));
 		$this->controller->set('userAttributeLayouts', $userAttributeLayouts);
+
+		$this->controller->helpers[] = 'UserAttributes.UserAttributeLayout';
 	}
 
 }

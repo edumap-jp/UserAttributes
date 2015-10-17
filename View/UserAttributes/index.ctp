@@ -12,8 +12,4 @@
 echo $this->NetCommonsHtml->css('/user_attributes/css/style.css');
 ?>
 
-<?php foreach ($userAttributeLayouts as $layout) : ?>
-	<?php $row = $layout['UserAttributeLayout']['id']; ?>
-
-	<?php echo $this->element('UserAttributes/render_index_row', array('row' => $row, 'layout' => $layout)); ?>
-<?php endforeach;
+<?php echo $this->UserAttributeLayout->renderRow();
