@@ -96,7 +96,7 @@ class UserAttributeBehavior extends ModelBehavior {
 //					'alias' => $model->DataTypeTemplate->alias,
 //					'type' => 'INNER',
 //					'conditions' => array(
-//						$model->DataTypeTemplate->alias . '.key' . ' = ' . $model->UserAttributeSetting->alias . ' .data_type_template_key',
+//						$model->DataTypeTemplate->alias . '.key' . ' = ' . $model->UserAttributeSetting->alias . ' .data_type_key',
 //						$model->DataTypeTemplate->alias . '.language_id' => Current::read('Language.id')
 //					),
 //				),

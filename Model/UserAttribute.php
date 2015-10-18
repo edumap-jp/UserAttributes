@@ -192,11 +192,11 @@ class UserAttribute extends UserAttributesAppModel {
 //		$dataTypeChoices = $this->DataTypeChoice->find('all', array(
 //			'recursive' => -1,
 //			'conditions' => array(
-//				'data_type_template_key' => $dataTypeTemplateKeys,
+//				'data_type_key' => $dataTypeTemplateKeys,
 //				'language_id' => Current::read('Language.id')
 //			),
 //		));
-//		$dataTypeChoices = Hash::combine($dataTypeChoices, '{n}.DataTypeChoice.id', '{n}.DataTypeChoice', '{n}.DataTypeChoice.data_type_template_key');
+//		$dataTypeChoices = Hash::combine($dataTypeChoices, '{n}.DataTypeChoice.id', '{n}.DataTypeChoice', '{n}.DataTypeChoice.data_type_key');
 
 		//UserRoleデータの取得
 		$userRoles = $this->UserRole->find('all', array(
@@ -216,7 +216,7 @@ class UserAttribute extends UserAttributesAppModel {
 		$results = array();
 		foreach ($userAttributes as $userAttribute) {
 			$userAttributeId = $userAttribute['UserAttribute']['id'];
-			$dataTypeTemplateKey = $userAttribute['UserAttributeSetting']['data_type_template_key'];
+			$dataTypeTemplateKey = $userAttribute['UserAttributeSetting']['data_type_key'];
 
 			$row = $userAttribute['UserAttributeSetting']['row'];
 			$col = $userAttribute['UserAttributeSetting']['col'];

@@ -39,6 +39,13 @@ class UserAttributesController extends UserAttributesAppController {
 		'ControlPanel.ControlPanelLayout',
 		'M17n.SwitchLanguage',
 		'UserAttributes.UserAttributeLayout',
+		'DataTypes.DataTypeForm' => array(
+			'dataTypes' => array(
+				'label', 'text', 'textarea', 'radio', 'checkbox',
+				'select', 'password', 'email', 'img', 'datetime',
+				'refecture', 'timezone',
+			)
+		),
 	);
 
 /**
@@ -102,7 +109,7 @@ class UserAttributesController extends UserAttributesAppController {
 				$this->UserAttributeSetting->create(array(
 					'id' => null,
 					'user_attribute_key' => '',
-					'data_type_template_key' => 'text',
+					'data_type_key' => 'text',
 					'row' => $userAttributeLayout[0]['id'],
 					'col' => $userAttributeLayout[0]['col'],
 					'required' => false,

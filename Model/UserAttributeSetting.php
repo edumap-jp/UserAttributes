@@ -31,7 +31,7 @@ class UserAttributeSetting extends UserAttributesAppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'data_type_template_key' => array(
+		'data_type_key' => array(
 			'notBlank' => array(
 				'rule' => array('notBlank'),
 				//'message' => 'Your custom message here',
