@@ -46,6 +46,7 @@ echo $this->NetCommonsForm->inlineCheckbox('UserAttributeSetting.display_label',
 /**
  * 入力タイプ
  * * システム項目の場合、disabled
+ * * 編集の場合、disabled
  */
 if ($this->request->data['UserAttributeSetting']['is_systemized']) {
 	echo $this->NetCommonsForm->hidden('UserAttributeSetting.data_type_key');
@@ -55,7 +56,7 @@ if ($this->request->data['UserAttributeSetting']['is_systemized']) {
 }
 echo $this->DataTypeForm->selectDataTypes('UserAttributeSetting.data_type_key', array(
 	'label' => __d('user_attributes', 'Input type'),
-	'ng-disabled' => $this->request->data['UserAttributeSetting']['is_systemized'],
+	'ng-disabled' => ($this->request->data['UserAttributeSetting']['is_systemized'] || $this->params['action'] === 'edit'),
 	'ng-model' => 'userAttributeSetting.dataTypeKey',
 	'ng-value' => 'userAttributeSetting.dataTypeKey',
 ));

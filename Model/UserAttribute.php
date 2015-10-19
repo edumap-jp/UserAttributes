@@ -24,15 +24,6 @@ App::uses('UserAttributesAppModel', 'UserAttributes.Model');
 class UserAttribute extends UserAttributesAppModel {
 
 /**
- * Field format
- *
- * @var const
- */
-	const
-		PUBLIC_FIELD_FORMAT = 'is_%s_public',
-		FILE_FIELD_FORMAT = '%s_file_id';
-
-/**
  * use behaviors
  *
  * @var array
@@ -231,9 +222,12 @@ class UserAttribute extends UserAttributesAppModel {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
-			//UserAttributesRoleのデフォルトデータ登録処理
 			if (! $updated) {
+				//UserAttributesRoleのデフォルトデータ登録処理
 				$this->saveDefaultUserAttributeRoles($data);
+
+				//フィールドの作成処理
+				$this->addColumnByUserAttribute($data);
 			}
 
 			//トランザクションCommit
@@ -288,18 +282,17 @@ class UserAttribute extends UserAttributesAppModel {
 		$this->begin();
 
 		$colUserAttributeKey = $this->UserAttributeSetting->alias . '.user_attribute_key';
-		$weight = $this->UserAttributeSetting->find('first', array(
+		$userAttributeSetting = $this->UserAttributeSetting->find('first', array(
 			'recursive' => -1,
-			'fields' => array('row', 'col', 'weight'),
 			'conditions' => array($colUserAttributeKey => $data['key']),
 		));
 
 		try {
 			//削除項目より後の順番を詰める
 			$this->UserAttributeSetting->updateUserAttributeWeight(
-				$weight[$this->UserAttributeSetting->alias]['row'],
-				$weight[$this->UserAttributeSetting->alias]['col'],
-				$weight[$this->UserAttributeSetting->alias]['weight'],
+				$userAttributeSetting[$this->UserAttributeSetting->alias]['row'],
+				$userAttributeSetting[$this->UserAttributeSetting->alias]['col'],
+				$userAttributeSetting[$this->UserAttributeSetting->alias]['weight'],
 				-1, '>'
 			);
 
@@ -311,6 +304,9 @@ class UserAttribute extends UserAttributesAppModel {
 			if (! $this->UserAttributeSetting->deleteAll(array($colUserAttributeKey => $data['key']), false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
+
+			//フィールドの削除処理
+			$this->dropColumnByUserAttribute($userAttributeSetting);
 
 			//トランザクションCommit
 			$this->commit();

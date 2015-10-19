@@ -49,7 +49,10 @@ class UserAttributesController extends UserAttributesAppController {
  */
 	public function beforeFilter() {
 		parent::beforeFilter();
-		$this->DataTypeForm->dataTypes = $this->UserAttributeSetting->dataTypes;
+		if ($this->params['action'] === 'add') {
+		} else {
+			$this->DataTypeForm->dataTypes = $this->UserAttributeSetting->dataTypes;
+		}
 	}
 
 /**
@@ -113,6 +116,8 @@ class UserAttributesController extends UserAttributesAppController {
 				))
 			);
 		}
+
+		$this->DataTypeForm->dataTypes = $this->UserAttributeSetting->addDataTypes;
 	}
 
 /**
@@ -154,6 +159,12 @@ class UserAttributesController extends UserAttributesAppController {
 				),
 			));
 			$this->request->data = Hash::merge($this->request->data, $data);
+		}
+
+		if ($this->request->data['UserAttributeSetting']['is_systemized']) {
+			$this->DataTypeForm->dataTypes = $this->UserAttributeSetting->editDataTypes;
+		} else {
+			$this->DataTypeForm->dataTypes = $this->UserAttributeSetting->addDataTypes;
 		}
 	}
 

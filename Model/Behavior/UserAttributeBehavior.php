@@ -9,7 +9,9 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
+App::uses('DataType', 'DataTypes.Model');
 App::uses('ModelBehavior', 'Model');
+App::uses('CakeMigration', 'Migrations.Lib');
 
 /**
  * DefaultUserRole Behavior
@@ -20,10 +22,19 @@ App::uses('ModelBehavior', 'Model');
 class UserAttributeBehavior extends ModelBehavior {
 
 /**
+ * Field format
+ *
+ * @var const
+ */
+	const
+		PUBLIC_FIELD_FORMAT = 'is_%s_public',
+		FILE_FIELD_FORMAT = '%s_file_id';
+
+/**
  * UserAttributesRoleのデフォルトデータ登録
  *
  * @param Model $model Model ビヘイビア呼び出し元モデル
- * @param array $data User role data
+ * @param array $data 登録データ
  * @return bool True on success
  * @throws InternalErrorException
  */
@@ -99,6 +110,104 @@ class UserAttributeBehavior extends ModelBehavior {
 		);
 
 		return $options;
+	}
+
+/**
+ * フィールドの作成
+ * ※会員項目の追加で呼び出す
+ *
+ * @param Model $model Model ビヘイビア呼び出し元モデル
+ * @param array $data 登録データ
+ * @return bool Status of the process
+ * @throws InternalErrorException
+ */
+	public function addColumnByUserAttribute(Model $model, $data) {
+		$model->loadModels([
+			'User' => 'Users.User',
+			'UsersLanguage' => 'Users.UsersLanguage',
+		]);
+
+		$model->Migration = new CakeMigration(array('connection' => $model->useDbConfig));
+		$userAttributeKey = $data[$model->UserAttributeSetting->alias]['user_attribute_key'];
+
+		$schema = array_keys($model->User->schema());
+		$userColumn = array_pop($schema);
+
+		//会員項目フィールド
+		if ($data[$model->UserAttributeSetting->alias]['data_type_key'] === DataType::DATA_TYPE_TEXT ||
+				$data[$model->UserAttributeSetting->alias]['data_type_key'] === DataType::DATA_TYPE_TEXTAREA) {
+			$schema = array_keys($model->UsersLanguage->schema());
+			$afterColumn = array_pop($schema);
+			$tableName = $model->UsersLanguage->table;
+		} else {
+			$tableName = $model->User->table;
+			$afterColumn = $userColumn;
+			$userColumn = $userAttributeKey;
+		}
+		$model->Migration->migration['up']['create_field'][$tableName][$userAttributeKey] = array(
+			'type' => 'string',
+			'null' => true,
+			'default' => null,
+			'collate' => 'utf8_general_ci',
+			'charset' => 'utf8',
+			'after' => $afterColumn
+		);
+
+		//公開項目フィールド
+		$model->Migration->migration['up']['create_field'][$model->User->table][sprintf(self::PUBLIC_FIELD_FORMAT, $userAttributeKey)] = array(
+			'type' => 'boolean',
+			'null' => false,
+			'default' => '0',
+			'after' => $userColumn
+		);
+		//ファイルID項目フィールド
+		if ($data[$model->UserAttributeSetting->alias]['data_type_key'] === DataType::DATA_TYPE_IMG) {
+			$model->Migration->migration['up']['create_field'][$model->User->table][sprintf(self::FILE_FIELD_FORMAT, $userAttributeKey)] = array(
+				'type' => 'integer',
+				'null' => true,
+				'default' => null,
+				'unsigned' => false,
+				'after' => printf(self::PUBLIC_FIELD_FORMAT, $userAttributeKey)
+			);
+		}
+		return $model->Migration->run('up');
+	}
+
+/**
+ * フィールドの削除
+ * ※会員項目の削除で呼び出す
+ *
+ * @param Model $model Model ビヘイビア呼び出し元モデル
+ * @param array $data 登録データ
+ * @return bool True on success
+ * @throws InternalErrorException
+ */
+	public function dropColumnByUserAttribute(Model $model, $data) {
+		$model->loadModels([
+			'User' => 'Users.User',
+			'UsersLanguage' => 'Users.UsersLanguage',
+		]);
+
+		$model->Migration = new CakeMigration(array('connection' => $model->useDbConfig));
+		$userAttributeKey = $data[$model->UserAttributeSetting->alias]['user_attribute_key'];
+
+		if ($data[$model->UserAttributeSetting->alias]['data_type_key'] === DataType::DATA_TYPE_TEXT ||
+				$data[$model->UserAttributeSetting->alias]['data_type_key'] === DataType::DATA_TYPE_TEXTAREA) {
+
+			$model->Migration->migration['up']['drop_field'][$model->User->table] = array();
+			$tableName = $model->UsersLanguage->table;
+		} else {
+			$tableName = $model->User->table;
+		}
+
+		$model->Migration->migration['up']['drop_field'][$tableName] = array($userAttributeKey);
+		$model->Migration->migration['up']['drop_field'][$model->User->table][] =
+											sprintf(self::PUBLIC_FIELD_FORMAT, $userAttributeKey);
+		if ($data[$model->UserAttributeSetting->alias]['data_type_key'] === DataType::DATA_TYPE_IMG) {
+			$model->Migration->migration['up']['drop_field'][$model->User->table][] =
+												sprintf(self::FILE_FIELD_FORMAT, $userAttributeKey);
+		}
+		return $model->Migration->run('up');
 	}
 
 }

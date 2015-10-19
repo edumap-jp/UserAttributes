@@ -16,14 +16,23 @@ App::uses('UserAttributesAppModel', 'UserAttributes.Model');
 class UserAttributeSetting extends UserAttributesAppModel {
 
 /**
- * 対象のデータタイプ
+ * 追加用データタイプ
  *
  * @var array
  */
-	public $dataTypes = array(
+	public $addDataTypes = array(
+		'text', 'textarea', 'radio', 'checkbox',
+		'select', 'email', 'img', 'refecture',
+	);
+
+/**
+ * 編集用データタイプ
+ *
+ * @var array
+ */
+	public $editDataTypes = array(
 		'label', 'text', 'textarea', 'radio', 'checkbox',
-		'select', 'password', 'email', 'img', 'datetime',
-		'refecture', 'timezone',
+		'select', 'password', 'email', 'img', 'refecture', 'timezone',
 	);
 
 /**
@@ -57,7 +66,7 @@ class UserAttributeSetting extends UserAttributesAppModel {
 					'message' => __d('net_commons', 'Invalid request.'),
 				),
 				'inList' => array(
-					'rule' => array('inList', $this->dataTypes),
+					'rule' => array('inList', $this->editDataTypes),
 					'message' => __d('net_commons', 'Invalid request.'),
 				),
 			),
