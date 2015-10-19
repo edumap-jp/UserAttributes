@@ -70,7 +70,7 @@ class UserAttributeSettingsController extends UserAttributesAppController {
 			$data['UserAttributeSetting'][$field] = $this->data['UserAttributeSetting'][$field . '_' . $data['UserAttributeSetting']['id']];
 		}
 
-		if (! $this->UserAttributeSetting->saveUserAttributesOrder($data)) {
+		if (! $this->UserAttributeSetting->saveUserAttributeWeight($data)) {
 			$this->throwBadRequest();
 			return;
 		}

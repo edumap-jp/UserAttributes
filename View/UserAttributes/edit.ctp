@@ -10,12 +10,13 @@
  */
 
 echo $this->NetCommonsHtml->css('/user_attributes/css/style.css');
-
 echo $this->NetCommonsHtml->script('/user_attributes/js/user_attributes.js');
+
+$camelizeData['userAttributeSetting'] = NetCommonsAppController::camelizeKeyRecursive($this->data['UserAttributeSetting']);
 ?>
 
-<div class="panel panel-default" ng-controller="UserAttributes">
-	<?php echo $this->Form->create('UserAttribute', array('novalidate' => true)); ?>
+<div class="panel panel-default" ng-controller="UserAttributes" ng-init='initialize(<?php echo h(json_encode($camelizeData)) ?>)'>
+	<?php echo $this->NetCommonsForm->create('UserAttribute'); ?>
 
 	<div class="panel-body">
 		<?php echo $this->SwitchLanguage->tablist('user-attributes-'); ?>
@@ -26,20 +27,16 @@ echo $this->NetCommonsHtml->script('/user_attributes/js/user_attributes.js');
 	</div>
 
 	<div class="panel-footer text-center">
-		<a class="btn btn-default btn-workflow" href="<?php echo $this->NetCommonsHtml->url(array('action' => 'index')); ?>">
-			<span class="glyphicon glyphicon-remove"></span>
-			<?php echo __d('net_commons', 'Cancel'); ?>
-		</a>
-
-		<?php echo $this->Form->button(__d('net_commons', 'OK'), array(
-				'class' => 'btn btn-primary btn-workflow',
-				'name' => 'save',
-			)); ?>
+		<?php echo $this->Button->cancelAndSave(
+				__d('net_commons', 'Cancel'),
+				__d('net_commons', 'OK'),
+				$this->NetCommonsHtml->url(array('action' => 'index'))
+			); ?>
 	</div>
 
-	<?php echo $this->Form->end(); ?>
+	<?php echo $this->NetCommonsForm->end(); ?>
 </div>
 
-<?php if ($this->request->params['action'] === 'edit') : ?>
+<?php if ($this->request->params['action'] === 'edit' && ! $this->data['UserAttributeSetting']['is_systemized']) : ?>
 	<?php echo $this->element('UserAttributes/delete_form'); ?>
 <?php endif;

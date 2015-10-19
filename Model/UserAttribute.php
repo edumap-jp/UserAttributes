@@ -95,40 +95,6 @@ class UserAttribute extends UserAttributesAppModel {
 	);
 
 /**
- * hasAndBelongsToMany associations
- *
- * @var array
- */
-	//public $hasAndBelongsToMany = array(
-	//	'Role' => array(
-	//		'className' => 'RolesRole',
-	//		'joinTable' => 'user_attributes_roles',
-	//		'foreignKey' => 'user_attribute_id',
-	//		'associationForeignKey' => 'role_id',
-	//		'unique' => 'keepExisting',
-	//		'conditions' => '',
-	//		'fields' => '',
-	//		'order' => '',
-	//		'limit' => '',
-	//		'offset' => '',
-	//		'finderQuery' => '',
-	//	),
-	//	'User' => array(
-	//		'className' => 'User',
-	//		'joinTable' => 'user_attributes_users',
-	//		'foreignKey' => 'user_attribute_id',
-	//		'associationForeignKey' => 'user_id',
-	//		'unique' => 'keepExisting',
-	//		'conditions' => '',
-	//		'fields' => '',
-	//		'order' => '',
-	//		'limit' => '',
-	//		'offset' => '',
-	//		'finderQuery' => '',
-	//	)
-	//);
-
-/**
  * Called during validation operations, before validation. Please note that custom
  * validation rules can be defined in $validate.
  *
@@ -142,21 +108,21 @@ class UserAttribute extends UserAttributesAppModel {
 			'language_id' => array(
 				'numeric' => array(
 					'rule' => array('numeric'),
-					//'message' => 'Your custom message here',
-					//'allowEmpty' => false,
-					//'required' => false,
-					//'last' => false, // Stop validation after this rule
-					//'on' => 'create', // Limit validation to 'create' or 'update' operations
+					'message' => __d('net_commons', 'Invalid request.'),
+				),
+			),
+			'key' => array(
+				'notBlank' => array(
+					'rule' => array('notBlank'),
+					'message' => __d('net_commons', 'Invalid request.'),
+					'required' => true,
+					'on' => 'update', // Limit validation to 'create' or 'update' operations
 				),
 			),
 			'name' => array(
 				'notBlank' => array(
 					'rule' => array('notBlank'),
 					'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('user_attributes', 'Item name')),
-					//'allowEmpty' => false,
-					//'required' => false,
-					//'last' => false, // Stop validation after this rule
-					//'on' => 'create', // Limit validation to 'create' or 'update' operations
 				),
 			),
 		));
@@ -165,17 +131,15 @@ class UserAttribute extends UserAttributesAppModel {
 	}
 
 /**
- * Get UserAttributes data for layout
+ * 会員項目のレイアウト用のデータ取得
  *
- * @return mixed array UserAttributes data
+ * @return array 会員項目データ配列
  */
 	public function getUserAttributesForLayout() {
-//		$this->DataTypeTemplate = ClassRegistry::init('DataTypes.DataTypeTemplate');
-//		$this->DataTypeChoice = ClassRegistry::init('DataTypes.DataTypeChoice');
 		$this->UserRole = ClassRegistry::init('UserRoles.UserRole');
 
 		//UserAttributeデータ取得
-		$userAttributes = $this->find('all', $this->findOptionsForLayout(Current::read('Language.id')));
+		$userAttributes = $this->find('all', $this->findOptionsForLayout());
 
 		//UserAttributeChoiceデータ取得
 		$userAttributeIds = Hash::extract($userAttributes, '{n}.UserAttribute.id');
@@ -185,18 +149,11 @@ class UserAttribute extends UserAttributesAppModel {
 				'user_attribute_id' => $userAttributeIds
 			),
 		));
-		$userAttributeChoices = Hash::combine($userAttributeChoices, '{n}.UserAttributeChoice.id', '{n}.UserAttributeChoice', '{n}.UserAttributeChoice.user_attribute_id');
-
-//		//DataTypeChoiceデータ取得
-//		$dataTypeTemplateKeys = array_unique(Hash::extract($userAttributes, '{n}.DataTypeTemplate.key'));
-//		$dataTypeChoices = $this->DataTypeChoice->find('all', array(
-//			'recursive' => -1,
-//			'conditions' => array(
-//				'data_type_key' => $dataTypeTemplateKeys,
-//				'language_id' => Current::read('Language.id')
-//			),
-//		));
-//		$dataTypeChoices = Hash::combine($dataTypeChoices, '{n}.DataTypeChoice.id', '{n}.DataTypeChoice', '{n}.DataTypeChoice.data_type_key');
+		$userAttributeChoices = Hash::combine($userAttributeChoices,
+			'{n}.' . $this->UserAttributeChoice->alias . '.id',
+			'{n}.' . $this->UserAttributeChoice->alias,
+			'{n}.' . $this->UserAttributeChoice->alias . '.user_attribute_id'
+		);
 
 		//UserRoleデータの取得
 		$userRoles = $this->UserRole->find('all', array(
@@ -207,7 +164,6 @@ class UserAttribute extends UserAttributesAppModel {
 			'conditions' => array(
 				'type' => UserRole::ROLE_TYPE_USER,
 				'language_id' => Current::read('Language.id'),
-				//'key !=' => UserRole::USER_ROLE_KEY_SYSTEM_ADMINISTRATOR,
 			),
 			'order' => 'id'
 		));
@@ -216,7 +172,6 @@ class UserAttribute extends UserAttributesAppModel {
 		$results = array();
 		foreach ($userAttributes as $userAttribute) {
 			$userAttributeId = $userAttribute['UserAttribute']['id'];
-			$dataTypeTemplateKey = $userAttribute['UserAttributeSetting']['data_type_key'];
 
 			$row = $userAttribute['UserAttributeSetting']['row'];
 			$col = $userAttribute['UserAttributeSetting']['col'];
@@ -225,12 +180,9 @@ class UserAttribute extends UserAttributesAppModel {
 
 			//権限の設定
 			if ($userAttribute['UserAttribute']['key'] === 'role_key') {
-				$results[$row][$col][$weight]['UserAttributeChoice'] = Hash::combine($userRoles, '{n}.UserRole.id', '{n}.UserRole');
+				$results[$row][$col][$weight]['UserAttributeChoice'] =
+						Hash::combine($userRoles, '{n}.UserRole.id', '{n}.UserRole');
 			}
-//			//DataTypeChoiceにデータがある場合
-//			if (isset($dataTypeChoices[$dataTypeTemplateKey])) {
-//				$results[$row][$col][$weight]['UserAttributeChoice'] = $dataTypeChoices[$dataTypeTemplateKey];
-//			}
 			//UserAttributeChoiceにデータがある場合
 			if (isset($userAttributeChoices[$userAttributeId])) {
 				$results[$row][$col][$weight]['UserAttributeChoice'] = $userAttributeChoices[$userAttributeId];
@@ -241,15 +193,14 @@ class UserAttribute extends UserAttributesAppModel {
 	}
 
 /**
- * Save UserAttributes
+ * 会員項目の登録
  *
- * @param array $data received post data
- * @return bool True on success, false on validation errors
+ * @param array $data リクエストデータ
+ * @return bool Trueは成功。Falseはバリデーションエラー
  * @throws InternalErrorException
  */
 	public function saveUserAttribute($data) {
 		$this->loadModels([
-			'UserAttribute' => 'UserAttributes.UserAttribute',
 			'UserAttributeSetting' => 'UserAttributes.UserAttributeSetting',
 		]);
 
@@ -261,25 +212,29 @@ class UserAttribute extends UserAttributesAppModel {
 		if (! $this->validateUserAttribute($data)) {
 			return false;
 		}
+		$updated = (bool)$userAttributeKey;
 
 		try {
-			//登録処理
+			//UserAttributeの登録処理
 			$userAttributes = array();
 			foreach ($data['UserAttribute'] as $i => $userAttribute) {
 				$userAttribute['key'] = $userAttributeKey;
-				if (! $userAttributes[$i] = $this->save($userAttribute, false, false)) {
+				if (! $data['UserAttribute'][$i] = $this->save($userAttribute, false, false)) {
 					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 				}
-				$userAttributeKey = $userAttributes[$i]['UserAttribute']['key'];
+				$userAttributeKey = $data['UserAttribute'][$i]['UserAttribute']['key'];
 			}
 
+			//UserAttributeSettingの登録処理
 			$data['UserAttributeSetting']['user_attribute_key'] = $userAttributeKey;
 			if (! $this->UserAttributeSetting->save($data['UserAttributeSetting'], false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
 			//UserAttributesRoleのデフォルトデータ登録処理
-			$this->saveDefaultUserAttributeRoles($data);
+			if (! $updated) {
+				$this->saveDefaultUserAttributeRoles($data);
+			}
 
 			//トランザクションCommit
 			$this->commit();
@@ -293,7 +248,7 @@ class UserAttribute extends UserAttributesAppModel {
 	}
 
 /**
- * validate of UserAttribute
+ * UserAttributeのバリデーション処理
  *
  * @param array $data received post data
  * @return bool True on success, false on validation errors
@@ -307,7 +262,10 @@ class UserAttribute extends UserAttributesAppModel {
 		}
 		$this->UserAttributeSetting->set($data['UserAttributeSetting']);
 		if (! $this->UserAttributeSetting->validates()) {
-			$this->validationErrors = Hash::merge($this->validationErrors, $this->UserAttributeSetting->validationErrors);
+			$this->validationErrors = Hash::merge(
+				$this->validationErrors,
+				$this->UserAttributeSetting->validationErrors
+			);
 			return false;
 		}
 
@@ -315,7 +273,7 @@ class UserAttribute extends UserAttributesAppModel {
 	}
 
 /**
- * Delete UserAttribute
+ * UserAttribute削除処理
  *
  * @param array $data received post data
  * @return mixed On success Model::$data if its not empty or true, false on failure
@@ -323,22 +281,34 @@ class UserAttribute extends UserAttributesAppModel {
  */
 	public function deleteUserAttribute($data) {
 		$this->loadModels([
-			'UserAttribute' => 'UserAttributes.UserAttribute',
 			'UserAttributeSetting' => 'UserAttributes.UserAttributeSetting',
 		]);
 
 		//トランザクションBegin
 		$this->begin();
 
-		try {
-			//後で追加、、DELETEする前に順番の変更
+		$colUserAttributeKey = $this->UserAttributeSetting->alias . '.user_attribute_key';
+		$weight = $this->UserAttributeSetting->find('first', array(
+			'recursive' => -1,
+			'fields' => array('row', 'col', 'weight'),
+			'conditions' => array($colUserAttributeKey => $data['key']),
+		));
 
-			//削除処理
+		try {
+			//削除項目より後の順番を詰める
+			$this->UserAttributeSetting->updateUserAttributeWeight(
+				$weight[$this->UserAttributeSetting->alias]['row'],
+				$weight[$this->UserAttributeSetting->alias]['col'],
+				$weight[$this->UserAttributeSetting->alias]['weight'],
+				-1, '>'
+			);
+
+			//UserAttributeの削除処理
 			if (! $this->deleteAll(array($this->alias . '.key' => $data['key']), false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
-			$userAttributeKey = $this->UserAttributeSetting->alias . '.user_attribute_key';
-			if (! $this->UserAttributeSetting->deleteAll(array($userAttributeKey => $data['key']), false)) {
+			//UserAttributeSettingの削除処理
+			if (! $this->UserAttributeSetting->deleteAll(array($colUserAttributeKey => $data['key']), false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 

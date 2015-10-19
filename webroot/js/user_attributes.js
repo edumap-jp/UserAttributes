@@ -19,4 +19,20 @@ NetCommonsApp.controller('UserAttributes', function($scope) {
    */
   $scope.activeLangId = '';
 
+  /**
+   * userAttributeSetting
+   *
+   * @type {object}
+   */
+  $scope.userAttributeSetting = [];
+
+  /**
+   * initialize
+   *
+   * @return {void}
+   */
+  $scope.initialize = function(data) {
+    $scope.userAttributeSetting = data.userAttributeSetting;
+  };
+
 });

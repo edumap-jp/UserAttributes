@@ -234,7 +234,6 @@ class UserAttributeLayoutHelper extends AppHelper {
 		$col = (int)$userAttribute['UserAttributeSetting']['col'];
 
 		//HTMLタグセット
-		$rowInputForm = 'UserAttributeSettingRow' . $userAttrSettingId;
 		$colInputForm = 'UserAttributeSettingCol' . $userAttrSettingId;
 		$weightInputForm = 'UserAttributeSettingWeight' . $userAttrSettingId;
 		$formSubmit = '$(\'form[name=' . 'UserAttributeMoveForm' . $userAttrSettingId . ']\')[0].submit()';
@@ -285,7 +284,6 @@ class UserAttributeLayoutHelper extends AppHelper {
 		$col = (int)$userAttribute['UserAttributeSetting']['col'];
 
 		//HTMLタグセット
-		$rowInputForm = 'UserAttributeSettingRow' . $userAttrSettingId;
 		$colInputForm = 'UserAttributeSettingCol' . $userAttrSettingId;
 		$weightInputForm = 'UserAttributeSettingWeight' . $userAttrSettingId;
 		$formSubmit = '$(\'form[name=' . 'UserAttributeMoveForm' . $userAttrSettingId . ']\')[0].submit()';
@@ -336,7 +334,6 @@ class UserAttributeLayoutHelper extends AppHelper {
 		$col = (int)$userAttribute['UserAttributeSetting']['col'];
 
 		//HTMLタグセット
-		$rowInputForm = 'UserAttributeSettingRow' . $userAttrSettingId;
 		$colInputForm = 'UserAttributeSettingCol' . $userAttrSettingId;
 		$weightInputForm = 'UserAttributeSettingWeight' . $userAttrSettingId;
 		$formSubmit = '$(\'form[name=' . 'UserAttributeMoveForm' . $userAttrSettingId . ']\')[0].submit()';
@@ -388,7 +385,6 @@ class UserAttributeLayoutHelper extends AppHelper {
 		$col = (int)$userAttribute['UserAttributeSetting']['col'];
 
 		//HTMLタグセット
-		$rowInputForm = 'UserAttributeSettingRow' . $userAttrSettingId;
 		$colInputForm = 'UserAttributeSettingCol' . $userAttrSettingId;
 		$weightInputForm = 'UserAttributeSettingWeight' . $userAttrSettingId;
 		$formSubmit = '$(\'form[name=' . 'UserAttributeMoveForm' . $userAttrSettingId . ']\')[0].submit()';
@@ -435,14 +431,10 @@ class UserAttributeLayoutHelper extends AppHelper {
 
 		//データを変数にセット
 		$userAttrSettingId = $userAttribute['UserAttributeSetting']['id'];
-		$weight = (int)$userAttribute['UserAttributeSetting']['weight'];
 		$row = (int)$layout['UserAttributeLayout']['id'];
-		$col = (int)$userAttribute['UserAttributeSetting']['col'];
 
 		//HTMLタグセット
 		$rowInputForm = 'UserAttributeSettingRow' . $userAttrSettingId;
-		$colInputForm = 'UserAttributeSettingCol' . $userAttrSettingId;
-		$weightInputForm = 'UserAttributeSettingWeight' . $userAttrSettingId;
 		$formSubmit = '$(\'form[name=' . 'UserAttributeMoveForm' . $userAttrSettingId . ']\')[0].submit()';
 		$moveMenuTag =
 			'<li%s>' .

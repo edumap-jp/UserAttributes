@@ -39,14 +39,18 @@ class UserAttributesController extends UserAttributesAppController {
 		'ControlPanel.ControlPanelLayout',
 		'M17n.SwitchLanguage',
 		'UserAttributes.UserAttributeLayout',
-		'DataTypes.DataTypeForm' => array(
-			'dataTypes' => array(
-				'label', 'text', 'textarea', 'radio', 'checkbox',
-				'select', 'password', 'email', 'img', 'datetime',
-				'refecture', 'timezone',
-			)
-		),
+		'DataTypes.DataTypeForm',
 	);
+
+/**
+ * beforeFilter
+ *
+ * @return void
+ */
+	public function beforeFilter() {
+		parent::beforeFilter();
+		$this->DataTypeForm->dataTypes = $this->UserAttributeSetting->dataTypes;
+	}
 
 /**
  * index
@@ -95,34 +99,19 @@ class UserAttributesController extends UserAttributesAppController {
 			$this->request->data['UserAttribute'] = array();
 			foreach (array_keys($this->viewVars['languages']) as $langId) {
 				$index = count($this->request->data['UserAttribute']);
-
 				$userAttribute = $this->UserAttribute->create(array(
-					'id' => null,
 					'language_id' => $langId,
-					'key' => '',
-					'name' => '',
 				));
 				$this->request->data['UserAttribute'][$index] = $userAttribute['UserAttribute'];
 			}
 
 			$this->request->data = Hash::merge($this->request->data,
 				$this->UserAttributeSetting->create(array(
-					'id' => null,
-					'user_attribute_key' => '',
 					'data_type_key' => 'text',
 					'row' => $userAttributeLayout[0]['id'],
 					'col' => $userAttributeLayout[0]['col'],
-					'required' => false,
-					'display' => true,
-					'only_administrator' => false,
-					'is_systemized' => false,
-					'display_label' => true,
-					'display_search_list' => false,
-					'self_publicity' => false,
-					'self_email_reception_possibility' => false,
 				))
 			);
-
 		}
 	}
 
@@ -152,6 +141,10 @@ class UserAttributesController extends UserAttributesAppController {
 				'conditions' => array('key' => $key)
 			);
 			$userAttribute = $this->UserAttribute->find('all', $options);
+			if (! $userAttribute) {
+				$this->throwBadRequest();
+				return;
+			}
 			$this->request->data['UserAttribute'] = Hash::extract($userAttribute, '{n}.UserAttribute');
 
 			$data = $this->UserAttributeSetting->find('first', array(

@@ -16,55 +16,70 @@ App::uses('UserAttributesAppModel', 'UserAttributes.Model');
 class UserAttributeSetting extends UserAttributesAppModel {
 
 /**
+ * 対象のデータタイプ
+ *
+ * @var array
+ */
+	public $dataTypes = array(
+		'label', 'text', 'textarea', 'radio', 'checkbox',
+		'select', 'password', 'email', 'img', 'datetime',
+		'refecture', 'timezone',
+	);
+
+/**
  * Validation rules
  *
  * @var array
  */
-	public $validate = array(
-		'user_attribute_key' => array(
-			'notBlank' => array(
-				'rule' => array('notBlank'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'data_type_key' => array(
-			'notBlank' => array(
-				'rule' => array('notBlank'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'row' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'col' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-	);
+	public $validate = array();
 
 /**
- * getMaxWeight
+ * Called during validation operations, before validation. Please note that custom
+ * validation rules can be defined in $validate.
+ *
+ * @param array $options Options passed from Model::save().
+ * @return bool True if validate operation should continue, false to abort
+ * @link http://book.cakephp.org/2.0/en/models/callback-methods.html#beforevalidate
+ * @see Model::save()
+ */
+	public function beforeValidate($options = array()) {
+		$this->validate = Hash::merge($this->validate, array(
+			'user_attribute_key' => array(
+				'notBlank' => array(
+					'rule' => array('notBlank'),
+					'message' => __d('net_commons', 'Invalid request.'),
+					'on' => 'update', // Limit validation to 'create' or 'update' operations
+				),
+			),
+			'data_type_key' => array(
+				'notBlank' => array(
+					'rule' => array('notBlank'),
+					'message' => __d('net_commons', 'Invalid request.'),
+				),
+				'inList' => array(
+					'rule' => array('inList', $this->dataTypes),
+					'message' => __d('net_commons', 'Invalid request.'),
+				),
+			),
+			'row' => array(
+				'numeric' => array(
+					'rule' => array('numeric'),
+					'message' => __d('net_commons', 'Invalid request.'),
+				),
+			),
+			'col' => array(
+				'numeric' => array(
+					'rule' => array('numeric'),
+					'message' => __d('net_commons', 'Invalid request.'),
+				),
+			),
+		));
+
+		return parent::beforeValidate($options);
+	}
+
+/**
+ * MAXの順番を取得するメソッド
  *
  * @param int $row Row number
  * @param int $col Col number
@@ -87,13 +102,13 @@ class UserAttributeSetting extends UserAttributesAppModel {
 	}
 
 /**
- * Move Order UserAttributes
+ * ユーザ属性の順番を変更するメソッド
  *
  * @param array $data received post data
  * @return bool True on success, false on validation errors
  * @throws InternalErrorException
  */
-	public function saveUserAttributesOrder($data) {
+	public function saveUserAttributeWeight($data) {
 		//トランザクションBegin
 		$this->begin();
 
@@ -104,37 +119,26 @@ class UserAttributeSetting extends UserAttributesAppModel {
 		if (! $before) {
 			return false;
 		}
-CakeLog::debug(print_r($before, true));
-CakeLog::debug(print_r($data, true));
 
 		$after = Hash::merge($before, $data);
 		unset($after[$this->alias]['modified'], $after[$this->alias]['modified_user']);
 
 		try {
-			$result = $this->updateAll(
-				array($this->alias . '.weight' => $this->alias . '.weight - 1'),
-				array(
-					$this->alias . '.weight >' => $before[$this->alias]['weight'],
-					$this->alias . '.row' => $before[$this->alias]['row'],
-					$this->alias . '.col' => $before[$this->alias]['col'],
-				)
+			//移動元の順番を更新
+			$this->updateUserAttributeWeight(
+				$before[$this->alias]['row'],
+				$before[$this->alias]['col'],
+				$before[$this->alias]['weight'],
+				-1, '>'
 			);
-			if (! $result) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			}
-
-			$result = $this->updateAll(
-				array($this->alias . '.weight' => $this->alias . '.weight + 1'),
-				array(
-					$this->alias . '.weight >=' => $after[$this->alias]['weight'],
-					$this->alias . '.row' => $after[$this->alias]['row'],
-					$this->alias . '.col' => $after[$this->alias]['col'],
-				)
+			//移動先の順番を更新
+			$this->updateUserAttributeWeight(
+				$after[$this->alias]['row'],
+				$after[$this->alias]['col'],
+				$after[$this->alias]['weight'],
+				1, '>='
 			);
-			if (! $result) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			}
-
+			//対象項目の更新
 			if (! $this->save($after)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
@@ -179,6 +183,35 @@ CakeLog::debug(print_r($data, true));
 		} catch (Exception $ex) {
 			//トランザクションRollback
 			$this->rollback($ex);
+		}
+
+		return true;
+	}
+
+/**
+ * ユーザ属性の順番を更新メソッド
+ * ※トランザクションは、呼び出し元で行う。
+ *
+ * @param int $row 段
+ * @param int $col 列
+ * @param int $weight 順番
+ * @param int $fluctuation 増減
+ * @param string $sign 符号（> or >=）
+ * @return bool True on success
+ * @throws InternalErrorException
+ */
+	public function updateUserAttributeWeight($row, $col, $weight, $fluctuation, $sign) {
+		//移動元の順番を更新
+		$result = $this->updateAll(
+			array($this->alias . '.weight' => $this->alias . '.weight + (' . $fluctuation . ')'),
+			array(
+				$this->alias . '.weight ' . $sign => $weight,
+				$this->alias . '.row' => $row,
+				$this->alias . '.col' => $col,
+			)
+		);
+		if (! $result) {
+			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 		}
 
 		return true;

@@ -20,9 +20,9 @@ App::uses('ModelBehavior', 'Model');
 class UserAttributeBehavior extends ModelBehavior {
 
 /**
- * Save default UserAttributeRoles
+ * UserAttributesRoleのデフォルトデータ登録
  *
- * @param Model $model Model using this behavior
+ * @param Model $model Model ビヘイビア呼び出し元モデル
  * @param array $data User role data
  * @return bool True on success
  * @throws InternalErrorException
@@ -40,8 +40,9 @@ class UserAttributeBehavior extends ModelBehavior {
 				'plugin_key' => 'user_manager',
 			)
 		));
-
-		$userRoleSettings = $model->UserRoleSetting->find('all', array('recursive' => -1));
+		$userRoleSettings = $model->UserRoleSetting->find('all', array(
+			'recursive' => -1
+		));
 
 		foreach ($userRoleSettings as $userRoleSetting) {
 			$params = array(
@@ -65,22 +66,20 @@ class UserAttributeBehavior extends ModelBehavior {
 	}
 
 /**
- * Find options for layout
+ * 会員項目レイアウト用のFindオプション
  *
- * @param Model $model Model using this behavior
- * @param int $langId languages.id
+ * @param Model $model Model ビヘイビア呼び出し元モデル
  * @return array findOptions
  */
-	public function findOptionsForLayout(Model $model, $langId) {
+	public function findOptionsForLayout(Model $model) {
 		$options = array(
 			'recursive' => -1,
 			'fields' => array(
 				$model->alias . '.*',
 				$model->UserAttributeSetting->alias . '.*',
-//				$model->DataTypeTemplate->alias . '.*',
 			),
 			'conditions' => array(
-				$model->alias . '.language_id' => (int)$langId
+				$model->alias . '.language_id' => Current::read('Language.id')
 			),
 			'joins' => array(
 				array(
@@ -91,15 +90,6 @@ class UserAttributeBehavior extends ModelBehavior {
 						$model->UserAttributeSetting->alias . '.user_attribute_key' . ' = ' . $model->alias . ' .key',
 					),
 				),
-//				array(
-//					'table' => $model->DataTypeTemplate->table,
-//					'alias' => $model->DataTypeTemplate->alias,
-//					'type' => 'INNER',
-//					'conditions' => array(
-//						$model->DataTypeTemplate->alias . '.key' . ' = ' . $model->UserAttributeSetting->alias . ' .data_type_key',
-//						$model->DataTypeTemplate->alias . '.language_id' => Current::read('Language.id')
-//					),
-//				),
 			),
 			'order' => array(
 				$model->UserAttributeSetting->alias . '.row' => 'asc',

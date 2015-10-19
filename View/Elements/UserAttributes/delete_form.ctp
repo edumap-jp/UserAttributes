@@ -10,31 +10,29 @@
  */
 ?>
 
-<div ng-init="dangerZone=false;">
-	<?php echo $this->Form->create('UserAttribute', array('type' => 'delete', 'url' => array('action' => 'delete'))); ?>
+<div class="nc-danger-zone" ng-init="dangerZone=false;">
+	<?php echo $this->NetCommonsForm->create('UserAttribute', array('type' => 'delete', 'url' => array('action' => 'delete'))); ?>
 		<accordion close-others="false">
 			<accordion-group is-open="dangerZone" class="panel-danger">
-				<accordion-heading style="cursor: pointer">
+				<accordion-heading class="clearfix">
 					<span style="cursor: pointer">
 						<?php echo __d('net_commons', 'Danger Zone'); ?>
 					</span>
 					<span class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': dangerZone, 'glyphicon-chevron-right': ! dangerZone}"></span>
 				</accordion-heading>
 
-				<div class="inline-block">
+				<div class="pull-left">
 					<?php echo sprintf(__d('net_commons', 'Delete all data associated with the %s.'), __d('user_attributes', 'User attribute')); ?>
 				</div>
 
-				<?php echo $this->Form->hidden('UserAttribute.0.id'); ?>
-
-				<?php echo $this->Form->hidden('UserAttribute.0.key'); ?>
-
-				<?php echo $this->Form->button('<span class="glyphicon glyphicon-trash"> </span> ' . __d('net_commons', 'Delete'), array(
-						'name' => 'delete',
-						'class' => 'btn btn-danger pull-right',
-						'onclick' => 'return confirm(\'' . sprintf(__d('net_commons', 'Deleting the %s. Are you sure to proceed?'), __d('user_attributes', 'User attribute')) . '\')'
-					)); ?>
+				<?php echo $this->NetCommonsForm->hidden('UserAttribute.0.id'); ?>
+				<?php echo $this->NetCommonsForm->hidden('UserAttribute.0.key'); ?>
+				<?php echo $this->Button->delete(
+						__d('net_commons', 'Delete'),
+						sprintf(__d('net_commons', 'Deleting the %s. Are you sure to proceed?'), __d('user_attributes', 'User attribute')),
+						array('addClass' => 'pull-right')
+					); ?>
 			</accordion-group>
 		</accordion>
-	<?php echo $this->Form->end(); ?>
+	<?php echo $this->NetCommonsForm->end(); ?>
 </div>
