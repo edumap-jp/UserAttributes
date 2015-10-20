@@ -25,8 +25,8 @@ class UserAttributesController extends UserAttributesAppController {
  * @var array
  */
 	public $uses = array(
-		'M17n.Language',
 		'UserAttributes.UserAttribute',
+		'UserAttributes.UserAttributeChoice',
 		'UserAttributes.UserAttributeSetting',
 	);
 
@@ -66,10 +66,11 @@ class UserAttributesController extends UserAttributesAppController {
 /**
  * add
  *
- * @param int $row Add row number
+ * @param int $row 段
+ * @param int $col 列
  * @return void
  */
-	public function add($row = null) {
+	public function add($row, $col) {
 		$this->view = 'edit';
 
 		if ($this->request->isPost()) {
@@ -81,6 +82,12 @@ class UserAttributesController extends UserAttributesAppController {
 			$col = $this->request->data['UserAttributeSetting']['col'];
 			$this->request->data['UserAttributeSetting']['weight'] = $this->UserAttributeSetting->getMaxWeight($row, $col) + 1;
 
+			if (! $result = $this->UserAttributeChoice->validateRequestData($this->request->data)) {
+				$this->throwBadRequest();
+				return;
+			}
+			$this->request->data['UserAttributeChoice'] = $result;
+
 			if ($this->UserAttribute->saveUserAttribute($this->request->data)) {
 				//正常の場合
 				$this->redirect('/user_attributes/user_attributes/index/');
@@ -89,20 +96,12 @@ class UserAttributesController extends UserAttributesAppController {
 			$this->NetCommons->handleValidationError($this->UserAttribute->validationErrors);
 
 		} else {
-			//レイアウトデータ取得
-			if (! $userAttributeLayout = Hash::extract(
-					$this->viewVars['userAttributeLayouts'],
-					'{n}.UserAttributeLayout[id=' . $row . ']'
-			)) {
-				$this->throwBadRequest();
-				return;
-			}
-
 			//初期値セット
 			$this->request->data['UserAttribute'] = array();
 			foreach (array_keys($this->viewVars['languages']) as $langId) {
 				$index = count($this->request->data['UserAttribute']);
 				$userAttribute = $this->UserAttribute->create(array(
+					'id' => null,
 					'language_id' => $langId,
 				));
 				$this->request->data['UserAttribute'][$index] = $userAttribute['UserAttribute'];
@@ -111,8 +110,8 @@ class UserAttributesController extends UserAttributesAppController {
 			$this->request->data = Hash::merge($this->request->data,
 				$this->UserAttributeSetting->create(array(
 					'data_type_key' => 'text',
-					'row' => $userAttributeLayout[0]['id'],
-					'col' => $userAttributeLayout[0]['col'],
+					'row' => $row,
+					'col' => $col,
 				))
 			);
 		}
@@ -131,6 +130,12 @@ class UserAttributesController extends UserAttributesAppController {
 			//不要パラメータ除去
 			unset($this->request->data['save'], $this->request->data['active_lang_id']);
 
+			if (! $result = $this->UserAttributeChoice->validateRequestData($this->request->data)) {
+				$this->throwBadRequest();
+				return;
+			}
+			$this->request->data['UserAttributeChoice'] = $result;
+
 			//登録処理
 			if ($this->UserAttribute->saveUserAttribute($this->request->data)) {
 				//正常の場合
@@ -141,26 +146,12 @@ class UserAttributesController extends UserAttributesAppController {
 
 		} else {
 			//既存データ取得
-			$options = array(
-				'recursive' => -1,
-				'conditions' => array('key' => $key)
-			);
-			$userAttribute = $this->UserAttribute->find('all', $options);
-			if (! $userAttribute) {
+			$this->request->data = $this->UserAttribute->getUserAttribute($key);
+			if (! $this->request->data) {
 				$this->throwBadRequest();
 				return;
 			}
-			$this->request->data['UserAttribute'] = Hash::extract($userAttribute, '{n}.UserAttribute');
-
-			$data = $this->UserAttributeSetting->find('first', array(
-				'recursive' => -1,
-				'conditions' => array(
-					'user_attribute_key' => $key
-				),
-			));
-			$this->request->data = Hash::merge($this->request->data, $data);
 		}
-
 		if ($this->request->data['UserAttributeSetting']['is_systemized']) {
 			$this->DataTypeForm->dataTypes = $this->UserAttributeSetting->editDataTypes;
 		} else {
@@ -179,7 +170,10 @@ class UserAttributesController extends UserAttributesAppController {
 			return;
 		}
 
-		$this->UserAttribute->deleteUserAttribute($this->data['UserAttribute'][0]);
+		if (! $this->UserAttribute->deleteUserAttribute($this->data)) {
+			$this->throwBadRequest();
+			return;
+		}
 		$this->redirect('/user_attributes/user_attributes/index/');
 	}
 

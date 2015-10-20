@@ -12,6 +12,7 @@
  */
 
 $row = $layout['UserAttributeLayout']['id'];
+$col = $layout['UserAttributeLayout']['col'];
 ?>
 
 <div class="panel panel-default">
@@ -26,7 +27,7 @@ $row = $layout['UserAttributeLayout']['id'];
 
 	<div class="panel-body">
 		<p class="text-right">
-			<?php echo $this->Button->addLink('', array('action' => 'add', $row), array('iconSize' => 'btn-sm')); ?>
+			<?php echo $this->Button->addLink('', array('action' => 'add', $row, $col), array('iconSize' => 'btn-sm')); ?>
 		</p>
 
 		<div class="row">

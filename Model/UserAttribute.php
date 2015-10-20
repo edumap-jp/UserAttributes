@@ -48,13 +48,13 @@ class UserAttribute extends UserAttributesAppModel {
  * @var array
  */
 	public $belongsTo = array(
-		'Language' => array(
-			'className' => 'M17n.Language',
-			'foreignKey' => 'language_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
+		//'Language' => array(
+		//	'className' => 'M17n.Language',
+		//	'foreignKey' => 'language_id',
+		//	'conditions' => '',
+		//	'fields' => '',
+		//	'order' => ''
+		//),
 		'UserAttributeSetting' => array(
 			'className' => 'UserAttributes.UserAttributeSetting',
 			'foreignKey' => false,
@@ -184,6 +184,50 @@ class UserAttribute extends UserAttributesAppModel {
 	}
 
 /**
+ * 会員項目のレイアウト用のデータ取得
+ *
+ * @param string $key UserAttributeキー
+ * @return array 会員項目データ配列
+ */
+	public function getUserAttribute($key) {
+		//UserAttributeデータ取得
+		$result = $this->find('all', array(
+			'recursive' => -1,
+			'conditions' => array('key' => $key),
+		));
+		if (! $result) {
+			return false;
+		}
+		$userAttribute['UserAttribute'] = Hash::combine($result, '{n}.UserAttribute.id', '{n}.UserAttribute');
+
+		//UserAttributeSettingデータ取得
+		$result = $this->UserAttributeSetting->find('first', array(
+			'recursive' => -1,
+			'conditions' => array('user_attribute_key' => $key),
+		));
+		if (! $result) {
+			return false;
+		}
+		$userAttribute = Hash::merge($userAttribute, $result);
+
+		//UserAttributeChoiceデータ取得
+		$result = $this->UserAttributeChoice->find('all', array(
+			'recursive' => -1,
+			'conditions' => array('user_attribute_id' => array_keys($userAttribute['UserAttribute'])),
+		));
+		if (! $result) {
+			return $userAttribute;
+		}
+		$userAttribute['UserAttributeChoice'] = Hash::combine($result,
+			'{n}.' . $this->UserAttributeChoice->alias . '.language_id',
+			'{n}.' . $this->UserAttributeChoice->alias,
+			'{n}.' . $this->UserAttributeChoice->alias . '.weight'
+		);
+
+		return $userAttribute;
+	}
+
+/**
  * 会員項目の登録
  *
  * @param array $data リクエストデータ
@@ -193,13 +237,15 @@ class UserAttribute extends UserAttributesAppModel {
 	public function saveUserAttribute($data) {
 		$this->loadModels([
 			'UserAttributeSetting' => 'UserAttributes.UserAttributeSetting',
+			'UserAttributeChoice' => 'UserAttributes.UserAttributeChoice',
 		]);
 
 		//トランザクションBegin
 		$this->begin();
 
 		//バリデーション
-		$userAttributeKey = $data['UserAttribute'][0]['key'];
+		$userAttributeKeys = Hash::extract($data['UserAttribute'], '{n}.key');
+		$userAttributeKey = $userAttributeKeys[0];
 		if (! $this->validateUserAttribute($data)) {
 			return false;
 		}
@@ -207,10 +253,9 @@ class UserAttribute extends UserAttributesAppModel {
 
 		try {
 			//UserAttributeの登録処理
-			$userAttributes = array();
 			foreach ($data['UserAttribute'] as $i => $userAttribute) {
 				$userAttribute['key'] = $userAttributeKey;
-				if (! $data['UserAttribute'][$i] = $this->save($userAttribute, false, false)) {
+				if (! $data['UserAttribute'][$i] = $this->save($userAttribute, false)) {
 					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 				}
 				$userAttributeKey = $data['UserAttribute'][$i]['UserAttribute']['key'];
@@ -220,6 +265,12 @@ class UserAttribute extends UserAttributesAppModel {
 			$data['UserAttributeSetting']['user_attribute_key'] = $userAttributeKey;
 			if (! $this->UserAttributeSetting->save($data['UserAttributeSetting'], false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
+
+			//UserAttributeChoiceの登録処理
+			//システム項目でなくて、ラジオボタン・チェックボタン・セレクトボックスの場合のみ
+			if (! $data['UserAttributeSetting']['is_systemized']) {
+				$this->UserAttributeChoice->saveUserAttributeChoices($data);
 			}
 
 			if (! $updated) {
@@ -248,12 +299,12 @@ class UserAttribute extends UserAttributesAppModel {
  * @return bool True on success, false on validation errors
  */
 	public function validateUserAttribute($data) {
-		foreach ($data['UserAttribute'] as $userAttribute) {
-			$this->set($userAttribute);
-			if (! $this->validates()) {
-				return false;
-			}
+		//UserAttributeのバリデーション処理
+		if (! $this->validateMany($data['UserAttribute'])) {
+			return false;
 		}
+
+		//UserAttributeSettingのバリデーション処理
 		$this->UserAttributeSetting->set($data['UserAttributeSetting']);
 		if (! $this->UserAttributeSetting->validates()) {
 			$this->validationErrors = Hash::merge(
@@ -261,6 +312,17 @@ class UserAttribute extends UserAttributesAppModel {
 				$this->UserAttributeSetting->validationErrors
 			);
 			return false;
+		}
+
+		//UserAttributeChoiceのバリデーション処理
+		foreach ($data['UserAttributeChoice'] as $choice) {
+			if (! $this->UserAttributeChoice->validateMany($choice)) {
+				$this->validationErrors = Hash::merge(
+					$this->validationErrors,
+					$this->UserAttributeChoice->validationErrors
+				);
+				return false;
+			}
 		}
 
 		return true;
@@ -276,16 +338,31 @@ class UserAttribute extends UserAttributesAppModel {
 	public function deleteUserAttribute($data) {
 		$this->loadModels([
 			'UserAttributeSetting' => 'UserAttributes.UserAttributeSetting',
+			'UserAttributeChoice' => 'UserAttributes.UserAttributeChoice',
 		]);
 
 		//トランザクションBegin
 		$this->begin();
 
 		$colUserAttributeKey = $this->UserAttributeSetting->alias . '.user_attribute_key';
+		$userAttributeKey = $data[$this->UserAttributeSetting->alias]['user_attribute_key'];
+
 		$userAttributeSetting = $this->UserAttributeSetting->find('first', array(
 			'recursive' => -1,
-			'conditions' => array($colUserAttributeKey => $data['key']),
+			'conditions' => array($colUserAttributeKey => $userAttributeKey),
 		));
+		if (! $userAttributeSetting) {
+			return false;
+		}
+
+		$userAttributeIds = $this->find('list', array(
+			'recursive' => -1,
+			'conditions' => array('key' => $userAttributeKey),
+		));
+		if (! $userAttributeIds) {
+			return false;
+		}
+		$userAttributeIds = array_keys($userAttributeIds);
 
 		try {
 			//削除項目より後の順番を詰める
@@ -297,11 +374,15 @@ class UserAttribute extends UserAttributesAppModel {
 			);
 
 			//UserAttributeの削除処理
-			if (! $this->deleteAll(array($this->alias . '.key' => $data['key']), false)) {
+			if (! $this->deleteAll(array($this->alias . '.key' => $userAttributeKey), false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 			//UserAttributeSettingの削除処理
-			if (! $this->UserAttributeSetting->deleteAll(array($colUserAttributeKey => $data['key']), false)) {
+			if (! $this->UserAttributeSetting->deleteAll(array($colUserAttributeKey => $userAttributeKey), false)) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
+			//UserAttributeChoiceの削除処理
+			if (! $this->UserAttributeChoice->deleteAll(array($this->UserAttributeChoice->alias . '.user_attribute_id' => $userAttributeIds), false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 

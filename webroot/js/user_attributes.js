@@ -27,12 +27,66 @@ NetCommonsApp.controller('UserAttributes', function($scope) {
   $scope.userAttributeSetting = [];
 
   /**
+   * userAttributeChoices
+   *
+   * @type {object}
+   */
+  $scope.userAttributeChoices = [];
+
+  /**
+   * newChoice
+   *
+   * @type {object}
+   */
+  $scope.newChoice = {};
+
+  /**
    * initialize
    *
    * @return {void}
    */
   $scope.initialize = function(data) {
     $scope.userAttributeSetting = data.userAttributeSetting;
+    $scope.newChoice = data.newChoice;
+    angular.forEach(data.userAttributeChoices, function(choice) {
+      $scope.userAttributeChoices.push(choice);
+    });
+  };
+
+  /**
+   * add
+   *
+   * @return {void}
+   */
+  $scope.add = function() {
+    var choice = angular.copy($scope.newChoice);
+    $scope.userAttributeChoices.push(choice);
+  };
+
+  /**
+   * delete
+   *
+   * @return {void}
+   */
+  $scope.delete = function(index) {
+    $scope.userAttributeChoices.splice(index, 1);
+  };
+
+  /**
+   * move
+   *
+   * @return {void}
+   */
+  $scope.move = function(type, index) {
+    var dest = (type === 'up') ? index - 1 : index + 1;
+    if (angular.isUndefined($scope.userAttributeChoices[dest])) {
+      return false;
+    }
+
+    var destChoice = angular.copy($scope.userAttributeChoices[dest]);
+    var targetChoice = angular.copy($scope.userAttributeChoices[index]);
+    $scope.userAttributeChoices[index] = destChoice;
+    $scope.userAttributeChoices[dest] = targetChoice;
   };
 
 });

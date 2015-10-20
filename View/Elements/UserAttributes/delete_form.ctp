@@ -25,8 +25,7 @@
 					<?php echo sprintf(__d('net_commons', 'Delete all data associated with the %s.'), __d('user_attributes', 'User attribute')); ?>
 				</div>
 
-				<?php echo $this->NetCommonsForm->hidden('UserAttribute.0.id'); ?>
-				<?php echo $this->NetCommonsForm->hidden('UserAttribute.0.key'); ?>
+				<?php echo $this->NetCommonsForm->hidden('UserAttributeSetting.user_attribute_key'); ?>
 				<?php echo $this->Button->delete(
 						__d('net_commons', 'Delete'),
 						sprintf(__d('net_commons', 'Deleting the %s. Are you sure to proceed?'), __d('user_attributes', 'User attribute')),

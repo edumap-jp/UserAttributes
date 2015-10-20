@@ -25,15 +25,16 @@ foreach ($this->request->data['UserAttribute'] as $index => $userAttribute) {
 	echo $this->NetCommonsForm->hidden('UserAttribute.' . $index . '.id');
 	echo $this->NetCommonsForm->hidden('UserAttribute.' . $index . '.key');
 	echo $this->NetCommonsForm->hidden('UserAttribute.' . $index . '.language_id');
+
+	echo '<div class="form-group" ng-show="activeLangId === \'' . (string)$languageId . '\'" ng-cloak>';
 	echo $this->NetCommonsForm->input('UserAttribute.' . $index . '.' . 'name', array(
 		'type' => 'text',
 		'label' => __d('user_attributes', 'Item name') . $this->element('NetCommons.required'),
-		'div' => array(
-			'class' => 'form-group',
+		'error' => array(
 			'ng-show' => 'activeLangId === \'' . (string)$languageId . '\'',
-			'ng-cloak' => ' '
-		)
+		),
 	));
+	echo '</div>';
 }
 
 /**
@@ -43,12 +44,14 @@ echo $this->NetCommonsForm->inlineCheckbox('UserAttributeSetting.display_label',
 	'label' => __d('user_attributes', 'Show the item name')
 ));
 
+echo '<div class="form-group">';
+
 /**
  * 入力タイプ
  * * システム項目の場合、disabled
  * * 編集の場合、disabled
  */
-if ($this->request->data['UserAttributeSetting']['is_systemized']) {
+if ($this->request->data['UserAttributeSetting']['is_systemized'] || $this->params['action'] === 'edit') {
 	echo $this->NetCommonsForm->hidden('UserAttributeSetting.data_type_key');
 	$fieldName = 'UserAttributeSetting.data_type_key_';
 } else {
@@ -56,10 +59,28 @@ if ($this->request->data['UserAttributeSetting']['is_systemized']) {
 }
 echo $this->DataTypeForm->selectDataTypes('UserAttributeSetting.data_type_key', array(
 	'label' => __d('user_attributes', 'Input type'),
-	'ng-disabled' => ($this->request->data['UserAttributeSetting']['is_systemized'] || $this->params['action'] === 'edit'),
+	'div' => false,
+	'ng-disabled' => ((int)$this->request->data['UserAttributeSetting']['is_systemized'] || $this->params['action'] === 'edit'),
 	'ng-model' => 'userAttributeSetting.dataTypeKey',
 	'ng-value' => 'userAttributeSetting.dataTypeKey',
 ));
+
+/**
+ * 選択肢リスト
+ * * システム項目の場合、非表示
+ * * ラジオ、セレクト、チェックボックスの場合、ng-show
+ */
+if (! $this->request->data['UserAttributeSetting']['is_systemized']) {
+	echo '<div ng-show="(userAttributeSetting.dataTypeKey === \'' . DataType::DATA_TYPE_RADIO . '\' || ' .
+						'userAttributeSetting.dataTypeKey === \'' . DataType::DATA_TYPE_CHECKBOX . '\' || ' .
+						'userAttributeSetting.dataTypeKey === \'' . DataType::DATA_TYPE_SELECT . '\')">';
+
+	echo $this->element('UserAttributes.UserAttributes/choice_edit_form');
+
+	echo '</div>';
+}
+
+echo '</div>';
 
 /**
  * 必須項目とする
@@ -68,7 +89,7 @@ echo $this->DataTypeForm->selectDataTypes('UserAttributeSetting.data_type_key', 
  */
 echo $this->NetCommonsForm->inlineCheckbox('UserAttributeSetting.required', array(
 	'label' => __d('user_attributes', 'Designate as required items'),
-	'ng-disabled' => '(' . $this->request->data['UserAttributeSetting']['is_systemized'] . ' || userAttributeSetting.dataTypeKey === "' . DataType::DATA_TYPE_LABEL . '")',
+	'ng-disabled' => '(' . (int)$this->request->data['UserAttributeSetting']['is_systemized'] . ' || userAttributeSetting.dataTypeKey === "' . DataType::DATA_TYPE_LABEL . '")',
 ));
 
 /**
@@ -78,7 +99,7 @@ echo $this->NetCommonsForm->inlineCheckbox('UserAttributeSetting.required', arra
  */
 echo $this->NetCommonsForm->inlineCheckbox('UserAttributeSetting.only_administrator', array(
 	'label' => __d('user_attributes', 'To prohibit the reading and writing of non-members administrator'),
-	'ng-disabled' => '(' . $this->request->data['UserAttributeSetting']['is_systemized'] . ' || userAttributeSetting.dataTypeKey === "' . DataType::DATA_TYPE_LABEL . '")',
+	'ng-disabled' => '(' . (int)$this->request->data['UserAttributeSetting']['is_systemized'] . ' || userAttributeSetting.dataTypeKey === "' . DataType::DATA_TYPE_LABEL . '")',
 ));
 
 /**
@@ -95,7 +116,7 @@ echo $this->NetCommonsForm->inlineCheckbox('UserAttributeSetting.self_publicity'
  */
 echo $this->NetCommonsForm->inlineCheckbox('UserAttributeSetting.self_email_reception_possibility', array(
 	'label' => __d('user_attributes', 'Enable individual email receipt / non-receipt setting'),
-	'ng-disabled' => '(' . $this->request->data['UserAttributeSetting']['is_systemized'] . ' || userAttributeSetting.dataTypeKey !== "' . DataType::DATA_TYPE_EMAIL . '")',
+	'ng-disabled' => '(' . (int)$this->request->data['UserAttributeSetting']['is_systemized'] . ' || userAttributeSetting.dataTypeKey !== "' . DataType::DATA_TYPE_EMAIL . '")',
 ));
 
 foreach ($this->request->data['UserAttribute'] as $index => $userAttribute) {
@@ -106,10 +127,11 @@ foreach ($this->request->data['UserAttribute'] as $index => $userAttribute) {
 	echo $this->NetCommonsForm->input('UserAttribute.' . $index . '.' . 'description', array(
 		'type' => 'textarea',
 		'label' => __d('user_attributes', 'Description'),
+		'rows' => '3',
 		'div' => array(
 			'class' => 'form-group',
 			'ng-show' => 'activeLangId === \'' . (string)$languageId . '\'',
 			'ng-cloak' => ' '
-		)
+		),
 	));
 }
