@@ -43,6 +43,15 @@ class UserAttributesController extends UserAttributesAppController {
 	);
 
 /**
+ * use helpers
+ *
+ * @var array
+ */
+	public $helpers = array(
+		'UserAttributes.UserAttributeLayout',
+	);
+
+/**
  * beforeFilter
  *
  * @return void
@@ -82,7 +91,8 @@ class UserAttributesController extends UserAttributesAppController {
 			$col = $this->request->data['UserAttributeSetting']['col'];
 			$this->request->data['UserAttributeSetting']['weight'] = $this->UserAttributeSetting->getMaxWeight($row, $col) + 1;
 
-			if (! $result = $this->UserAttributeChoice->validateRequestData($this->request->data)) {
+			$result = $this->UserAttributeChoice->validateRequestData($this->request->data);
+			if ($result === false) {
 				$this->throwBadRequest();
 				return;
 			}
@@ -130,7 +140,8 @@ class UserAttributesController extends UserAttributesAppController {
 			//不要パラメータ除去
 			unset($this->request->data['save'], $this->request->data['active_lang_id']);
 
-			if (! $result = $this->UserAttributeChoice->validateRequestData($this->request->data)) {
+			$result = $this->UserAttributeChoice->validateRequestData($this->request->data);
+			if ($result === false) {
 				$this->throwBadRequest();
 				return;
 			}

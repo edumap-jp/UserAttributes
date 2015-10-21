@@ -47,8 +47,6 @@ class UserAttributeLayoutComponent extends Component {
 			'order' => array('id' => 'asc'),
 		));
 		$this->controller->set('userAttributeLayouts', $userAttributeLayouts);
-
-		$this->controller->helpers[] = 'UserAttributes.UserAttributeLayout';
 	}
 
 }

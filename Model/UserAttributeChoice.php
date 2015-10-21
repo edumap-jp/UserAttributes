@@ -177,6 +177,10 @@ class UserAttributeChoice extends UsersAppModel {
 	public function validateRequestData($data) {
 		$result = array();
 
+		if (! isset($data['UserAttributeChoice'])) {
+			return $result;
+		}
+
 		foreach ($data['UserAttributeChoice'] as $weight => $choiceByWeight) {
 			foreach ($choiceByWeight as $langId => $choice) {
 				if (! $choice['id']) {
