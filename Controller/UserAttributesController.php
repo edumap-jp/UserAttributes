@@ -48,6 +48,7 @@ class UserAttributesController extends UserAttributesAppController {
  * @var array
  */
 	public $helpers = array(
+		'UserAttributes.UserAttribute',
 		'UserAttributes.UserAttributeLayout',
 	);
 

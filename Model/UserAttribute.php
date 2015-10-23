@@ -24,6 +24,15 @@ App::uses('UserAttributesAppModel', 'UserAttributes.Model');
 class UserAttribute extends UserAttributesAppModel {
 
 /**
+ * Field format
+ *
+ * @var const
+ */
+	const
+		PUBLIC_FIELD_FORMAT = 'is_%s_public',
+		FILE_FIELD_FORMAT = '%s_file_id';
+
+/**
  * use behaviors
  *
  * @var array

@@ -22,15 +22,6 @@ App::uses('CakeMigration', 'Migrations.Lib');
 class UserAttributeBehavior extends ModelBehavior {
 
 /**
- * Field format
- *
- * @var const
- */
-	const
-		PUBLIC_FIELD_FORMAT = 'is_%s_public',
-		FILE_FIELD_FORMAT = '%s_file_id';
-
-/**
  * UserAttributesRoleのデフォルトデータ登録
  *
  * @param Model $model Model ビヘイビア呼び出し元モデル
@@ -154,7 +145,7 @@ class UserAttributeBehavior extends ModelBehavior {
 		);
 
 		//公開項目フィールド
-		$model->Migration->migration['up']['create_field'][$model->User->table][sprintf(self::PUBLIC_FIELD_FORMAT, $userAttributeKey)] = array(
+		$model->Migration->migration['up']['create_field'][$model->User->table][sprintf(UserAttribute::PUBLIC_FIELD_FORMAT, $userAttributeKey)] = array(
 			'type' => 'boolean',
 			'null' => false,
 			'default' => '0',
@@ -162,12 +153,12 @@ class UserAttributeBehavior extends ModelBehavior {
 		);
 		//ファイルID項目フィールド
 		if ($data[$model->UserAttributeSetting->alias]['data_type_key'] === DataType::DATA_TYPE_IMG) {
-			$model->Migration->migration['up']['create_field'][$model->User->table][sprintf(self::FILE_FIELD_FORMAT, $userAttributeKey)] = array(
+			$model->Migration->migration['up']['create_field'][$model->User->table][sprintf(UserAttribute::FILE_FIELD_FORMAT, $userAttributeKey)] = array(
 				'type' => 'integer',
 				'null' => true,
 				'default' => null,
 				'unsigned' => false,
-				'after' => printf(self::PUBLIC_FIELD_FORMAT, $userAttributeKey)
+				'after' => printf(UserAttribute::PUBLIC_FIELD_FORMAT, $userAttributeKey)
 			);
 		}
 		return $model->Migration->run('up');
@@ -202,10 +193,10 @@ class UserAttributeBehavior extends ModelBehavior {
 
 		$model->Migration->migration['up']['drop_field'][$tableName] = array($userAttributeKey);
 		$model->Migration->migration['up']['drop_field'][$model->User->table][] =
-											sprintf(self::PUBLIC_FIELD_FORMAT, $userAttributeKey);
+											sprintf(UserAttribute::PUBLIC_FIELD_FORMAT, $userAttributeKey);
 		if ($data[$model->UserAttributeSetting->alias]['data_type_key'] === DataType::DATA_TYPE_IMG) {
 			$model->Migration->migration['up']['drop_field'][$model->User->table][] =
-												sprintf(self::FILE_FIELD_FORMAT, $userAttributeKey);
+												sprintf(UserAttribute::FILE_FIELD_FORMAT, $userAttributeKey);
 		}
 		return $model->Migration->run('up');
 	}

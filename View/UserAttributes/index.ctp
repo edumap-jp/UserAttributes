@@ -12,4 +12,4 @@
 echo $this->NetCommonsHtml->css('/user_attributes/css/style.css');
 ?>
 
-<?php echo $this->UserAttributeLayout->renderRow();
+<?php echo $this->UserAttributeLayout->renderRow('UserAttributes/render_index_row');

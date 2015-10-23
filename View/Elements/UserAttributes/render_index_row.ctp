@@ -21,7 +21,7 @@ $col = $layout['UserAttributeLayout']['col'];
 			<strong><?php echo sprintf(__d('user_attributes', '%s row'), $row); ?></strong>
 		</div>
 		<div class="pull-right">
-			<?php echo $this->UserAttributeLayout->editCol($layout); ?>
+			<?php echo $this->UserAttribute->editCol($layout); ?>
 		</div>
 	</div>
 
@@ -31,7 +31,7 @@ $col = $layout['UserAttributeLayout']['col'];
 		</p>
 
 		<div class="row">
-			<?php echo $this->UserAttributeLayout->renderCol($layout); ?>
+			<?php echo $this->UserAttributeLayout->renderCol('UserAttributes/render_index_col', $layout); ?>
 		</div>
 	</div>
 </div>

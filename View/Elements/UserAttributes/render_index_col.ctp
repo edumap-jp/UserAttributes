@@ -14,11 +14,11 @@
 <ul class="user-attribute-edit">
 	<li class="list-group-item clearfix">
 		<div class="pull-left user-attribute-display">
-			<?php echo $this->UserAttributeLayout->displaySetting($userAttribute); ?>
+			<?php echo $this->UserAttribute->displaySetting($userAttribute); ?>
 		</div>
 		<div class="pull-left user-attribute-move">
 			<div class="btn-group">
-				<?php echo $this->UserAttributeLayout->moveSetting($layout, $userAttribute); ?>
+				<?php echo $this->UserAttribute->moveSetting($layout, $userAttribute); ?>
 			</div>
 		</div>
 
