@@ -26,7 +26,7 @@ foreach ($this->request->data['UserAttributeChoiceMap'] as $choiceMap) {
 	echo $this->NetCommonsForm->hidden('UserAttributeChoiceMap.' . $choiceMap['id'] . '.language_id');
 	echo $this->NetCommonsForm->hidden('UserAttributeChoiceMap.' . $choiceMap['id'] . '.user_attribute_id');
 	echo $this->NetCommonsForm->hidden('UserAttributeChoiceMap.' . $choiceMap['id'] . '.key');
-	echo $this->NetCommonsForm->hidden('UserAttributeChoiceMap.' . $choiceMap['id'] . '.value');
+	echo $this->NetCommonsForm->hidden('UserAttributeChoiceMap.' . $choiceMap['id'] . '.code');
 }
 $this->NetCommonsForm->unlockField('UserAttributeChoice');
 ?>
@@ -46,7 +46,10 @@ $this->NetCommonsForm->unlockField('UserAttributeChoice');
 
 		<div class="pre-scrollable user-attribute-scrollable" ng-show="userAttributeChoices.length">
 			<?php foreach (array_keys($languages) as $langId) : ?>
-				<article class="form-group user-attribute-choices-form" ng-repeat="choice in userAttributeChoices track by $index" ng-show="activeLangId === '<?php echo $langId ?>'">
+				<article class="form-group user-attribute-choices-form"
+							ng-repeat="choice in userAttributeChoices track by $index"
+							ng-show="activeLangId === '<?php echo $langId ?>'">
+
 					<div class="input-group input-group-sm">
 						<div class="input-group-btn">
 							<button type="button" class="btn btn-default"
@@ -61,7 +64,7 @@ $this->NetCommonsForm->unlockField('UserAttributeChoice');
 						</div>
 
 						<?php
-							foreach (['id', 'language_id', 'user_attribute_id', 'key', 'value'] as $field) {
+							foreach (['id', 'language_id', 'user_attribute_id', 'key', 'code'] as $field) {
 								echo '<input type="hidden" ' .
 											'name="data[UserAttributeChoice][{{$index+1}}][' . h($langId) . '][' . $field . ']" ' .
 											'ng-value="choice._' . h($langId) . '.' . $field . '">';

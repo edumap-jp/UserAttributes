@@ -51,7 +51,7 @@ class Init extends CakeMigration {
 					'user_attribute_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'unsigned' => false),
 					'key' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'name' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-					'value' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'code' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'weight' => array('type' => 'integer', 'null' => true, 'default' => null, 'unsigned' => false, 'comment' => '表示順'),
 					'created_user' => array('type' => 'integer', 'null' => true, 'default' => null, 'unsigned' => false),
 					'created' => array('type' => 'datetime', 'null' => true, 'default' => null),

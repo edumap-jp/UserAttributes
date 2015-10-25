@@ -107,9 +107,9 @@ class UserAttributeChoice extends UsersAppModel {
  */
 	public function beforeSave($options = array()) {
 		if (isset($this->data[$this->alias]['key']) &&
-			isset($this->data[$this->alias]['value']) && ! $this->data[$this->alias]['value']) {
+			isset($this->data[$this->alias]['code']) && ! $this->data[$this->alias]['code']) {
 
-			$this->data[$this->alias]['value'] = $this->data[$this->alias]['key'];
+			$this->data[$this->alias]['code'] = $this->data[$this->alias]['key'];
 		}
 
 		return parent::beforeSave($options);

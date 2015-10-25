@@ -136,7 +136,10 @@ class UserAttribute extends UserAttributesAppModel {
  * @return array 会員項目データ配列
  */
 	public function getUserAttributesForLayout() {
-		$this->UserRole = ClassRegistry::init('UserRoles.UserRole');
+		$this->loadModels([
+			'DataType' => 'DataTypes.DataType',
+			'UserRole' => 'UserRoles.UserRole',
+		]);
 
 		//UserAttributeデータ取得
 		$userAttributes = $this->find('all', $this->findOptionsForLayout());
@@ -155,6 +158,8 @@ class UserAttribute extends UserAttributesAppModel {
 			'{n}.' . $this->UserAttributeChoice->alias . '.user_attribute_id'
 		);
 
+		$dataTypes = $this->DataType->getDataTypes($this->UserAttributeSetting->editDataTypes);
+
 		//UserRoleデータの取得
 		$userRoles = $this->UserRole->find('all', array(
 			'recursive' => -1,
@@ -164,6 +169,7 @@ class UserAttribute extends UserAttributesAppModel {
 			'conditions' => array(
 				'type' => UserRole::ROLE_TYPE_USER,
 				'language_id' => Current::read('Language.id'),
+				'key !=' => UserRole::USER_ROLE_KEY_SYSTEM_ADMINISTRATOR
 			),
 			'order' => 'id'
 		));
@@ -172,19 +178,25 @@ class UserAttribute extends UserAttributesAppModel {
 		$results = array();
 		foreach ($userAttributes as $userAttribute) {
 			$userAttributeId = $userAttribute['UserAttribute']['id'];
+			$dataTypeKey = $userAttribute['UserAttributeSetting']['data_type_key'];
 
 			$row = $userAttribute['UserAttributeSetting']['row'];
 			$col = $userAttribute['UserAttributeSetting']['col'];
 			$weight = $userAttribute['UserAttributeSetting']['weight'];
 			$results[$row][$col][$weight] = $userAttribute;
 
-			//権限の設定
 			if ($userAttribute['UserAttribute']['key'] === 'role_key') {
+				//権限の設定
 				$results[$row][$col][$weight]['UserAttributeChoice'] =
 						Hash::combine($userRoles, '{n}.UserRole.id', '{n}.UserRole');
-			}
-			//UserAttributeChoiceにデータがある場合
-			if (isset($userAttributeChoices[$userAttributeId])) {
+
+			} elseif (isset($dataTypes[$dataTypeKey]['DataTypeChoice'])) {
+				//DataTypeChoiceにデータがある場合
+				$results[$row][$col][$weight]['UserAttributeSetting']['data_type_key'] = DataType::DATA_TYPE_SELECT;
+				$results[$row][$col][$weight]['UserAttributeChoice'] = $dataTypes[$dataTypeKey]['DataTypeChoice'];
+
+			} elseif (isset($userAttributeChoices[$userAttributeId])) {
+				//UserAttributeChoiceにデータがある場合
 				$results[$row][$col][$weight]['UserAttributeChoice'] = $userAttributeChoices[$userAttributeId];
 			}
 		}
