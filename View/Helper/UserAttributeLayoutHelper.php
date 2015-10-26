@@ -33,6 +33,7 @@ class UserAttributeLayoutHelper extends AppHelper {
 /**
  * 会員項目レイアウトのHTMLを出力する(段目)
  *
+ * @param string $elementFile elementファイル名
  * @return string HTML
  */
 	public function renderRow($elementFile) {
@@ -49,6 +50,7 @@ class UserAttributeLayoutHelper extends AppHelper {
 /**
  * 会員項目レイアウトのHTMLを出力する(列)
  *
+ * @param string $elementFile elementファイル名
  * @param array $layout userAttributeLayoutデータ配列
  * @return string HTML
  */

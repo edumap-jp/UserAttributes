@@ -158,6 +158,7 @@ class UserAttribute extends UserAttributesAppModel {
 			'{n}.' . $this->UserAttributeChoice->alias . '.user_attribute_id'
 		);
 
+		//DataTypeデータ取得
 		$dataTypes = $this->DataType->getDataTypes($this->UserAttributeSetting->editDataTypes);
 
 		//UserRoleデータの取得
