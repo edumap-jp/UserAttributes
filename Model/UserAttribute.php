@@ -170,7 +170,6 @@ class UserAttribute extends UserAttributesAppModel {
 			'conditions' => array(
 				'type' => UserRole::ROLE_TYPE_USER,
 				'language_id' => Current::read('Language.id'),
-				'key !=' => UserRole::USER_ROLE_KEY_SYSTEM_ADMINISTRATOR
 			),
 			'order' => 'id'
 		));
