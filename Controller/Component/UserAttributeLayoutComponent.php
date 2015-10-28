@@ -17,7 +17,7 @@ App::uses('Component', 'Controller');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\ControlPanel\Controller
  */
-class UserAttributeLayoutsComponent extends Component {
+class UserAttributeLayoutComponent extends Component {
 
 /**
  * Called after the Controller::beforeFilter() and before the controller action
@@ -38,7 +38,7 @@ class UserAttributeLayoutsComponent extends Component {
 		$this->UserAttribute = ClassRegistry::init('UserAttributes.UserAttribute');
 
 		//UserAttributeデータセット
-		$userAttributes = $this->UserAttribute->getUserAttributesForLayout(Configure::read('Config.languageId'));
+		$userAttributes = $this->UserAttribute->getUserAttributesForLayout();
 		$this->controller->set('userAttributes', $userAttributes);
 
 		//UserAttributeLayoutデータセット

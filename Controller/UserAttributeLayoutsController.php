@@ -29,15 +29,6 @@ class UserAttributeLayoutsController extends UserAttributesAppController {
 	);
 
 /**
- * use component
- *
- * @var array
- */
-	public $components = array(
-		'ControlPanel.ControlPanelLayout'
-	);
-
-/**
  * edit
  *
  * @return void
@@ -48,13 +39,7 @@ class UserAttributeLayoutsController extends UserAttributesAppController {
 			return;
 		}
 
-		$this->UserAttributeLayout->id = $this->data['UserAttributeLayout']['id'];
-		if (! $this->UserAttributeLayout->exists()) {
-			$this->throwBadRequest();
-			return;
-		}
-
-		if (! $this->UserAttributeLayout->saveUserAttributeLayout($this->data)) {
+		if (! $this->UserAttributeLayout->saveUserAttributeLayout($this->data, 'col')) {
 			$this->throwBadRequest();
 			return;
 		}

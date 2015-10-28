@@ -25,8 +25,8 @@ class UserAttributesController extends UserAttributesAppController {
  * @var array
  */
 	public $uses = array(
-		'M17n.Language',
 		'UserAttributes.UserAttribute',
+		'UserAttributes.UserAttributeChoice',
 		'UserAttributes.UserAttributeSetting',
 	);
 
@@ -38,17 +38,32 @@ class UserAttributesController extends UserAttributesAppController {
 	public $components = array(
 		'ControlPanel.ControlPanelLayout',
 		'M17n.SwitchLanguage',
-		'UserAttributes.UserAttributeLayouts',
+		'UserAttributes.UserAttributeLayout',
+		'DataTypes.DataTypeForm',
 	);
 
 /**
- * use component
+ * use helpers
  *
  * @var array
  */
 	public $helpers = array(
-		'DataTypes.DataTypeForm',
+		'UserAttributes.UserAttribute',
+		'UserAttributes.UserAttributeLayout',
 	);
+
+/**
+ * beforeFilter
+ *
+ * @return void
+ */
+	public function beforeFilter() {
+		parent::beforeFilter();
+		if ($this->params['action'] === 'add') {
+		} else {
+			$this->DataTypeForm->dataTypes = $this->UserAttributeSetting->dataTypes;
+		}
+	}
 
 /**
  * index
@@ -61,24 +76,30 @@ class UserAttributesController extends UserAttributesAppController {
 /**
  * add
  *
- * @param int $row Add row number
+ * @param int $row 段
+ * @param int $col 列
  * @return void
  */
-	public function add($row = null) {
+	public function add($row, $col) {
 		$this->view = 'edit';
 
 		if ($this->request->isPost()) {
-
 			//不要パラメータ除去
-			$data = $this->data;
-			unset($data['save'], $data['active_lang_id']);
+			unset($this->request->data['save'], $this->request->data['active_lang_id']);
 
 			//登録処理
-			$row = $data['UserAttributeSetting']['row'];
-			$col = $data['UserAttributeSetting']['col'];
-			$data['UserAttributeSetting']['weight'] = $this->UserAttributeSetting->getMaxWeight($row, $col) + 1;
+			$row = $this->request->data['UserAttributeSetting']['row'];
+			$col = $this->request->data['UserAttributeSetting']['col'];
+			$this->request->data['UserAttributeSetting']['weight'] = $this->UserAttributeSetting->getMaxWeight($row, $col) + 1;
 
-			if ($this->UserAttribute->saveUserAttribute($data)) {
+			$result = $this->UserAttributeChoice->validateRequestData($this->request->data);
+			if ($result === false) {
+				$this->throwBadRequest();
+				return;
+			}
+			$this->request->data['UserAttributeChoice'] = $result;
+
+			if ($this->UserAttribute->saveUserAttribute($this->request->data)) {
 				//正常の場合
 				$this->redirect('/user_attributes/user_attributes/index/');
 				return;
@@ -86,48 +107,27 @@ class UserAttributesController extends UserAttributesAppController {
 			$this->NetCommons->handleValidationError($this->UserAttribute->validationErrors);
 
 		} else {
-			//レイアウトデータ取得
-			if (! $userAttributeLayout = Hash::extract(
-					$this->viewVars['userAttributeLayouts'],
-					'{n}.UserAttributeLayout[id=' . $row . ']'
-			)) {
-				$this->throwBadRequest();
-				return;
-			}
-
 			//初期値セット
 			$this->request->data['UserAttribute'] = array();
 			foreach (array_keys($this->viewVars['languages']) as $langId) {
 				$index = count($this->request->data['UserAttribute']);
-
 				$userAttribute = $this->UserAttribute->create(array(
 					'id' => null,
 					'language_id' => $langId,
-					'key' => '',
-					'name' => '',
 				));
 				$this->request->data['UserAttribute'][$index] = $userAttribute['UserAttribute'];
 			}
 
 			$this->request->data = Hash::merge($this->request->data,
 				$this->UserAttributeSetting->create(array(
-					'id' => null,
-					'user_attribute_key' => '',
-					'data_type_template_key' => 'text',
-					'row' => $userAttributeLayout[0]['id'],
-					'col' => $userAttributeLayout[0]['col'],
-					'required' => false,
-					'display' => true,
-					'only_administrator' => false,
-					'is_systemized' => false,
-					'display_label' => true,
-					'display_search_list' => false,
-					'self_publicity' => false,
-					'self_email_reception_possibility' => false,
+					'data_type_key' => 'text',
+					'row' => $row,
+					'col' => $col,
 				))
 			);
-
 		}
+
+		$this->DataTypeForm->dataTypes = $this->UserAttributeSetting->addDataTypes;
 	}
 
 /**
@@ -138,13 +138,18 @@ class UserAttributesController extends UserAttributesAppController {
  */
 	public function edit($key = null) {
 		if ($this->request->isPost()) {
-			$data = $this->data;
-
 			//不要パラメータ除去
-			unset($data['save'], $data['active_lang_id']);
+			unset($this->request->data['save'], $this->request->data['active_lang_id']);
+
+			$result = $this->UserAttributeChoice->validateRequestData($this->request->data);
+			if ($result === false) {
+				$this->throwBadRequest();
+				return;
+			}
+			$this->request->data['UserAttributeChoice'] = $result;
 
 			//登録処理
-			if ($this->UserAttribute->saveUserAttribute($data)) {
+			if ($this->UserAttribute->saveUserAttribute($this->request->data)) {
 				//正常の場合
 				$this->redirect('/user_attributes/user_attributes/index/');
 				return;
@@ -153,47 +158,17 @@ class UserAttributesController extends UserAttributesAppController {
 
 		} else {
 			//既存データ取得
-			$options = array(
-				'recursive' => -1,
-				'conditions' => array('key' => $key)
-			);
-			$userAttribute = $this->UserAttribute->find('all', $options);
-			$this->request->data['UserAttribute'] = Hash::extract($userAttribute, '{n}.UserAttribute');
-
-			$data = $this->UserAttributeSetting->find('first', array(
-				'recursive' => -1,
-				'conditions' => array(
-					'user_attribute_key' => $key
-				),
-			));
-			$this->request->data = Hash::merge($this->request->data, $data);
+			$this->request->data = $this->UserAttribute->getUserAttribute($key);
+			if (! $this->request->data) {
+				$this->throwBadRequest();
+				return;
+			}
 		}
-	}
-
-/**
- * move
- *
- * @return void
- */
-	public function move() {
-		if (! $this->request->isPost()) {
-			$this->throwBadRequest();
-			return;
+		if ($this->request->data['UserAttributeSetting']['is_systemized']) {
+			$this->DataTypeForm->dataTypes = $this->UserAttributeSetting->editDataTypes;
+		} else {
+			$this->DataTypeForm->dataTypes = $this->UserAttributeSetting->addDataTypes;
 		}
-
-		$this->UserAttributeSetting->id = $this->data['UserAttributeSetting']['id'];
-		if (! $this->UserAttributeSetting->exists()) {
-			$this->throwBadRequest();
-			return;
-		}
-
-		if (! $this->UserAttributeSetting->saveUserAttributesOrder($this->data)) {
-			$this->throwBadRequest();
-			return;
-		}
-
-		$this->NetCommons->setFlashNotification(__d('net_commons', 'Successfully saved.'), array('class' => 'success'));
-		$this->redirect('/user_attributes/user_attributes/index/');
 	}
 
 /**
@@ -207,7 +182,10 @@ class UserAttributesController extends UserAttributesAppController {
 			return;
 		}
 
-		$this->UserAttribute->deleteUserAttribute($this->data['UserAttribute'][0]);
+		if (! $this->UserAttribute->deleteUserAttribute($this->data)) {
+			$this->throwBadRequest();
+			return;
+		}
 		$this->redirect('/user_attributes/user_attributes/index/');
 	}
 

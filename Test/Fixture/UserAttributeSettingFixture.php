@@ -22,7 +22,7 @@ class UserAttributeSettingFixture extends CakeTestFixture {
 	public $fields = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'key' => 'primary'),
 		'user_attribute_key' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'data_type_template_key' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'data_type_key' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'row' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 4, 'unsigned' => false),
 		'col' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 4, 'unsigned' => false),
 		'weight' => array('type' => 'integer', 'null' => true, 'default' => null, 'unsigned' => false, 'comment' => '表示順'),
@@ -53,7 +53,7 @@ class UserAttributeSettingFixture extends CakeTestFixture {
 		array(
 			'id' => 1,
 			'user_attribute_key' => 'Lorem ipsum dolor sit amet',
-			'data_type_template_key' => 'Lorem ipsum dolor sit amet',
+			'data_type_key' => 'Lorem ipsum dolor sit amet',
 			'row' => 1,
 			'col' => 1,
 			'weight' => 1,

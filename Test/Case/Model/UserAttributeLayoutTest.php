@@ -35,7 +35,7 @@ class UserAttributeLayoutTest extends CakeTestCase {
  */
 	public function setUp() {
 		parent::setUp();
-		$this->UserAttributeLayout = ClassRegistry::init('UserAttributes.UserAttributeLayout');
+		//$this->UserAttributeLayout = ClassRegistry::init('UserAttributes.UserAttributeLayout');
 	}
 
 /**
@@ -44,7 +44,7 @@ class UserAttributeLayoutTest extends CakeTestCase {
  * @return void
  */
 	public function tearDown() {
-		unset($this->UserAttributeLayout);
+		//unset($this->UserAttributeLayout);
 
 		parent::tearDown();
 	}

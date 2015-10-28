@@ -9,16 +9,7 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-echo $this->Html->css(
-	array(
-		'/user_attributes/css/style.css'
-	),
-	array('plugin' => false)
-);
+echo $this->NetCommonsHtml->css('/user_attributes/css/style.css');
 ?>
 
-<?php foreach ($userAttributeLayouts as $layout) : ?>
-	<?php $row = $layout['UserAttributeLayout']['id']; ?>
-
-	<?php echo $this->element('UserAttributes/render_index_row', array('row' => $row, 'layout' => $layout)); ?>
-<?php endforeach;
+<?php echo $this->UserAttributeLayout->renderRow('UserAttributes/render_index_row');

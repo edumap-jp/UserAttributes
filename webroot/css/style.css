@@ -14,3 +14,10 @@ ul.user-attribute-edit {
 .user-attribute-display {
 	margin-right: 10px;
 }
+
+.user-attribute-choices-form {
+	margin-bottom: 8px;
+}
+.user-attribute-scrollable {
+	max-height: 180px;
+}

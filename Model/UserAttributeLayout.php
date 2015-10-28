@@ -20,6 +20,11 @@ App::uses('UserAttributesAppModel', 'UserAttributes.Model');
 class UserAttributeLayout extends UserAttributesAppModel {
 
 /**
+ * レイアウト列数
+ */
+	const LAYOUT_COL_NUMBER = 2;
+
+/**
  * Validation rules
  *
  * @var array
@@ -38,36 +43,34 @@ class UserAttributeLayout extends UserAttributesAppModel {
 	);
 
 /**
- * Save plugin
+ * レイアウトの保存
  *
- * @param array $data Request data
+ * @param array $data リクエストデータ
+ * @param string $fieldName フィールド名
  * @return bool True on success
  * @throws InternalErrorException
  */
-	public function saveUserAttributeLayout($data) {
-		$this->loadModels([
-			'UserAttributeLayout' => 'UserAttributes.UserAttributeLayout',
-		]);
-
+	public function saveUserAttributeLayout($data, $fieldName) {
 		//トランザクションBegin
-		$this->setDataSource('master');
-		$dataSource = $this->getDataSource();
-		$dataSource->begin();
+		$this->begin();
+
+		$this->id = $data[$this->alias]['id'];
+		if (! $this->exists()) {
+			return false;
+		}
 
 		try {
-			//AttributeLayoutテーブルの登録
-			if (! $this->save($data)) {
+			//UserAttributeLayoutテーブルの登録
+			if (! $this->saveField($fieldName, $data[$this->alias][$fieldName], false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
 			//トランザクションCommit
-			$dataSource->commit();
+			$this->commit();
 
 		} catch (Exception $ex) {
 			//トランザクションRollback
-			$dataSource->rollback();
-			CakeLog::error($ex);
-			throw $ex;
+			$this->rollback($ex);
 		}
 
 		return true;

@@ -10,6 +10,9 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
  */
+
+$row = $layout['UserAttributeLayout']['id'];
+$col = $layout['UserAttributeLayout']['col'];
 ?>
 
 <div class="panel panel-default">
@@ -18,21 +21,17 @@
 			<strong><?php echo sprintf(__d('user_attributes', '%s row'), $row); ?></strong>
 		</div>
 		<div class="pull-right">
-			<?php echo $this->element('UserAttributes/edit_col', array('layout' => $layout)); ?>
+			<?php echo $this->UserAttribute->editCol($layout); ?>
 		</div>
 	</div>
 
 	<div class="panel-body">
 		<p class="text-right">
-			<a class="btn btn-sm btn-success" href="<?php echo $this->Html->url('/user_attributes/user_attributes/add/' . $row . '/'); ?>">
-				<span class="glyphicon glyphicon-plus"> </span>
-			</a>
+			<?php echo $this->Button->addLink('', array('action' => 'add', $row, $col), array('iconSize' => 'btn-sm')); ?>
 		</p>
 
 		<div class="row">
-			<?php for($col = 1; $col <= $layout['UserAttributeLayout']['col']; $col++) : ?>
-				<?php echo $this->element('UserAttributes/render_index_col', array('row' => $row, 'col' => $col, 'layout' => $layout)); ?>
-			<?php endfor; ?>
+			<?php echo $this->UserAttributeLayout->renderCol('UserAttributes/render_index_col', $layout); ?>
 		</div>
 	</div>
 </div>

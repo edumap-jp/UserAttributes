@@ -9,31 +9,39 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-echo $this->Html->css(
-	array(
-		'/user_attributes/css/style.css'
-	),
-	array(
-		'plugin' => false,
-		'once' => true,
-		'inline' => false
-	)
-);
+echo $this->NetCommonsHtml->css('/user_attributes/css/style.css');
+echo $this->NetCommonsHtml->script('/user_attributes/js/user_attributes.js');
 
-echo $this->Html->script(
-	array(
-		'/user_attributes/js/user_attributes.js'
-	),
-	array(
-		'plugin' => false,
-		'once' => true,
-		'inline' => false
-	)
-);
+//Javascriptに渡すデータ生成
+$camelizeData['userAttributeSetting'] = NetCommonsAppController::camelizeKeyRecursive($this->data['UserAttributeSetting']);
+
+//'_' . $langIdにしないと、Javascript側で認識されない
+if (! isset($this->request->data['UserAttributeChoice'])) {
+	$this->request->data['UserAttributeChoice'] = array();
+}
+foreach ($this->request->data['UserAttributeChoice'] as $weight => $choiceByLang) {
+	foreach ($choiceByLang as $langId => $choice) {
+		$camelizeData['userAttributeChoices'][$weight]['_' . $langId] = $choice;
+	}
+}
+
+$newChoice = array();
+foreach ($this->request->data['UserAttribute'] as $userAttribute) {
+	$camelizeData['newChoice']['_' . $userAttribute['language_id']] = array(
+		'id' => null,
+		'language_id' => $userAttribute['language_id'],
+		'user_attribute_id' => $userAttribute['id'],
+		'key' => null,
+		'name' => null,
+		'value' => null,
+		'weight' => null,
+	);
+}
+
 ?>
 
-<div class="panel panel-default" ng-controller="UserAttributes">
-	<?php echo $this->Form->create('UserAttribute', array('novalidate' => true)); ?>
+<div class="panel panel-default" ng-controller="UserAttributes" ng-init='initialize(<?php echo h(json_encode($camelizeData)) ?>)'>
+	<?php echo $this->NetCommonsForm->create('UserAttribute'); ?>
 
 	<div class="panel-body">
 		<?php echo $this->SwitchLanguage->tablist('user-attributes-'); ?>
@@ -44,20 +52,16 @@ echo $this->Html->script(
 	</div>
 
 	<div class="panel-footer text-center">
-		<a class="btn btn-default btn-workflow" href="<?php echo $this->Html->url('/user_attributes/user_attributes/index/'); ?>">
-			<span class="glyphicon glyphicon-remove"></span>
-			<?php echo __d('net_commons', 'Cancel'); ?>
-		</a>
-
-		<?php echo $this->Form->button(__d('net_commons', 'OK'), array(
-				'class' => 'btn btn-primary btn-workflow',
-				'name' => 'save',
-			)); ?>
+		<?php echo $this->Button->cancelAndSave(
+				__d('net_commons', 'Cancel'),
+				__d('net_commons', 'OK'),
+				$this->NetCommonsHtml->url(array('action' => 'index'))
+			); ?>
 	</div>
 
-	<?php echo $this->Form->end(); ?>
+	<?php echo $this->NetCommonsForm->end(); ?>
 </div>
 
-<?php if ($this->request->params['action'] === 'edit') : ?>
+<?php if ($this->request->params['action'] === 'edit' && ! $this->data['UserAttributeSetting']['is_systemized']) : ?>
 	<?php echo $this->element('UserAttributes/delete_form'); ?>
 <?php endif;
