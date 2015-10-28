@@ -32,7 +32,7 @@ class UserAttributeTest extends CakeTestCase {
  */
 	public function setUp() {
 		parent::setUp();
-		$this->UserAttribute = ClassRegistry::init('UserAttributes.UserAttribute');
+		//$this->UserAttribute = ClassRegistry::init('UserAttributes.UserAttribute');
 	}
 
 /**
@@ -41,7 +41,7 @@ class UserAttributeTest extends CakeTestCase {
  * @return void
  */
 	public function tearDown() {
-		unset($this->UserAttribute);
+		//($this->UserAttribute);
 
 		parent::tearDown();
 	}
