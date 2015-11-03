@@ -9,7 +9,6 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-echo $this->NetCommonsHtml->css('/user_attributes/css/style.css');
 echo $this->NetCommonsHtml->script('/user_attributes/js/user_attributes.js');
 
 //Javascriptに渡すデータ生成

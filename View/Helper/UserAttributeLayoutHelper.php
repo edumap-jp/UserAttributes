@@ -31,6 +31,21 @@ class UserAttributeLayoutHelper extends AppHelper {
 	);
 
 /**
+ * After render file callback.
+ * Called after any view fragment is rendered.
+ *
+ * Overridden in subclasses.
+ *
+ * @param string $viewFile The file just be rendered.
+ * @param string $content The content that was rendered.
+ * @return void
+ */
+	public function afterRenderFile($viewFile, $content) {
+		$content = $this->NetCommonsHtml->css('/user_attributes/css/style.css') . $content;
+		parent::afterRenderFile($viewFile, $content);
+	}
+
+/**
  * 会員項目レイアウトのHTMLを出力する(段目)
  *
  * @param string $elementFile elementファイル名

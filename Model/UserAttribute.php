@@ -139,6 +139,7 @@ class UserAttribute extends UserAttributesAppModel {
 		$this->loadModels([
 			'DataType' => 'DataTypes.DataType',
 			'UserRole' => 'UserRoles.UserRole',
+			'UserAttributesRole' => 'UserRoles.UserAttributesRole',
 		]);
 
 		//UserAttributeデータ取得
