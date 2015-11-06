@@ -29,10 +29,11 @@ foreach ($this->request->data['UserAttribute'] as $index => $userAttribute) {
 	echo '<div class="form-group" ng-show="activeLangId === \'' . (string)$languageId . '\'" ng-cloak>';
 	echo $this->NetCommonsForm->input('UserAttribute.' . $index . '.' . 'name', array(
 		'type' => 'text',
-		'label' => __d('user_attributes', 'Item name') . $this->element('NetCommons.required'),
+		'label' => $this->SwitchLanguage->inputLabel(__d('user_attributes', 'Item name'), $languageId),
 		'error' => array(
 			'ng-show' => 'activeLangId === \'' . (string)$languageId . '\'',
 		),
+		'required' => true,
 	));
 	echo '</div>';
 }
@@ -126,7 +127,7 @@ foreach ($this->request->data['UserAttribute'] as $index => $userAttribute) {
 	}
 	echo $this->NetCommonsForm->input('UserAttribute.' . $index . '.' . 'description', array(
 		'type' => 'textarea',
-		'label' => __d('user_attributes', 'Description'),
+		'label' => $this->SwitchLanguage->inputLabel(__d('user_attributes', 'Description'), $languageId),
 		'rows' => '3',
 		'div' => array(
 			'class' => 'form-group',
