@@ -100,7 +100,7 @@ echo $this->NetCommonsForm->inlineCheckbox('UserAttributeSetting.required', arra
  */
 echo $this->NetCommonsForm->inlineCheckbox('UserAttributeSetting.only_administrator', array(
 	'label' => __d('user_attributes', 'To prohibit the reading and writing of non-members administrator'),
-	'ng-disabled' => '(' . (int)$this->request->data['UserAttributeSetting']['is_systemized'] . ' || userAttributeSetting.dataTypeKey === "' . DataType::DATA_TYPE_LABEL . '")',
+	'ng-disabled' => '(userAttributeSetting.dataTypeKey === "' . DataType::DATA_TYPE_LABEL . '")',
 ));
 
 /**
