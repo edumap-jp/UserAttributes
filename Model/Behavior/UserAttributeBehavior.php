@@ -22,6 +22,28 @@ App::uses('CakeMigration', 'Migrations.Lib');
 class UserAttributeBehavior extends ModelBehavior {
 
 /**
+ * CakeMigration object
+ *
+ * テスト用に定義してあります。
+ *
+ * @author Kohei Teraguchi <kteraguchi@commonsnet.org>
+ * @link http://www.netcommons.org NetCommons Project
+ * @license http://www.netcommons.org/license.txt NetCommons License
+ */
+	public $cakeMigration = null;
+
+/**
+ * Setup
+ *
+ * @param Model $model instance of model
+ * @param array $config array of configuration settings.
+ * @return void
+ */
+	public function setup(Model $model, $config = array()) {
+		$this->cakeMigration = new CakeMigration(array('connection' => $model->useDbConfig));
+	}
+
+/**
  * UserAttributesRoleのデフォルトデータ登録
  *
  * @param Model $model Model ビヘイビア呼び出し元モデル
@@ -118,7 +140,6 @@ class UserAttributeBehavior extends ModelBehavior {
 			'UsersLanguage' => 'Users.UsersLanguage',
 		]);
 
-		$model->Migration = new CakeMigration(array('connection' => $model->useDbConfig));
 		$userAttributeKey = $data[$model->UserAttributeSetting->alias]['user_attribute_key'];
 
 		$schema = array_keys($model->User->schema());
@@ -135,7 +156,7 @@ class UserAttributeBehavior extends ModelBehavior {
 			$afterColumn = $userColumn;
 			$userColumn = $userAttributeKey;
 		}
-		$model->Migration->migration['up']['create_field'][$tableName][$userAttributeKey] = array(
+		$this->cakeMigration->migration['up']['create_field'][$tableName][$userAttributeKey] = array(
 			'type' => 'string',
 			'null' => true,
 			'default' => null,
@@ -145,7 +166,7 @@ class UserAttributeBehavior extends ModelBehavior {
 		);
 
 		//公開項目フィールド
-		$model->Migration->migration['up']['create_field'][$model->User->table][sprintf(UserAttribute::PUBLIC_FIELD_FORMAT, $userAttributeKey)] = array(
+		$this->cakeMigration->migration['up']['create_field'][$model->User->table][sprintf(UserAttribute::PUBLIC_FIELD_FORMAT, $userAttributeKey)] = array(
 			'type' => 'boolean',
 			'null' => false,
 			'default' => '0',
@@ -153,7 +174,7 @@ class UserAttributeBehavior extends ModelBehavior {
 		);
 		//ファイルID項目フィールド
 		if ($data[$model->UserAttributeSetting->alias]['data_type_key'] === DataType::DATA_TYPE_IMG) {
-			$model->Migration->migration['up']['create_field'][$model->User->table][sprintf(UserAttribute::FILE_FIELD_FORMAT, $userAttributeKey)] = array(
+			$this->cakeMigration->migration['up']['create_field'][$model->User->table][sprintf(UserAttribute::FILE_FIELD_FORMAT, $userAttributeKey)] = array(
 				'type' => 'integer',
 				'null' => true,
 				'default' => null,
@@ -161,7 +182,7 @@ class UserAttributeBehavior extends ModelBehavior {
 				'after' => printf(UserAttribute::PUBLIC_FIELD_FORMAT, $userAttributeKey)
 			);
 		}
-		return $model->Migration->run('up');
+		return $this->cakeMigration->run('up');
 	}
 
 /**
@@ -179,26 +200,25 @@ class UserAttributeBehavior extends ModelBehavior {
 			'UsersLanguage' => 'Users.UsersLanguage',
 		]);
 
-		$model->Migration = new CakeMigration(array('connection' => $model->useDbConfig));
 		$userAttributeKey = $data[$model->UserAttributeSetting->alias]['user_attribute_key'];
 
 		if ($data[$model->UserAttributeSetting->alias]['data_type_key'] === DataType::DATA_TYPE_TEXT ||
 				$data[$model->UserAttributeSetting->alias]['data_type_key'] === DataType::DATA_TYPE_TEXTAREA) {
 
-			$model->Migration->migration['up']['drop_field'][$model->User->table] = array();
+			$this->cakeMigration->migration['up']['drop_field'][$model->User->table] = array();
 			$tableName = $model->UsersLanguage->table;
 		} else {
 			$tableName = $model->User->table;
 		}
 
-		$model->Migration->migration['up']['drop_field'][$tableName] = array($userAttributeKey);
-		$model->Migration->migration['up']['drop_field'][$model->User->table][] =
+		$this->cakeMigration->migration['up']['drop_field'][$tableName] = array($userAttributeKey);
+		$this->cakeMigration->migration['up']['drop_field'][$model->User->table][] =
 											sprintf(UserAttribute::PUBLIC_FIELD_FORMAT, $userAttributeKey);
 		if ($data[$model->UserAttributeSetting->alias]['data_type_key'] === DataType::DATA_TYPE_IMG) {
-			$model->Migration->migration['up']['drop_field'][$model->User->table][] =
+			$this->cakeMigration->migration['up']['drop_field'][$model->User->table][] =
 												sprintf(UserAttribute::FILE_FIELD_FORMAT, $userAttributeKey);
 		}
-		return $model->Migration->run('up');
+		return $this->cakeMigration->run('up');
 	}
 
 }
