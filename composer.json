@@ -17,6 +17,7 @@
     "require-dev": {
         "mustangostang/spyc":           "dev-master",
         "netcommons/net-commons":       "dev-master",
+        "netcommons/data-types":        "dev-master",
         "satooshi/php-coveralls":       "dev-master"
     },
     "license": "NetCommons License",
