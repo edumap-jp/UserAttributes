@@ -21,3 +21,8 @@ ul.user-attribute-edit {
 .user-attribute-scrollable {
 	max-height: 180px;
 }
+
+div.user-attribute-label {
+	margin-bottom: 5px;
+	font-weight: bold;
+}

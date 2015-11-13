@@ -101,6 +101,7 @@ class UserAttributeBehavior extends ModelBehavior {
 			'fields' => array(
 				$model->alias . '.*',
 				$model->UserAttributeSetting->alias . '.*',
+				$model->UserAttributesRole->alias . '.*',
 			),
 			'conditions' => array(
 				$model->alias . '.language_id' => Current::read('Language.id')
@@ -112,6 +113,15 @@ class UserAttributeBehavior extends ModelBehavior {
 					'type' => 'INNER',
 					'conditions' => array(
 						$model->UserAttributeSetting->alias . '.user_attribute_key' . ' = ' . $model->alias . ' .key',
+					),
+				),
+				array(
+					'table' => $model->UserAttributesRole->table,
+					'alias' => $model->UserAttributesRole->alias,
+					'type' => 'INNER',
+					'conditions' => array(
+						$model->UserAttributesRole->alias . '.user_attribute_key' . ' = ' . $model->alias . ' .key',
+						$model->UserAttributesRole->alias . '.role_key' => Current::read('User.role_key'),
 					),
 				),
 			),
