@@ -182,14 +182,13 @@ class UserAttributeBehavior extends ModelBehavior {
 			'default' => '0',
 			'after' => $userColumn
 		);
-		//ファイルID項目フィールド
-		if ($data[$model->UserAttributeSetting->alias]['data_type_key'] === DataType::DATA_TYPE_IMG) {
-			$this->cakeMigration->migration['up']['create_field'][$model->User->table][sprintf(UserAttribute::FILE_FIELD_FORMAT, $userAttributeKey)] = array(
-				'type' => 'integer',
-				'null' => true,
-				'default' => null,
-				'unsigned' => false,
-				'after' => printf(UserAttribute::PUBLIC_FIELD_FORMAT, $userAttributeKey)
+		//メールの受信可否設定項目フィールド
+		if ($data[$model->UserAttributeSetting->alias]['data_type_key'] === DataType::DATA_TYPE_EMAIL) {
+			$this->cakeMigration->migration['up']['create_field'][$model->User->table][sprintf(UserAttribute::MAIL_RECEPTION_FIELD_FORMAT, $userAttributeKey)] = array(
+				'type' => 'boolean',
+				'null' => false,
+				'default' => '0',
+				'after' => sprintf(UserAttribute::PUBLIC_FIELD_FORMAT, $userAttributeKey)
 			);
 		}
 		return $this->cakeMigration->run('up');
@@ -224,9 +223,9 @@ class UserAttributeBehavior extends ModelBehavior {
 		$this->cakeMigration->migration['up']['drop_field'][$tableName] = array($userAttributeKey);
 		$this->cakeMigration->migration['up']['drop_field'][$model->User->table][] =
 											sprintf(UserAttribute::PUBLIC_FIELD_FORMAT, $userAttributeKey);
-		if ($data[$model->UserAttributeSetting->alias]['data_type_key'] === DataType::DATA_TYPE_IMG) {
+		if ($data[$model->UserAttributeSetting->alias]['data_type_key'] === DataType::DATA_TYPE_EMAIL) {
 			$this->cakeMigration->migration['up']['drop_field'][$model->User->table][] =
-												sprintf(UserAttribute::FILE_FIELD_FORMAT, $userAttributeKey);
+												sprintf(UserAttribute::MAIL_RECEPTION_FIELD_FORMAT, $userAttributeKey);
 		}
 		return $this->cakeMigration->run('up');
 	}
