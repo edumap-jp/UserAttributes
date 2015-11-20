@@ -30,7 +30,7 @@ class UserAttribute extends UserAttributesAppModel {
  */
 	const
 		PUBLIC_FIELD_FORMAT = 'is_%s_public',
-		FILE_FIELD_FORMAT = '%s_file_id';
+		MAIL_RECEPTION_FIELD_FORMAT = 'is_%s_reception';
 
 /**
  * use behaviors
