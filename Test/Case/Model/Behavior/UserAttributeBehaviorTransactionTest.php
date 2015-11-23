@@ -8,11 +8,12 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  */
 
+App::uses('NetCommonsCakeTestCase', 'NetCommons.TestSuite');
 
 /**
  * UserAttributeBehaviorTransactionTest
  */
-class UserAttributeBehaviorTransactionTest extends CakeTestCase {
+class UserAttributeBehaviorTransactionTest extends NetCommonsCakeTestCase {
 
 /**
  * Fixtures
