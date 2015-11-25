@@ -34,6 +34,22 @@ class UserAttribute extends UserAttributesAppModel {
 		MAIL_RECEPTION_FIELD_FORMAT = 'is_%s_reception';
 
 /**
+ * UserAttribute->getUserAttributesForLayout()で取得したデータ
+ *
+ * @var array
+ */
+	public static $userAttributes = null;
+
+/**
+ * datetimeとするフィールド
+ *
+ * @var array
+ */
+	public static $typeDatetime = array(
+		'created', 'modified', 'last_login', 'password_modified'
+	);
+
+/**
  * use behaviors
  *
  * @var array
@@ -143,6 +159,10 @@ class UserAttribute extends UserAttributesAppModel {
 			'UserAttributesRole' => 'UserRoles.UserAttributesRole',
 		]);
 
+		if (isset(self::$userAttributes)) {
+			return self::$userAttributes;
+		}
+
 		//UserAttributeデータ取得
 		$userAttributes = $this->find('all', $this->findOptionsForLayout());
 
@@ -203,6 +223,7 @@ class UserAttribute extends UserAttributesAppModel {
 			}
 		}
 
+		self::$userAttributes = $results;
 		return $results;
 	}
 

@@ -8,11 +8,12 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  */
 
+App::uses('NetCommonsCakeTestCase', 'NetCommons.TestSuite');
 
 /**
  * UserAttributeBehaviorTransactionTest
  */
-class UserAttributeBehaviorTransactionTest extends CakeTestCase {
+class UserAttributeBehaviorTransactionTest extends NetCommonsCakeTestCase {
 
 /**
  * Fixtures
@@ -20,8 +21,12 @@ class UserAttributeBehaviorTransactionTest extends CakeTestCase {
  * @var array
  */
 	public $fixtures = array(
+		'plugin.data_types.data_type',
+		'plugin.data_types.data_type_choice',
 		'plugin.user_attributes.user_attribute',
+		'plugin.user_attributes.user_attribute_choice',
 		'plugin.user_attributes.user_attribute_setting',
+		'plugin.user_roles.user_attributes_role',
 		'plugin.users.user',
 		'plugin.users.users_language',
 	);
