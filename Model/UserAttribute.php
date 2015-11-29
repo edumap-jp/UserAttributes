@@ -150,16 +150,18 @@ class UserAttribute extends UserAttributesAppModel {
 /**
  * 会員項目のレイアウト用のデータ取得
  *
+ * @param bool $force 強制的に取得するフラグ
  * @return array 会員項目データ配列
+ * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  */
-	public function getUserAttributesForLayout() {
+	public function getUserAttributesForLayout($force = false) {
 		$this->loadModels([
 			'DataType' => 'DataTypes.DataType',
 			'UserRole' => 'UserRoles.UserRole',
 			'UserAttributesRole' => 'UserRoles.UserAttributesRole',
 		]);
 
-		if (isset(self::$userAttributes)) {
+		if (isset(self::$userAttributes) && !$force) {
 			return self::$userAttributes;
 		}
 
