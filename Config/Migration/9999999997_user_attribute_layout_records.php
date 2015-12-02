@@ -42,7 +42,7 @@ class UserAttributeLayoutRecords extends NetCommonsMigration {
 	public $records = array(
 		'UserAttributeLayout' => array(
 			array('id' => '1', 'col' => '2'),
-			array('id' => '2', 'col' => '2'),
+			array('id' => '2', 'col' => '1'),
 			array('id' => '3', 'col' => '1'),
 		),
 	);

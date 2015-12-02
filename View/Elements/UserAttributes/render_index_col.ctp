@@ -23,10 +23,9 @@
 		</div>
 
 		<div class="pull-left">
+			<?php echo h($userAttribute['UserAttribute']['name']); ?>
 			<?php if ($userAttribute['UserAttributeSetting']['required']) : ?>
-				<?php echo $this->NetCommonsHtml->requireTitle($userAttribute['UserAttribute']['name']); ?>
-			<?php else : ?>
-				<?php echo h($userAttribute['UserAttribute']['name']); ?>
+				<?php echo $this->element('NetCommons.required'); ?>
 			<?php endif; ?>
 		</div>
 
