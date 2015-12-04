@@ -315,7 +315,7 @@ class UserAttribute extends UserAttributesAppModel {
 
 			//UserAttributeChoiceの登録処理
 			//システム項目でなくて、ラジオボタン・チェックボタン・セレクトボックスの場合のみ
-			if (! $data['UserAttributeSetting']['is_systemized']) {
+			if (! $data['UserAttributeSetting']['is_system']) {
 				$this->UserAttributeChoice->saveUserAttributeChoices($data);
 			}
 

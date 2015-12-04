@@ -61,6 +61,6 @@ foreach ($this->request->data['UserAttribute'] as $userAttribute) {
 	<?php echo $this->NetCommonsForm->end(); ?>
 </div>
 
-<?php if ($this->request->params['action'] === 'edit' && ! $this->data['UserAttributeSetting']['is_systemized']) : ?>
+<?php if ($this->request->params['action'] === 'edit' && ! $this->data['UserAttributeSetting']['is_system']) : ?>
 	<?php echo $this->element('UserAttributes/delete_form'); ?>
 <?php endif;
