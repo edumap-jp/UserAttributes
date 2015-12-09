@@ -87,3 +87,6 @@ msgstr "%s段目に移動"
 msgid "%s row"
 msgstr "%s 段目"
 
+msgid "Move"
+msgstr "移動"
+

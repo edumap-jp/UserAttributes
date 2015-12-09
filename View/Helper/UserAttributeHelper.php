@@ -145,7 +145,8 @@ class UserAttributeHelper extends AppHelper {
 							'aria-haspopup="true" ' .
 							'aria-expanded="false" ' .
 							'ng-disabled="sending">' .
-					'<span class="glyphicon glyphicon-cog"> </span>' .
+					__d('user_attributes', 'Move') .
+					' <span class="caret"></span>' .
 				'</button>';
 
 		$output .= '<ul class="dropdown-menu">';
