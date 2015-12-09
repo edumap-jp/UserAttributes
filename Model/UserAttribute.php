@@ -432,12 +432,18 @@ class UserAttribute extends UserAttributesAppModel {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
-			//フィールドの削除処理
-			$this->dropColumnByUserAttribute($userAttributeSetting);
-
-			//トランザクションCommit
+			//Alterテーブルは暗黙のコミットが起こるため、
+			//一度トランザクションCommitする
 			$this->commit();
 
+		} catch (Exception $ex) {
+			//トランザクションRollback
+			$this->rollback($ex);
+		}
+
+		try {
+			//フィールドの削除処理
+			$this->dropColumnByUserAttribute($userAttributeSetting);
 		} catch (Exception $ex) {
 			//トランザクションRollback
 			$this->rollback($ex);

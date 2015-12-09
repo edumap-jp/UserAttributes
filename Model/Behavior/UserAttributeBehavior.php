@@ -156,7 +156,7 @@ class UserAttributeBehavior extends ModelBehavior {
 		$userColumn = array_pop($schema);
 
 		//会員項目フィールド
-		if ($data[$model->UserAttributeSetting->alias]['is_multilingualization']) {
+		if (Hash::get($data, $model->UserAttributeSetting->alias . '.is_multilingualization')) {
 			$schema = array_keys($model->UsersLanguage->schema());
 			$afterColumn = array_pop($schema);
 			$tableName = $model->UsersLanguage->table;
@@ -210,7 +210,7 @@ class UserAttributeBehavior extends ModelBehavior {
 
 		$userAttributeKey = $data[$model->UserAttributeSetting->alias]['user_attribute_key'];
 
-		if ($data[$model->UserAttributeSetting->alias]['is_multilingualization']) {
+		if (Hash::get($data, $model->UserAttributeSetting->alias . '.is_multilingualization')) {
 			$this->cakeMigration->migration['up']['drop_field'][$model->User->table] = array();
 			$tableName = $model->UsersLanguage->table;
 		} else {
