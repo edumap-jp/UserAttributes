@@ -26,3 +26,7 @@ div.user-attribute-label {
 	margin-bottom: 5px;
 	font-weight: bold;
 }
+
+.user-attribute-edit .list-group-item.disabled {
+	cursor: auto;
+}

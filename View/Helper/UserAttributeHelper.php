@@ -139,8 +139,15 @@ class UserAttributeHelper extends AppHelper {
 			$output .= $this->NetCommonsForm->hidden($field, array('value' => ''));
 		}
 
+		if (Hash::get($userAttribute, 'UserAttributeSetting.display')) {
+			//$class = 'success';
+			$class = 'default';
+		} else {
+			$class = 'default';
+		}
+
 		$output .= '<button type="button" ' .
-							'class="btn btn-xs btn-default dropdown-toggle" ' .
+							'class="btn btn-xs btn-' . $class . ' dropdown-toggle" ' .
 							'data-toggle="dropdown" ' .
 							'aria-haspopup="true" ' .
 							'aria-expanded="false" ' .
