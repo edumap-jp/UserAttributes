@@ -84,6 +84,18 @@ if (! $this->request->data['UserAttributeSetting']['is_system']) {
 echo '</div>';
 
 /**
+ * 多言語入力とする
+ * *
+ * * システム項目の場合、disabled
+ * * テキスト・テキストエリアタイプ以外の場合、disabled
+ */
+echo $this->NetCommonsForm->inlineCheckbox('UserAttributeSetting.is_multilingualization', array(
+	'label' => __d('user_attributes', 'Designate as multi-language items'),
+	'ng-disabled' => '(' . (int)($this->params['action'] === 'edit' || $this->request->data['UserAttributeSetting']['is_system']) . ' || ' .
+							'userAttributeSetting.dataTypeKey !== "' . DataType::DATA_TYPE_TEXT . '" && userAttributeSetting.dataTypeKey !== "' . DataType::DATA_TYPE_TEXTAREA . '")',
+));
+
+/**
  * 必須項目とする
  * * システム項目の場合、disabled
  * * ラベルタイプの場合、disabled
