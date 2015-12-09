@@ -106,7 +106,7 @@ class UserAttributesSchema extends CakeSchema {
 		'display_search_result' => array('type' => 'boolean', 'null' => true, 'default' => '0', 'comment' => '「検索結果リストに表示する（デフォルト）」の有無。画面からの設定は不可'),
 		'self_public_setting' => array('type' => 'boolean', 'null' => true, 'default' => '0', 'comment' => '「各自で公開・非公開の設定可能にする」の有無'),
 		'self_email_setting' => array('type' => 'boolean', 'null' => true, 'default' => '0', 'comment' => '「各自でメールの受信可否を設定可能にする」の有無'),
-		'multilingualization' => array('type' => 'boolean', 'null' => true, 'default' => '0', 'comment' => '「多言語にする」の有無'),
+		'is_multilingualization' => array('type' => 'boolean', 'null' => true, 'default' => '0', 'comment' => '「多言語にする」の有無'),
 		'created_user' => array('type' => 'integer', 'null' => true, 'default' => null, 'unsigned' => false),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'modified_user' => array('type' => 'integer', 'null' => true, 'default' => null, 'unsigned' => false),

@@ -34,13 +34,13 @@ class AddMultilingualization extends CakeMigration {
 		'up' => array(
 			'create_field' => array(
 				'user_attribute_settings' => array(
-					'multilingualization' => array('type' => 'boolean', 'null' => true, 'default' => '0', 'comment' => '「多言語にする」の有無', 'after' => 'self_email_setting'),
+					'is_multilingualization' => array('type' => 'boolean', 'null' => true, 'default' => '0', 'comment' => '「多言語にする」の有無', 'after' => 'self_email_setting'),
 				),
 			),
 		),
 		'down' => array(
 			'drop_field' => array(
-				'user_attribute_settings' => array('multilingualization'),
+				'user_attribute_settings' => array('is_multilingualization'),
 			),
 		),
 	);
