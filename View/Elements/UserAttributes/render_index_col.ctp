@@ -10,17 +10,15 @@
  */
 
 if (Hash::get($userAttribute, 'UserAttributeSetting.display')) {
-	//$class = 'list-group-item-success';
-	$class = '';
+	$class = ' list-group-item-success';
 } else {
-	$class = 'disabled';
-	//$class = '';
+	$class = '';
 }
 
 ?>
 
 <ul class="user-attribute-edit">
-	<li class="list-group-item clearfix <?php echo $class; ?>">
+	<li class="list-group-item clearfix<?php echo $class; ?>">
 		<div class="pull-left user-attribute-display">
 			<?php echo $this->UserAttribute->displaySetting($userAttribute); ?>
 		</div>
