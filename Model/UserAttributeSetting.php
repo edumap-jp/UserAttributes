@@ -96,7 +96,14 @@ class UserAttributeSetting extends UserAttributesAppModel {
 					'required' => false,
 				),
 			),
-			'only_administrator' => array(
+			'only_administrator_readable' => array(
+				'boolean' => array(
+					'rule' => array('boolean'),
+					'message' => __d('net_commons', 'Invalid request.'),
+					'required' => false,
+				),
+			),
+			'only_administrator_editable' => array(
 				'boolean' => array(
 					'rule' => array('boolean'),
 					'message' => __d('net_commons', 'Invalid request.'),

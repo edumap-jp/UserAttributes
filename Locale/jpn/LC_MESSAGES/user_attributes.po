@@ -47,8 +47,12 @@ msgid "Designate as multi-language items"
 msgstr "多言語入力とする"
 
 #: UserAttributes/View/Elements/UserAttributes/edit_form.ctp:86
-msgid "To prohibit the reading and writing of non-members administrator"
-msgstr "会員管理者以外の読み書きを禁ずる"
+msgid "To prohibit the reading of non-members administrator"
+msgstr "本人も読めない"
+
+#: UserAttributes/View/Elements/UserAttributes/edit_form.ctp:86
+msgid "To prohibit the writing of non-members administrator"
+msgstr "本人も書けない"
 
 #: UserAttributes/View/Elements/UserAttributes/edit_form.ctp:97
 msgid "Enable individual public/private setting"

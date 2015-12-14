@@ -106,12 +106,21 @@ echo $this->NetCommonsForm->inlineCheckbox('UserAttributeSetting.required', arra
 ));
 
 /**
- * 会員管理者以外の読み書きを禁ずる
- * * システム項目の場合、disabled
- * * ラベルタイプの場合、disabled
+ * 本人も読めない（管理者のみ読める）
+ * * ラベルタイプとパスワードの場合、disabled
  */
-echo $this->NetCommonsForm->inlineCheckbox('UserAttributeSetting.only_administrator', array(
-	'label' => __d('user_attributes', 'To prohibit the reading and writing of non-members administrator'),
+echo $this->NetCommonsForm->inlineCheckbox('UserAttributeSetting.only_administrator_readable', array(
+	'label' => __d('user_attributes', 'To prohibit the reading of non-members administrator'),
+	'ng-disabled' => '(userAttributeSetting.dataTypeKey === "' . DataType::DATA_TYPE_LABEL . '" || userAttributeSetting.dataTypeKey === "' . DataType::DATA_TYPE_PASSWORD . '")',
+));
+
+/**
+ * 本人も書けない（管理者のみ書ける）
+ * * ラベルタイプの場合、disabled
+ * * 本人が読めない場合、disabled + checked (TODO)
+ */
+echo $this->NetCommonsForm->inlineCheckbox('UserAttributeSetting.only_administrator_editable', array(
+	'label' => __d('user_attributes', 'To prohibit the writing of non-members administrator'),
 	'ng-disabled' => '(userAttributeSetting.dataTypeKey === "' . DataType::DATA_TYPE_LABEL . '")',
 ));
 
