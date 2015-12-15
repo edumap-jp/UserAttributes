@@ -9,6 +9,7 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
+echo $this->NetCommonsForm->hidden('UserAttributeSetting.id');
 echo $this->NetCommonsForm->hidden('UserAttributeSetting.row');
 echo $this->NetCommonsForm->hidden('UserAttributeSetting.col');
 echo $this->NetCommonsForm->hidden('UserAttributeSetting.weight');
