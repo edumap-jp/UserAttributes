@@ -94,3 +94,5 @@ msgstr "%s 段目"
 msgid "Move"
 msgstr "移動"
 
+msgid "Users can use the 'user management' plugin, you can read and write all of the member item. However, you can not read the password."
+msgstr "会員管理プラグインを使えるユーザは、すべての会員項目を読み書きできます。但し、パスワードは読めません。"
