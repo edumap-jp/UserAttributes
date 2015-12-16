@@ -46,7 +46,7 @@ class UserAttribute extends UserAttributesAppModel {
  * @var array
  */
 	public static $typeDatetime = array(
-		'created', 'modified', 'last_login', 'password_modified'
+		'created', 'modified', 'last_login', 'previous_login', 'password_modified'
 	);
 
 /**
