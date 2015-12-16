@@ -30,7 +30,6 @@ class UserAttribute extends UserAttributesAppModel {
  */
 	const
 		PUBLIC_FIELD_FORMAT = 'is_%s_public',
-		FILE_FIELD_FORMAT = '%s_file_id', //この項目、後で削除
 		MAIL_RECEPTION_FIELD_FORMAT = 'is_%s_reception';
 
 /**
