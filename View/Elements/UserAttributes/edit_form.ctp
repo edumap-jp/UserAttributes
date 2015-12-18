@@ -118,7 +118,7 @@ echo $this->NetCommonsForm->inlineCheckbox('UserAttributeSetting.only_administra
 /**
  * 本人も書けない（管理者のみ書ける）
  * * ラベルタイプの場合、disabled
- * * 本人が読めない場合、disabled + checked (TODO)
+ * * 本人が読めない場合、disabled + checked (後で対応)
  */
 echo $this->NetCommonsForm->inlineCheckbox('UserAttributeSetting.only_administrator_editable', array(
 	'label' => __d('user_attributes', 'To prohibit the writing of non-members administrator'),
