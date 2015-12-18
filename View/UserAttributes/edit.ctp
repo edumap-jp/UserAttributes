@@ -36,8 +36,11 @@ foreach ($this->request->data['UserAttribute'] as $userAttribute) {
 		'weight' => null,
 	);
 }
-
 ?>
+
+<div class="alert alert-info">
+	<?php echo __d('user_attributes', 'Users can use the \'user management\' plugin, you can read and write all of the member item. However, you can not read the password.'); ?>
+</div>
 
 <div class="panel panel-default" ng-controller="UserAttributes" ng-init='initialize(<?php echo h(json_encode($camelizeData)) ?>)'>
 	<?php echo $this->NetCommonsForm->create('UserAttribute'); ?>
@@ -61,6 +64,6 @@ foreach ($this->request->data['UserAttribute'] as $userAttribute) {
 	<?php echo $this->NetCommonsForm->end(); ?>
 </div>
 
-<?php if ($this->request->params['action'] === 'edit' && ! $this->data['UserAttributeSetting']['is_systemized']) : ?>
+<?php if ($this->request->params['action'] === 'edit' && ! $this->data['UserAttributeSetting']['is_system']) : ?>
 	<?php echo $this->element('UserAttributes/delete_form'); ?>
 <?php endif;

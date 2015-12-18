@@ -73,8 +73,9 @@ class UserAttributeBehavior extends ModelBehavior {
 				'role_key' => $userRoleSetting['UserRoleSetting']['role_key'],
 				'origin_role_key' => $userRoleSetting['UserRoleSetting']['origin_role_key'],
 				'user_attribute_key' => $data['UserAttributeSetting']['user_attribute_key'],
-				'only_administrator' => (bool)$data['UserAttributeSetting']['only_administrator'],
-				'is_systemized' => (bool)$data['UserAttributeSetting']['is_systemized']
+				'only_administrator_readable' => (bool)$data['UserAttributeSetting']['only_administrator_readable'],
+				'only_administrator_editable' => (bool)$data['UserAttributeSetting']['only_administrator_editable'],
+				'is_system' => (bool)$data['UserAttributeSetting']['is_system']
 			);
 
 			$params['is_usable_user_manager'] =
@@ -156,8 +157,7 @@ class UserAttributeBehavior extends ModelBehavior {
 		$userColumn = array_pop($schema);
 
 		//会員項目フィールド
-		if ($data[$model->UserAttributeSetting->alias]['data_type_key'] === DataType::DATA_TYPE_TEXT ||
-				$data[$model->UserAttributeSetting->alias]['data_type_key'] === DataType::DATA_TYPE_TEXTAREA) {
+		if (Hash::get($data, $model->UserAttributeSetting->alias . '.is_multilingualization')) {
 			$schema = array_keys($model->UsersLanguage->schema());
 			$afterColumn = array_pop($schema);
 			$tableName = $model->UsersLanguage->table;
@@ -211,9 +211,7 @@ class UserAttributeBehavior extends ModelBehavior {
 
 		$userAttributeKey = $data[$model->UserAttributeSetting->alias]['user_attribute_key'];
 
-		if ($data[$model->UserAttributeSetting->alias]['data_type_key'] === DataType::DATA_TYPE_TEXT ||
-				$data[$model->UserAttributeSetting->alias]['data_type_key'] === DataType::DATA_TYPE_TEXTAREA) {
-
+		if (Hash::get($data, $model->UserAttributeSetting->alias . '.is_multilingualization')) {
 			$this->cakeMigration->migration['up']['drop_field'][$model->User->table] = array();
 			$tableName = $model->UsersLanguage->table;
 		} else {

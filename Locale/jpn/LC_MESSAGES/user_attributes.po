@@ -42,9 +42,17 @@ msgstr "入力タイプ"
 msgid "Designate as required items"
 msgstr "必須項目とする"
 
+#: UserAttributes/View/Elements/UserAttributes/edit_form.ctp:75
+msgid "Designate as multi-language items"
+msgstr "多言語入力とする"
+
 #: UserAttributes/View/Elements/UserAttributes/edit_form.ctp:86
-msgid "To prohibit the reading and writing of non-members administrator"
-msgstr "会員管理者以外の読み書きを禁ずる"
+msgid "To prohibit the reading of non-members administrator"
+msgstr "読み取り不可項目とする"
+
+#: UserAttributes/View/Elements/UserAttributes/edit_form.ctp:86
+msgid "To prohibit the writing of non-members administrator"
+msgstr "書き込み不可項目とする"
 
 #: UserAttributes/View/Elements/UserAttributes/edit_form.ctp:97
 msgid "Enable individual public/private setting"
@@ -83,3 +91,8 @@ msgstr "%s段目に移動"
 msgid "%s row"
 msgstr "%s 段目"
 
+msgid "Move"
+msgstr "移動"
+
+msgid "Users can use the 'user management' plugin, you can read and write all of the member item. However, you can not read the password."
+msgstr "会員管理プラグインを使えるユーザは、すべての会員項目を読み書きできます。但し、パスワードは読めません。"

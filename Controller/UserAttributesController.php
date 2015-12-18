@@ -164,7 +164,7 @@ class UserAttributesController extends UserAttributesAppController {
 				return;
 			}
 		}
-		if ($this->request->data['UserAttributeSetting']['is_systemized']) {
+		if ($this->request->data['UserAttributeSetting']['is_system']) {
 			$this->DataTypeForm->dataTypes = $this->UserAttributeSetting->editDataTypes;
 		} else {
 			$this->DataTypeForm->dataTypes = $this->UserAttributeSetting->addDataTypes;

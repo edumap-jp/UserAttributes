@@ -30,7 +30,6 @@ class UserAttribute extends UserAttributesAppModel {
  */
 	const
 		PUBLIC_FIELD_FORMAT = 'is_%s_public',
-		FILE_FIELD_FORMAT = '%s_file_id', //この項目、後で削除
 		MAIL_RECEPTION_FIELD_FORMAT = 'is_%s_reception';
 
 /**
@@ -46,7 +45,7 @@ class UserAttribute extends UserAttributesAppModel {
  * @var array
  */
 	public static $typeDatetime = array(
-		'created', 'modified', 'last_login', 'password_modified'
+		'created', 'modified', 'last_login', 'previous_login', 'password_modified'
 	);
 
 /**
@@ -315,7 +314,7 @@ class UserAttribute extends UserAttributesAppModel {
 
 			//UserAttributeChoiceの登録処理
 			//システム項目でなくて、ラジオボタン・チェックボタン・セレクトボックスの場合のみ
-			if (! $data['UserAttributeSetting']['is_systemized']) {
+			if (! $data['UserAttributeSetting']['is_system']) {
 				$this->UserAttributeChoice->saveUserAttributeChoices($data);
 			}
 
@@ -432,12 +431,18 @@ class UserAttribute extends UserAttributesAppModel {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
-			//フィールドの削除処理
-			$this->dropColumnByUserAttribute($userAttributeSetting);
-
-			//トランザクションCommit
+			//Alterテーブルは暗黙のコミットが起こるため、
+			//一度トランザクションCommitする
 			$this->commit();
 
+		} catch (Exception $ex) {
+			//トランザクションRollback
+			$this->rollback($ex);
+		}
+
+		try {
+			//フィールドの削除処理
+			$this->dropColumnByUserAttribute($userAttributeSetting);
 		} catch (Exception $ex) {
 			//トランザクションRollback
 			$this->rollback($ex);

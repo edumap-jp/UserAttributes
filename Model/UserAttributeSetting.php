@@ -82,6 +82,62 @@ class UserAttributeSetting extends UserAttributesAppModel {
 					'message' => __d('net_commons', 'Invalid request.'),
 				),
 			),
+			'required' => array(
+				'boolean' => array(
+					'rule' => array('boolean'),
+					'message' => __d('net_commons', 'Invalid request.'),
+					'required' => false,
+				),
+			),
+			'display' => array(
+				'boolean' => array(
+					'rule' => array('boolean'),
+					'message' => __d('net_commons', 'Invalid request.'),
+					'required' => false,
+				),
+			),
+			'only_administrator_readable' => array(
+				'boolean' => array(
+					'rule' => array('boolean'),
+					'message' => __d('net_commons', 'Invalid request.'),
+					'required' => false,
+				),
+			),
+			'only_administrator_editable' => array(
+				'boolean' => array(
+					'rule' => array('boolean'),
+					'message' => __d('net_commons', 'Invalid request.'),
+					'required' => false,
+				),
+			),
+			'display_label' => array(
+				'boolean' => array(
+					'rule' => array('boolean'),
+					'message' => __d('net_commons', 'Invalid request.'),
+					'required' => false,
+				),
+			),
+			'self_public_setting' => array(
+				'boolean' => array(
+					'rule' => array('boolean'),
+					'message' => __d('net_commons', 'Invalid request.'),
+					'required' => false,
+				),
+			),
+			'self_email_setting' => array(
+				'boolean' => array(
+					'rule' => array('boolean'),
+					'message' => __d('net_commons', 'Invalid request.'),
+					'required' => false,
+				),
+			),
+			'is_multilingualization' => array(
+				'boolean' => array(
+					'rule' => array('boolean'),
+					'message' => __d('net_commons', 'Invalid request.'),
+					'required' => false,
+				),
+			),
 		));
 
 		return parent::beforeValidate($options);
