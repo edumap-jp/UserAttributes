@@ -24,13 +24,46 @@ App::uses('UserAttributesAppModel', 'UserAttributes.Model');
 class UserAttribute extends UserAttributesAppModel {
 
 /**
- * Field format
+ * 公開・非公開フィールドのFormat
  *
  * @var const
  */
-	const
-		PUBLIC_FIELD_FORMAT = 'is_%s_public',
-		MAIL_RECEPTION_FIELD_FORMAT = 'is_%s_reception';
+	const PUBLIC_FIELD_FORMAT = 'is_%s_public';
+
+/**
+ * 受信可否フィールドのフォーマット
+ *
+ * @var const
+ */
+	const MAIL_RECEPTION_FIELD_FORMAT = 'is_%s_reception';
+
+/**
+ * ログインIDフィールド
+ *
+ * @var const
+ */
+	const LOGIN_ID_FIELD = 'username';
+
+/**
+ * パスワードフィールド
+ *
+ * @var const
+ */
+	const PASSWORD_FIELD = 'password';
+
+/**
+ * ハンドルフィールド
+ *
+ * @var const
+ */
+	const HANDLENAME_FIELD = 'handlename';
+
+/**
+ * アバターフィールド
+ *
+ * @var const
+ */
+	const AVATAR_FIELD = 'avatar';
 
 /**
  * UserAttribute->getUserAttributesForLayout()で取得したデータ
