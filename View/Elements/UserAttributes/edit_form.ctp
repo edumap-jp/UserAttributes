@@ -105,7 +105,7 @@ echo $this->NetCommonsForm->inlineCheckbox('UserAttributeSetting.is_multilingual
  */
 echo $this->NetCommonsForm->inlineCheckbox('UserAttributeSetting.required', array(
 	'label' => __d('user_attributes', 'Designate as required items'),
-	'ng-disabled' => '(' . (int)$this->request->data['UserAttributeSetting']['is_system'] . '")',
+	'ng-disabled' => '(' . (int)$this->request->data['UserAttributeSetting']['is_system'] . ')',
 ));
 
 /**
