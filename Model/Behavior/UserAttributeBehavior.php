@@ -77,11 +77,27 @@ class UserAttributeBehavior extends ModelBehavior {
 				'only_administrator_editable' => (bool)$data['UserAttributeSetting']['only_administrator_editable'],
 				'is_system' => (bool)$data['UserAttributeSetting']['is_system']
 			);
+			$enableUserManager = (bool)Hash::extract($pluginsRoles, '{n}.PluginsRole[role_key=' . $params['role_key'] . ']');
 
-			$params['is_usable_user_manager'] =
-					(bool)Hash::extract($pluginsRoles, '{n}.PluginsRole[role_key=' . $params['role_key'] . ']');
+			$userAttributeRole = $model->UserAttributesRole->find('first', array(
+				'recursive' => -1,
+				'conditions' => array(
+					'role_key' => $params['role_key'],
+					'user_attribute_key' => $params['user_attribute_key'],
+				),
+			));
+			if (! $userAttributeRole) {
+				$userAttributeRole = $model->UserAttributesRole->create(array(
+					'role_key' => $params['role_key'],
+					'user_attribute_key' => $params['user_attribute_key']
+				));
+			}
+			$userAttributeRole = Hash::merge(
+				$userAttributeRole,
+				$model->UserAttributesRole->defaultUserAttributeRole($params, $enableUserManager)
+			);
 
-			$userAttributeRole = $model->UserAttributesRole->defaultUserAttributeRolePermissions($params);
+			$model->UserAttributesRole->create(false);
 			if (! $model->UserAttributesRole->save($userAttributeRole, array('validate' => false))) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
