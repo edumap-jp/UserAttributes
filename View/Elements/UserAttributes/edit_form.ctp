@@ -50,6 +50,7 @@ echo '<div class="form-group">';
 
 /**
  * 入力タイプ
+ *
  * * システム項目の場合、disabled
  * * 編集の場合、disabled
  */
@@ -69,6 +70,7 @@ echo $this->DataTypeForm->selectDataTypes('UserAttributeSetting.data_type_key', 
 
 /**
  * 選択肢リスト
+ *
  * * システム項目の場合、非表示
  * * ラジオ、セレクト、チェックボックスの場合、ng-show
  */
@@ -86,7 +88,7 @@ echo '</div>';
 
 /**
  * 多言語入力とする
- * *
+ *
  * * システム項目の場合、disabled
  * * テキスト・テキストエリアタイプ以外の場合、disabled
  */
@@ -98,25 +100,31 @@ echo $this->NetCommonsForm->inlineCheckbox('UserAttributeSetting.is_multilingual
 
 /**
  * 必須項目とする
+ *
  * * システム項目の場合、disabled
- * * ラベルタイプの場合、disabled
  */
 echo $this->NetCommonsForm->inlineCheckbox('UserAttributeSetting.required', array(
 	'label' => __d('user_attributes', 'Designate as required items'),
-	'ng-disabled' => '(' . (int)$this->request->data['UserAttributeSetting']['is_system'] . ' || userAttributeSetting.dataTypeKey === "' . DataType::DATA_TYPE_LABEL . '")',
+	'ng-disabled' => '(' . (int)$this->request->data['UserAttributeSetting']['is_system'] . '")',
 ));
 
 /**
- * 本人も読めない（管理者のみ読める）
- * * ラベルタイプとパスワードの場合、disabled
+ * 読み取り不可項目とする（管理者のみ読める）
+ *
+ * * パスワード：チェックON固定
+ * * ハンドル・アバター：チェックOFF固定
+ * * ラベルタイプ以外で書き込み可：チェックOFF固定
  */
 echo $this->NetCommonsForm->inlineCheckbox('UserAttributeSetting.only_administrator_readable', array(
 	'label' => __d('user_attributes', 'To prohibit the reading of non-members administrator'),
-	'ng-disabled' => '(userAttributeSetting.dataTypeKey === "' . DataType::DATA_TYPE_LABEL . '" || userAttributeSetting.dataTypeKey === "' . DataType::DATA_TYPE_PASSWORD . '")',
+	'ng-disabled' => '(userAttributeSetting.userAttributeKey === "' . UserAttribute::HANDLENAME_FIELD . '" || ' .
+						'userAttributeSetting.userAttributeKey === "' . UserAttribute::PASSWORD_FIELD . '" || ' .
+						'userAttributeSetting.userAttributeKey === "' . UserAttribute::AVATAR_FIELD . '")',
 ));
 
 /**
- * 本人も書けない（管理者のみ書ける）
+ * 書き込み不可項目とする（管理者のみ書ける）
+ *
  * * ラベルタイプの場合、disabled
  * * 本人が読めない場合、disabled + checked (後で対応)
  */

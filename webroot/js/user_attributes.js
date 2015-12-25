@@ -89,4 +89,12 @@ NetCommonsApp.controller('UserAttributes', function($scope) {
     $scope.userAttributeChoices[dest] = targetChoice;
   };
 
+  /**
+   * click
+   *
+   * @return {void}
+   */
+  $scope.onlyAdministratorEditableClick = function(domId) {
+  };
+
 });
