@@ -114,9 +114,12 @@ echo $this->NetCommonsForm->inlineCheckbox('UserAttributeSetting.required', arra
  * * パスワード：チェックON固定
  * * ハンドル・アバター：チェックOFF固定
  * * ラベルタイプ以外で書き込み可：チェックOFF固定
+ * * パスワード・ハンドル・アバターの場合、disable
  */
 echo $this->NetCommonsForm->inlineCheckbox('UserAttributeSetting.only_administrator_readable', array(
 	'label' => __d('user_attributes', 'To prohibit the reading of non-members administrator'),
+	'ng-click' => 'onlyAdministratorClick($event, "' . $this->NetCommonsHtml->domId('UserAttributeSetting.only_administrator_readable') . '", "' .
+												$this->NetCommonsHtml->domId('UserAttributeSetting.only_administrator_editable') . '")',
 	'ng-disabled' => '(userAttributeSetting.userAttributeKey === "' . UserAttribute::HANDLENAME_FIELD . '" || ' .
 						'userAttributeSetting.userAttributeKey === "' . UserAttribute::PASSWORD_FIELD . '" || ' .
 						'userAttributeSetting.userAttributeKey === "' . UserAttribute::AVATAR_FIELD . '")',
@@ -126,10 +129,12 @@ echo $this->NetCommonsForm->inlineCheckbox('UserAttributeSetting.only_administra
  * 書き込み不可項目とする（管理者のみ書ける）
  *
  * * ラベルタイプの場合、disabled
- * * 本人が読めない場合、disabled + checked (後で対応)
+ * * 読み取り不可：チェックON固定
  */
 echo $this->NetCommonsForm->inlineCheckbox('UserAttributeSetting.only_administrator_editable', array(
 	'label' => __d('user_attributes', 'To prohibit the writing of non-members administrator'),
+	'ng-click' => 'onlyAdministratorClick($event, "' . $this->NetCommonsHtml->domId('UserAttributeSetting.only_administrator_readable') . '", "' .
+												$this->NetCommonsHtml->domId('UserAttributeSetting.only_administrator_editable') . '")',
 	'ng-disabled' => '(userAttributeSetting.dataTypeKey === "' . DataType::DATA_TYPE_LABEL . '")',
 ));
 

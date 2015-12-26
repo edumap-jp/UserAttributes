@@ -89,4 +89,32 @@ NetCommonsApp.controller('UserAttributes', function($scope) {
     $scope.userAttributeChoices[dest] = targetChoice;
   };
 
+  /**
+   * click
+   *
+   * @return {void}
+   */
+  $scope.onlyAdministratorClick =
+      function($event, readableDomId, editableDomId) {
+
+    var readableEl = $('#' + readableDomId);
+    var editableEl = $('#' + editableDomId);
+    if (!angular.isObject(readableEl[0]) || !angular.isObject(editableEl[0])) {
+      return;
+    }
+
+    if (readableEl[0].disabled || editableEl[0].disabled) {
+      return;
+    }
+
+    if (readableEl[0].checked && ! editableEl[0].checked) {
+      if ($event.target.name ===
+              'data[UserAttributeSetting][only_administrator_readable]') {
+        editableEl[0].checked = true;
+      } else {
+        readableEl[0].checked = false;
+      }
+    }
+  };
+
 });
