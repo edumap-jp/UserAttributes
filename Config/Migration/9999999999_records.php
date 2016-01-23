@@ -15,14 +15,14 @@ App::uses('NetCommonsMigration', 'NetCommons.Config/Migration');
  *
  * @package NetCommons\UserAttributes\Config\Migration
  */
-class UserAttributeSettingRecords extends NetCommonsMigration {
+class Records extends NetCommonsMigration {
 
 /**
  * Migration description
  *
  * @var string
  */
-	public $description = 'user_attribute_setting';
+	public $description = 'records';
 
 /**
  * Actions to be performed
@@ -61,6 +61,75 @@ class UserAttributeSettingRecords extends NetCommonsMigration {
 			array('id' => '18', 'user_attribute_key' => 'previous_login', 'data_type_key' => 'label', 'row' => '1', 'col' => '2', 'weight' => '7', 'required' => '0', 'display' => '1', 'only_administrator_readable' => '0', 'only_administrator_editable' => '1', 'is_system' => '1', 'display_label' => '1', 'display_search_result' => '0', 'self_public_setting' => '0', 'self_email_setting' => '0', 'is_multilingualization' => '0', ),
 			array('id' => '19', 'user_attribute_key' => 'profile', 'data_type_key' => 'textarea', 'row' => '2', 'col' => '1', 'weight' => '1', 'required' => '0', 'display' => '0', 'only_administrator_readable' => '0', 'only_administrator_editable' => '0', 'is_system' => '0', 'display_label' => '1', 'display_search_result' => '0', 'self_public_setting' => '0', 'self_email_setting' => '0', 'is_multilingualization' => '1', ),
 			array('id' => '20', 'user_attribute_key' => 'search_keywords', 'data_type_key' => 'text', 'row' => '2', 'col' => '1', 'weight' => '2', 'required' => '0', 'display' => '0', 'only_administrator_readable' => '1', 'only_administrator_editable' => '1', 'is_system' => '0', 'display_label' => '1', 'display_search_result' => '0', 'self_public_setting' => '0', 'self_email_setting' => '0', 'is_multilingualization' => '1', ),
+		),
+		'UserAttributeLayout' => array(
+			array('id' => '1', 'col' => '2'),
+			array('id' => '2', 'col' => '1'),
+			array('id' => '3', 'col' => '1'),
+		),
+		'UserAttribute' => array(
+			//日本語
+			array('id' => '1', 'language_id' => '2', 'key' => 'avatar', 'name' => 'アバター', ),
+			array('id' => '2', 'language_id' => '2', 'key' => 'username', 'name' => 'ログインID', ),
+			array('id' => '3', 'language_id' => '2', 'key' => 'password', 'name' => 'パスワード', ),
+			array('id' => '4', 'language_id' => '2', 'key' => 'handlename', 'name' => 'ハンドル', ),
+			array('id' => '5', 'language_id' => '2', 'key' => 'name', 'name' => '氏名', ),
+			array('id' => '6', 'language_id' => '2', 'key' => 'email', 'name' => 'eメール', ),
+			array('id' => '7', 'language_id' => '2', 'key' => 'moblie_mail', 'name' => '携帯メール', ),
+			array('id' => '8', 'language_id' => '2', 'key' => 'sex', 'name' => '性別', ),
+			array('id' => '9', 'language_id' => '2', 'key' => 'timezone', 'name' => 'タイムゾーン', ),
+			array('id' => '10', 'language_id' => '2', 'key' => 'role_key', 'name' => '権限', ),
+			array('id' => '11', 'language_id' => '2', 'key' => 'status', 'name' => '状態', ),
+			array('id' => '12', 'language_id' => '2', 'key' => 'created', 'name' => '作成日時', ),
+			array('id' => '13', 'language_id' => '2', 'key' => 'created_user', 'name' => '作成者', ),
+			array('id' => '14', 'language_id' => '2', 'key' => 'modified', 'name' => '更新日時', ),
+			array('id' => '15', 'language_id' => '2', 'key' => 'modified_user', 'name' => '更新者', ),
+			array('id' => '16', 'language_id' => '2', 'key' => 'password_modified', 'name' => 'パスワード変更日時', ),
+			array('id' => '17', 'language_id' => '2', 'key' => 'last_login', 'name' => '最終ログイン日時', ),
+			array('id' => '18', 'language_id' => '2', 'key' => 'previous_login', 'name' => '前回ログイン日時', ),
+			array('id' => '19', 'language_id' => '2', 'key' => 'profile', 'name' => 'プロフィール', ),
+			array('id' => '20', 'language_id' => '2', 'key' => 'search_keywords', 'name' => '検索キーワード', ),
+			//英語
+			array('id' => '21', 'language_id' => '1', 'key' => 'avatar', 'name' => 'Avatar', ),
+			array('id' => '22', 'language_id' => '1', 'key' => 'username', 'name' => 'ID', ),
+			array('id' => '23', 'language_id' => '1', 'key' => 'password', 'name' => 'Password', ),
+			array('id' => '24', 'language_id' => '1', 'key' => 'handlename', 'name' => 'Handle', ),
+			array('id' => '25', 'language_id' => '1', 'key' => 'name', 'name' => 'Name', ),
+			array('id' => '26', 'language_id' => '1', 'key' => 'email', 'name' => 'E-mail', ),
+			array('id' => '27', 'language_id' => '1', 'key' => 'moblie_mail', 'name' => 'Mobile mail', ),
+			array('id' => '28', 'language_id' => '1', 'key' => 'sex', 'name' => 'Sex', ),
+			array('id' => '29', 'language_id' => '1', 'key' => 'timezone', 'name' => 'TimeZone', ),
+			array('id' => '30', 'language_id' => '1', 'key' => 'role_key', 'name' => 'Authority', ),
+			array('id' => '31', 'language_id' => '1', 'key' => 'status', 'name' => 'Status', ),
+			array('id' => '32', 'language_id' => '1', 'key' => 'created', 'name' => 'Created', ),
+			array('id' => '33', 'language_id' => '1', 'key' => 'created_user', 'name' => 'Creator', ),
+			array('id' => '34', 'language_id' => '1', 'key' => 'modified', 'name' => 'Last modified', ),
+			array('id' => '35', 'language_id' => '1', 'key' => 'modified_user', 'name' => 'Updater', ),
+			array('id' => '36', 'language_id' => '1', 'key' => 'password_modified', 'name' => 'Password has been changed', ),
+			array('id' => '37', 'language_id' => '1', 'key' => 'last_login', 'name' => 'Last login', ),
+			array('id' => '38', 'language_id' => '1', 'key' => 'previous_login', 'name' => 'Previous login', ),
+			array('id' => '39', 'language_id' => '1', 'key' => 'profile', 'name' => 'Profile', ),
+			array('id' => '40', 'language_id' => '1', 'key' => 'search_keywords', 'name' => 'Keywords', ),
+		),
+		'UserAttributeChoice' => array(
+			//日本語--性別
+			array('language_id' => '2', 'user_attribute_id' => '8', 'key' => 'sex_no_setting', 'name' => '設定しない', 'code' => 'no_setting', 'weight' => '1', ),
+			array('language_id' => '2', 'user_attribute_id' => '8', 'key' => 'sex_male', 'name' => '男', 'code' => 'male', 'weight' => '2', ),
+			array('language_id' => '2', 'user_attribute_id' => '8', 'key' => 'sex_female', 'name' => '女', 'code' => 'female', 'weight' => '3', ),
+			//英語--性別
+			array('language_id' => '1', 'user_attribute_id' => '28', 'key' => 'sex_no_setting', 'name' => 'No setting', 'code' => 'no_setting', 'weight' => '1', ),
+			array('language_id' => '1', 'user_attribute_id' => '28', 'key' => 'sex_male', 'name' => 'Male', 'code' => 'male', 'weight' => '2', ),
+			array('language_id' => '1', 'user_attribute_id' => '28', 'key' => 'sex_female', 'name' => 'Female', 'code' => 'female', 'weight' => '3', ),
+			//日本語--状態
+			array('language_id' => '2', 'user_attribute_id' => '11', 'key' => 'status_1', 'name' => '利用可能', 'code' => '1', 'weight' => '1', ),
+			array('language_id' => '2', 'user_attribute_id' => '11', 'key' => 'status_0', 'name' => '利用不可', 'code' => '0', 'weight' => '2', ),
+			array('language_id' => '2', 'user_attribute_id' => '11', 'key' => 'status_2', 'name' => '承認待ち', 'code' => '2', 'weight' => '3', ),
+			array('language_id' => '2', 'user_attribute_id' => '11', 'key' => 'status_3', 'name' => '承認済み', 'code' => '3', 'weight' => '4', ),
+			//英語--状態
+			array('language_id' => '1', 'user_attribute_id' => '31', 'key' => 'status_1', 'name' => 'Active', 'code' => '1', 'weight' => '1', ),
+			array('language_id' => '1', 'user_attribute_id' => '31', 'key' => 'status_0', 'name' => 'Nonactive', 'code' => '0', 'weight' => '2', ),
+			array('language_id' => '1', 'user_attribute_id' => '31', 'key' => 'status_2', 'name' => 'Waiting', 'code' => '2', 'weight' => '3', ),
+			array('language_id' => '1', 'user_attribute_id' => '31', 'key' => 'status_3', 'name' => 'Not yet logged-in', 'code' => '3', 'weight' => '4', ),
 		),
 	);
 
