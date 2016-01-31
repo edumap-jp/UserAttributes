@@ -50,7 +50,7 @@ class UserAttributeLayout extends UserAttributesAppModel {
  * @return bool True on success
  * @throws InternalErrorException
  */
-	public function saveUserAttributeLayout($data, $fieldName) {
+	public function updateUserAttributeLayout($data, $fieldName) {
 		//トランザクションBegin
 		$this->begin();
 
