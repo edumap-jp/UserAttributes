@@ -150,15 +150,15 @@ class UserAttributeHelper extends AppHelper {
 				'</button>';
 
 		$output .= '<ul class="dropdown-menu">';
-		$output .= $this->__moveSettingTopMenu($layout, $userAttribute);
-		$output .= $this->__moveSettingBottomMenu($layout, $userAttribute);
-		$output .= $this->__moveSettingLeftMenu($layout, $userAttribute);
-		$output .= $this->__moveSettingRightMenu($layout, $userAttribute);
+		$output .= $this->moveSettingTopMenu($layout, $userAttribute);
+		$output .= $this->moveSettingBottomMenu($layout, $userAttribute);
+		$output .= $this->moveSettingLeftMenu($layout, $userAttribute);
+		$output .= $this->moveSettingRightMenu($layout, $userAttribute);
 
 		//区切り線
 		$output .= '<li class="divider"></li>';
 
-		$output .= $this->__moveSettingRowMenu($layout, $userAttribute);
+		$output .= $this->moveSettingRowMenu($layout, $userAttribute);
 
 		$output .= '</ul>';
 
@@ -173,7 +173,7 @@ class UserAttributeHelper extends AppHelper {
  * @param array $userAttribute userAttributeデータ配列
  * @return string HTML
  */
-	private function __moveSettingTopMenu($layout, $userAttribute) {
+	public function moveSettingTopMenu($layout, $userAttribute) {
 		$output = '';
 
 		//データを変数にセット
@@ -223,7 +223,7 @@ class UserAttributeHelper extends AppHelper {
  * @param array $userAttribute userAttributeデータ配列
  * @return string HTML
  */
-	private function __moveSettingBottomMenu($layout, $userAttribute) {
+	public function moveSettingBottomMenu($layout, $userAttribute) {
 		$output = '';
 
 		//データを変数にセット
@@ -273,7 +273,7 @@ class UserAttributeHelper extends AppHelper {
  * @param array $userAttribute userAttributeデータ配列
  * @return string HTML
  */
-	private function __moveSettingLeftMenu($layout, $userAttribute) {
+	public function moveSettingLeftMenu($layout, $userAttribute) {
 		$output = '';
 
 		//データを変数にセット
@@ -324,7 +324,7 @@ class UserAttributeHelper extends AppHelper {
  * @param array $userAttribute userAttributeデータ配列
  * @return string HTML
  */
-	private function __moveSettingRightMenu($layout, $userAttribute) {
+	public function moveSettingRightMenu($layout, $userAttribute) {
 		$output = '';
 
 		//データを変数にセット
@@ -375,7 +375,7 @@ class UserAttributeHelper extends AppHelper {
  * @param array $userAttribute userAttributeデータ配列
  * @return string HTML
  */
-	private function __moveSettingRowMenu($layout, $userAttribute) {
+	public function moveSettingRowMenu($layout, $userAttribute) {
 		$output = '';
 
 		//データを変数にセット
