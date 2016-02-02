@@ -10,7 +10,10 @@
  */
 
 /**
- * Summary for UserAttributeFixture
+ * UserAttributeFixture
+ *
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
+ * @package NetCommons\UserAttributes\Test\Fixture
  */
 class UserAttributeFixture extends CakeTestFixture {
 

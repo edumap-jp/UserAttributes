@@ -41,14 +41,9 @@ class UserAttributeLayoutFixture extends CakeTestFixture {
  * @var array
  */
 	public $records = array(
-		array(
-			'id' => 1,
-			'col' => 1,
-			'created_user' => 1,
-			'created' => '2015-07-26 09:52:59',
-			'modified_user' => 1,
-			'modified' => '2015-07-26 09:52:59'
-		),
+		array('id' => '1', 'col' => '2'),
+		array('id' => '2', 'col' => '1'),
+		array('id' => '3', 'col' => '1'),
 	);
 
 }
