@@ -163,6 +163,7 @@ class UserAttributeBehavior extends ModelBehavior {
  */
 	public function addColumnByUserAttribute(Model $model, $data) {
 		$model->loadModels([
+			'UserAttributeSetting' => 'UserAttributes.UserAttributeSetting',
 			'User' => 'Users.User',
 			'UsersLanguage' => 'Users.UsersLanguage',
 		]);
