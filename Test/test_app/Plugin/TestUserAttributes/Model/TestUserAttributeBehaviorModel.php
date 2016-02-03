@@ -20,6 +20,21 @@ App::uses('AppModel', 'Model');
 class TestUserAttributeBehaviorModel extends AppModel {
 
 /**
+ * Name of the model.
+ *
+ * @var string
+ * @link http://book.cakephp.org/2.0/en/models/model-attributes.html#name
+ */
+	public $name = 'UserAttribute';
+
+/**
+ * Alias name for model.
+ *
+ * @var string
+ */
+	public $alias = 'UserAttribute';
+
+/**
  * テーブル名
  *
  * @var mixed

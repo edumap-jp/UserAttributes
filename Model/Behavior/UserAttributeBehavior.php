@@ -113,6 +113,12 @@ class UserAttributeBehavior extends ModelBehavior {
  * @return array findOptions
  */
 	public function findOptionsForLayout(Model $model) {
+		$model->loadModels([
+			'UserAttributeSetting' => 'UserAttributes.UserAttributeSetting',
+			'UserRoleSetting' => 'UserRoles.UserRoleSetting',
+			'UserAttributesRole' => 'UserRoles.UserAttributesRole',
+		]);
+
 		$options = array(
 			'recursive' => -1,
 			'fields' => array(
