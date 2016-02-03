@@ -70,7 +70,8 @@ class UserAttributeLayout extends UserAttributesAppModel {
 		$this->begin();
 
 		$this->id = $data[$this->alias]['id'];
-		if (! $this->exists() || ! $this->hasField($fieldName)) {
+		$value = Hash::get($data, $this->alias . '.' . $fieldName);
+		if (! $this->exists() || ! $this->hasField($fieldName) || ! is_numeric($value)) {
 			return false;
 		}
 

@@ -92,6 +92,8 @@ class UserAttributeLayoutUpdateUserAttributeLayoutTest extends NetCommonsModelTe
 			array(array('UserAttributeLayout' => array('id' => '5', 'col' => '2')), 'col'),
 			// * 存在しないフィールド
 			array(array('UserAttributeLayout' => array('id' => '5', 'aaaa' => '2')), 'aaaa'),
+			// * 数値以外
+			array(array('UserAttributeLayout' => array('id' => '1', 'col' => 'aaaa')), 'col'),
 		);
 	}
 
