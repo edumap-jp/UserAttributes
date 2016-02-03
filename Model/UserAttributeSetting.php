@@ -82,6 +82,12 @@ class UserAttributeSetting extends UserAttributesAppModel {
 					'message' => __d('net_commons', 'Invalid request.'),
 				),
 			),
+			'weight' => array(
+				'numeric' => array(
+					'rule' => array('numeric'),
+					'message' => __d('net_commons', 'Invalid request.'),
+				),
+			),
 			'required' => array(
 				'boolean' => array(
 					'rule' => array('boolean'),
@@ -117,6 +123,9 @@ class UserAttributeSetting extends UserAttributesAppModel {
 					'required' => false,
 				),
 			),
+
+			//display_search_resultは画面で設定することがないので不要
+
 			'self_public_setting' => array(
 				'boolean' => array(
 					'rule' => array('boolean'),
