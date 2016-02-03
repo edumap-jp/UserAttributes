@@ -241,7 +241,9 @@ class UserAttributeSetting extends UserAttributesAppModel {
 		$this->begin();
 
 		$this->id = $data[$this->alias]['id'];
-		if (! $this->exists()) {
+		$value = Hash::get($data, $this->alias . '.display');
+		if (! $this->exists() || $fieldName !== 'display' ||
+				! is_numeric($value) ||  ! in_array((int)$value, [0, 1], true)) {
 			return false;
 		}
 
