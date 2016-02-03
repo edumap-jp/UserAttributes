@@ -70,7 +70,7 @@ class UserAttributeLayout extends UserAttributesAppModel {
 		$this->begin();
 
 		$this->id = $data[$this->alias]['id'];
-		if (! $this->exists()) {
+		if (! $this->exists() || ! $this->hasField($fieldName)) {
 			return false;
 		}
 
