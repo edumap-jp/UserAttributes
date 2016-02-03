@@ -77,7 +77,6 @@ class UserAttributeSettingUpdateDisplayTest extends NetCommonsModelTestCase {
 		$this->assertEquals($data['UserAttributeSetting']['display'], $actual['UserAttributeSetting']['display']);
 	}
 
-
 /**
  * データエラーのDataProvider
  *
