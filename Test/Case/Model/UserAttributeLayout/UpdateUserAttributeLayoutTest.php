@@ -78,42 +78,32 @@ class UserAttributeLayoutUpdateUserAttributeLayoutTest extends NetCommonsModelTe
 	}
 
 /**
- * 存在しないIDのテスト
+ * データエラーのDataProvider
  *
- * @return void
+ * ### 戻り値
+ *  - data 登録データ
+ *  - fieldName フィールド名
+ *
+ * @return array テストデータ
  */
-	public function testNotExists() {
-		//データ生成
-		$data = array(
-			'UserAttributeLayout' => array('id' => '5', 'col' => '2')
+	public function dataProvider() {
+		return array(
+			// * 存在しないID
+			array(array('UserAttributeLayout' => array('id' => '5', 'col' => '2')), 'col'),
+			// * 存在しないフィールド
+			array(array('UserAttributeLayout' => array('id' => '5', 'aaaa' => '2')), 'aaaa'),
 		);
-		$fieldName = 'col';
-
-		//テスト実施
-		$model = $this->_modelName;
-		$methodName = $this->_methodName;
-		$result = $this->$model->$methodName($data, $fieldName);
-
-		//チェック
-		$this->assertFalse($result);
-		$actual = $this->$model->find('count', array('recursive' => -1,
-			'conditions' => array('id' => $data['UserAttributeLayout']['id'])
-		));
-		$this->assertEquals(0, $actual);
 	}
 
 /**
- * 存在しないフィールドのテスト
+ * データエラーのテスト
  *
+ * @param array $data 登録データ
+ * @param string $fieldName フィールド名
+ * @dataProvider dataProvider
  * @return void
  */
-	public function testNotField() {
-		//データ生成
-		$data = array(
-			'UserAttributeLayout' => array('id' => '3', 'aaaa' => '2')
-		);
-		$fieldName = 'aaaa';
-
+	public function testDataError($data, $fieldName) {
 		//テスト実施
 		$model = $this->_modelName;
 		$methodName = $this->_methodName;
