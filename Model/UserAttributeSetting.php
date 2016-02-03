@@ -123,9 +123,6 @@ class UserAttributeSetting extends UserAttributesAppModel {
 					'required' => false,
 				),
 			),
-
-			//display_search_resultは画面で設定することがないので不要
-
 			'self_public_setting' => array(
 				'boolean' => array(
 					'rule' => array('boolean'),
@@ -249,7 +246,7 @@ class UserAttributeSetting extends UserAttributesAppModel {
 		$this->id = $data[$this->alias]['id'];
 		$value = Hash::get($data, $this->alias . '.display');
 		if (! $this->exists() || $fieldName !== 'display' ||
-				! is_numeric($value) ||  ! in_array((int)$value, [0, 1], true)) {
+				! is_numeric($value) || ! in_array((int)$value, [0, 1], true)) {
 			return false;
 		}
 
