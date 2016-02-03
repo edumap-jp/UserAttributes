@@ -75,7 +75,7 @@ class UserAttributeSettingsControllerDisplayTest extends NetCommonsControllerTes
  * @return void
  */
 	public function testSuccess() {
-		$this->_mockForReturnTrue('UserAttributes.UserAttributeSetting', 'saveUserAttributeSetting');
+		$this->_mockForReturnTrue('UserAttributes.UserAttributeSetting', 'updateDisplay');
 
 		//テスト実行
 		$this->_testPostAction('post', array(), array('action' => 'display'), null, 'view');
@@ -107,24 +107,24 @@ class UserAttributeSettingsControllerDisplayTest extends NetCommonsControllerTes
 	}
 
 /**
- * UserAttributeSetting->saveUserAttributeSetting()がエラーのテスト
+ * UserAttributeSetting->updateDisplay()がエラーのテスト
  *
  * @return void
  */
-	public function testSaveUserAttributeSettingError() {
-		$this->_mockForReturnFalse('UserAttributes.UserAttributeSetting', 'saveUserAttributeSetting');
+	public function testupdateDisplayError() {
+		$this->_mockForReturnFalse('UserAttributes.UserAttributeSetting', 'updateDisplay');
 
 		//テスト実行
 		$this->_testPostAction('post', array(), array('action' => 'display'), 'BadRequestException', 'view');
 	}
 
 /**
- * UserAttributeSetting->saveUserAttributeSetting()がエラーのテスト
+ * UserAttributeSetting->updateDisplay()がエラーのテスト
  *
  * @return void
  */
-	public function testSaveUserAttributeSettingErrorJson() {
-		$this->_mockForReturnFalse('UserAttributes.UserAttributeSetting', 'saveUserAttributeSetting');
+	public function testupdateDisplayErrorJson() {
+		$this->_mockForReturnFalse('UserAttributes.UserAttributeSetting', 'updateDisplay');
 
 		//テスト実行
 		$this->_testPostAction('post', array(), array('action' => 'display'), 'BadRequestException', 'json');

@@ -236,7 +236,7 @@ class UserAttributeSetting extends UserAttributesAppModel {
  * @return bool True on success
  * @throws InternalErrorException
  */
-	public function saveUserAttributeSetting($data, $fieldName) {
+	public function updateDisplay($data, $fieldName) {
 		//トランザクションBegin
 		$this->begin();
 

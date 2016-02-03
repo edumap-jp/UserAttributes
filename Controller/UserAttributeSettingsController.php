@@ -39,7 +39,7 @@ class UserAttributeSettingsController extends UserAttributesAppController {
 			return;
 		}
 
-		if (! $this->UserAttributeSetting->saveUserAttributeSetting($this->data, 'display')) {
+		if (! $this->UserAttributeSetting->updateDisplay($this->data, 'display')) {
 			$this->throwBadRequest();
 			return;
 		}
