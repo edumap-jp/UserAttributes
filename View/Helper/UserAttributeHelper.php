@@ -10,6 +10,7 @@
  */
 
 App::uses('AppHelper', 'View/Helper');
+App::uses('UserAttributeLayout', 'UserAttributes.Model');
 
 /**
  * 会員項目設定で使用するヘルパー
@@ -49,10 +50,15 @@ class UserAttributeHelper extends AppHelper {
 		$output .= $this->NetCommonsForm->hidden('UserAttributeLayout.id',
 				array('value' => $layout['UserAttributeLayout']['id']));
 
-		$options = array(
-			'1' => __d('user_attributes', '%s Col', 1),
-			'2' => __d('user_attributes', '%s Cols', 2),
-		);
+		$options = array();
+		for ($col = 1; $col <= UserAttributeLayout::LAYOUT_COL_NUMBER; $col++) {
+			if ($col === 1) {
+				$options['1'] = __d('user_attributes', '%s Col', $col);
+			} else {
+				$options[(string)$col] = __d('user_attributes', '%s Cols', $col);
+			}
+		}
+
 		$output .= $this->NetCommonsForm->select('UserAttributeLayout.col', $options, array(
 			'value' => $layout['UserAttributeLayout']['col'],
 			'class' => 'form-control',
