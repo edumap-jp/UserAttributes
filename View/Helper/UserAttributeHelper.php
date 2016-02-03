@@ -10,7 +10,9 @@
  */
 
 App::uses('AppHelper', 'View/Helper');
+
 App::uses('UserAttributeLayout', 'UserAttributes.Model');
+App::load('UserAttributeLayout'); // phpunitでエラーになるため
 
 /**
  * 会員項目設定で使用するヘルパー
