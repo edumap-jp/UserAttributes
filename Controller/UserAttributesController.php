@@ -53,24 +53,12 @@ class UserAttributesController extends UserAttributesAppController {
 	);
 
 /**
- * beforeFilter
- *
- * @return void
- */
-	public function beforeFilter() {
-		parent::beforeFilter();
-		if ($this->params['action'] === 'add') {
-		} else {
-			$this->DataTypeForm->dataTypes = $this->UserAttributeSetting->dataTypes;
-		}
-	}
-
-/**
  * index
  *
  * @return void
  */
 	public function index() {
+		$this->DataTypeForm->dataTypes = null;
 	}
 
 /**
