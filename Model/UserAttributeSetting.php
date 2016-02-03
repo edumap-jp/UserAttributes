@@ -186,6 +186,12 @@ class UserAttributeSetting extends UserAttributesAppModel {
 		//トランザクションBegin
 		$this->begin();
 
+		if (! is_numeric(Hash::get($data[$this->alias], 'row')) ||
+				! is_numeric(Hash::get($data[$this->alias], 'col')) ||
+				! is_numeric(Hash::get($data[$this->alias], 'weight'))) {
+			return false;
+		}
+
 		$before = $this->find('first', array(
 			'recursive' => -1,
 			'conditions' => array('id' => $data[$this->alias]['id'])
@@ -266,7 +272,7 @@ class UserAttributeSetting extends UserAttributesAppModel {
 
 /**
  * ユーザ属性の順番を更新メソッド
- * ※トランザクションは、呼び出し元で行う。
+ * ※トランザクション、引数の正当性チェックは、呼び出し元で行う。
  *
  * @param int $row 段
  * @param int $col 列
