@@ -42,6 +42,7 @@ class UserAttributeLayoutComponent extends Component {
 
 		//UserAttributeLayoutデータセット
 		$userAttributeLayouts = $controller->UserAttributeLayout->find('all', array(
+			'fields' => array('id', 'col'),
 			'recursive' => -1,
 			'order' => array('id' => 'asc'),
 		));

@@ -10,6 +10,7 @@
  */
 
 App::uses('NetCommonsControllerTestCase', 'NetCommons.TestSuite');
+App::uses('UserAttributeLayoutFixture', 'UserAttributes.Test/Fixture');
 
 /**
  * UserAttributeLayoutComponent::startup()のテスト
@@ -70,9 +71,7 @@ class UserAttributeLayoutComponentStartupTest extends NetCommonsControllerTestCa
 	public function testStartup() {
 		//テストコントローラ生成
 		$this->generateNc('TestUserAttributes.TestUserAttributeLayoutComponent');
-		$this->controller->UserAttributeLayout = $this->getMockForModel('UserAttributes.UserAttributeLayout');
 		$this->controller->UserAttribute = $this->getMockForModel('UserAttributes.UserAttribute');
-		$this->_mockForReturnTrue('UserAttributes.UserAttributeLayout', 'find');
 		$this->_mockForReturnTrue('UserAttributes.UserAttribute', 'getUserAttributesForLayout');
 
 		//ログイン
@@ -88,7 +87,12 @@ class UserAttributeLayoutComponentStartupTest extends NetCommonsControllerTestCa
 		$this->assertRegExp($pattern, $this->view);
 
 		$this->assertTrue($this->vars['userAttributes']);
-		$this->assertTrue($this->vars['userAttributeLayouts']);
+
+		$records = (new UserAttributeLayoutFixture())->records;
+		$actual[0]['UserAttributeLayout'] = $records[0];
+		$actual[1]['UserAttributeLayout'] = $records[1];
+		$actual[2]['UserAttributeLayout'] = $records[2];
+		$this->assertEquals($this->vars['userAttributeLayouts'], $actual);
 	}
 
 /**
