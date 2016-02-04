@@ -57,7 +57,7 @@ class UserAttributeSettingFixture extends CakeTestFixture {
 	public $records = array(
 		array(
 			'id' => 1,
-			'user_attribute_key' => 'Lorem ipsum dolor sit amet',
+			'user_attribute_key' => 'attribute_key',
 			'data_type_key' => 'Lorem ipsum dolor sit amet',
 			'row' => 1,
 			'col' => 1,
@@ -66,7 +66,7 @@ class UserAttributeSettingFixture extends CakeTestFixture {
 			'display' => 1,
 			'only_administrator_readable' => 1,
 			'only_administrator_editable' => 1,
-			'is_system' => 1,
+			'is_system' => 0,
 			'display_label' => 1,
 			'display_search_result' => 1,
 			'self_public_setting' => 1,

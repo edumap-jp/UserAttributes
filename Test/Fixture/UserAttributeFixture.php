@@ -47,7 +47,7 @@ class UserAttributeFixture extends CakeTestFixture {
 		array(
 			'id' => 1,
 			'language_id' => 1,
-			'key' => 'Lorem ipsum dolor sit amet',
+			'key' => 'attribute_key',
 			'name' => 'Lorem ipsum dolor sit amet',
 			'description' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
 			'created_user' => 1,
