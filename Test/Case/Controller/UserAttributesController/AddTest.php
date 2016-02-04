@@ -193,6 +193,8 @@ class UserAttributesControllerAddTest extends NetCommonsControllerTestCase {
 		$this->assertTextNotContains('user_attributes/user_attributes/delete', $this->view);
 
 		$this->assertRegExp('ng-controller="UserAttributes"', $this->view);
+
+		//TODO:まだ不足している
 	}
 
 }
