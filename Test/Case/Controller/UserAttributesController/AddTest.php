@@ -174,7 +174,7 @@ class UserAttributesControllerAddTest extends NetCommonsControllerTestCase {
 	}
 
 /**
- * UserAttributeChoice->validateRequestData()のエラー発生テスト
+ * UserAttribute->validationErrorsのテスト
  *
  * @return void
  */
