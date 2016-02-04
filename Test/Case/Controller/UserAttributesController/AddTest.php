@@ -72,10 +72,9 @@ class UserAttributesControllerAddTest extends NetCommonsControllerTestCase {
 /**
  * テストデータセット
  *
- * @param bool $isNew 新規フラグ
  * @return void
  */
-	private function __data($isNew) {
+	private function __data() {
 		$data = array(
 			'UserAttributeSetting' => array(
 				'id' => '',
@@ -140,7 +139,7 @@ class UserAttributesControllerAddTest extends NetCommonsControllerTestCase {
 		$this->_mockForReturnTrue('UserAttributes.UserAttribute', 'saveUserAttribute');
 
 		//テスト実行
-		$data = $this->__data(true);
+		$data = $this->__data();
 		$this->_testPostAction('post', $data, array('action' => 'add', '2', '1'), null, 'view');
 
 		//チェック
@@ -157,7 +156,7 @@ class UserAttributesControllerAddTest extends NetCommonsControllerTestCase {
 		$this->_mockForReturnFalse('UserAttributes.UserAttributeChoice', 'validateRequestData');
 
 		//テスト実行
-		$data = $this->__data(true);
+		$data = $this->__data();
 		$this->_testPostAction('post', $data, array('action' => 'add', '2', '1'), 'BadRequestException', 'view');
 	}
 
@@ -170,7 +169,7 @@ class UserAttributesControllerAddTest extends NetCommonsControllerTestCase {
 		$this->_mockForReturnFalse('UserAttributes.UserAttributeChoice', 'validateRequestData');
 
 		//テスト実行
-		$data = $this->__data(true);
+		$data = $this->__data();
 		$this->_testPostAction('post', $data, array('action' => 'add', '2', '1'), 'BadRequestException', 'json');
 	}
 
@@ -183,7 +182,7 @@ class UserAttributesControllerAddTest extends NetCommonsControllerTestCase {
 		$this->_mockForReturn('UserAttributes.UserAttributeChoice', 'validateRequestData', null);
 
 		//テスト実行
-		$data = $this->__data(true);
+		$data = $this->__data();
 		$data = Hash::remove($data, 'UserAttribute.{n}.name');
 		$this->_testPostAction('post', $data, array('action' => 'add', '2', '1'), null, 'view');
 
