@@ -191,10 +191,10 @@ class UserAttributesControllerAddTest extends NetCommonsControllerTestCase {
 		$this->assertTextContains('ng-controller="UserAttributes"', $this->view);
 		$this->assertInput('form', null, 'user_attributes/user_attributes/add/2/1', $this->view);
 		$this->assertTextNotContains('user_attributes/user_attributes/delete', $this->view);
-
-		$this->assertRegExp('ng-controller="UserAttributes"', $this->view);
-
-		//TODO:まだ不足している
+		$this->assertTextContains(
+			sprintf(__d('net_commons', 'Please input %s.'), __d('user_attributes', 'Item name')),
+			$this->view
+		);
 	}
 
 }
