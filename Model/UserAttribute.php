@@ -222,7 +222,7 @@ class UserAttribute extends UserAttributesAppModel {
 		$userRoles = $this->UserRole->find('all', array(
 			'recursive' => -1,
 			'fields' => array(
-				'id', 'key', 'name'
+				'id', 'language_id', 'key', 'name'
 			),
 			'conditions' => array(
 				'type' => UserRole::ROLE_TYPE_USER,
