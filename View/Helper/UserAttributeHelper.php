@@ -12,9 +12,7 @@
 App::uses('AppHelper', 'View/Helper');
 
 App::uses('UserAttributeLayout', 'UserAttributes.Model');
-if (! class_exists('UserAttributeLayout')) {
-	App::load('UserAttributeLayout'); // phpunitでエラーになるため
-}
+class_exists('UserAttributeLayout'); // phpunitでエラーになるため
 
 /**
  * 会員項目設定で使用するヘルパー
