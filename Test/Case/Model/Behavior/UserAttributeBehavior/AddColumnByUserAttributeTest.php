@@ -79,7 +79,7 @@ class UserAttributeBehaviorAddColumnByUserAttributeTest extends NetCommonsCakeTe
 		$this->TestModel->rollback();
 
 		$this->TestModel->recursive = -1;
-		$this->assertEquals(2, $this->TestModel->find('count'));
+		$this->assertEquals(3, $this->TestModel->find('count'));
 
 		$userFields = $this->TestModel->User->schema(true);
 		$this->assertArrayHasKey('rollback_test_key', $userFields);
@@ -107,7 +107,7 @@ class UserAttributeBehaviorAddColumnByUserAttributeTest extends NetCommonsCakeTe
 		$this->TestModel->rollback();
 
 		$this->TestModel->recursive = -1;
-		$this->assertEquals(2, $this->TestModel->find('count'));
+		$this->assertEquals(3, $this->TestModel->find('count'));
 
 		$usersLangfields = $this->TestModel->UsersLanguage->schema(true);
 		$this->assertArrayHasKey('rollback_test_key', $usersLangfields);
@@ -136,7 +136,7 @@ class UserAttributeBehaviorAddColumnByUserAttributeTest extends NetCommonsCakeTe
 		$this->TestModel->rollback();
 
 		$this->TestModel->recursive = -1;
-		$this->assertEquals(2, $this->TestModel->find('count'));
+		$this->assertEquals(3, $this->TestModel->find('count'));
 
 		$userFields = $this->TestModel->User->schema(true);
 		$this->assertArrayHasKey('rollback_test_key', $userFields);
@@ -176,7 +176,7 @@ class UserAttributeBehaviorAddColumnByUserAttributeTest extends NetCommonsCakeTe
 		catch (Exception $ex) {
 			$this->TestModel->rollback();
 			$this->TestModel->recursive = -1;
-			$this->assertEquals(1, $this->TestModel->find('count'));
+			$this->assertEquals(2, $this->TestModel->find('count'));
 
 			$fields = $this->TestModel->User->schema(true);
 			$this->assertArrayNotHasKey('rollback_test_key', $fields);
