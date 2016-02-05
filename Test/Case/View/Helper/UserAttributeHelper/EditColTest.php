@@ -11,6 +11,7 @@
 
 App::uses('NetCommonsHelperTestCase', 'NetCommons.TestSuite');
 App::uses('UserAttributeLayout', 'UserAttributes.Model');
+class_exists('UserAttributeLayout'); // phpunitでエラーになるため
 
 /**
  * UserAttributeHelper::editCol()のテスト
