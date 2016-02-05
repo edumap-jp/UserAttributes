@@ -66,50 +66,42 @@ class TestUserAttributesViewElementsUserAttributesController extends AppControll
 	public function choice_edit_form() {
 		$this->autoRender = true;
 
+		App::uses('UserAttributeChoice4testFixture', 'UserAttributes.Test/Fixture');
+		$userAttributeChoiceRecords = (new UserAttributeChoice4testFixture())->records;
+		$userAttributeChoices = Hash::extract($userAttributeChoiceRecords, '{n}[user_attribute_id=8]');
+		$userAttributeChoices = array_merge($userAttributeChoices, Hash::extract($userAttributeChoiceRecords, '{n}[user_attribute_id=28]'));
+		$userAttributeChoices = Hash::combine($userAttributeChoices, '{n}.id', '{n}', '{n}.user_attribute_id');
+
 		$this->request->data = array(
-			'UserAttributeChoice' => array(
-				'1' => array(
-					0 => array (
-						'id' => '1',
-						'language_id' => '1',
-						'user_attribute_id' => '1',
-						'key' => 'test_1',
-						'name' => 'English name1',
-						'code' => 'code1',
-						'weight' => 1,
-					),
-					1 => array (
-						'id' => '2',
-						'language_id' => '2',
-						'user_attribute_id' => '1',
-						'key' => 'test_1',
-						'name' => 'Japanese name1',
-						'code' => 'code1',
-						'weight' => 1,
-					),
-				),
-				'2' => array(
-					0 => array (
-						'id' => '3',
-						'language_id' => '1',
-						'user_attribute_id' => '2',
-						'key' => 'test_2',
-						'name' => 'English name2',
-						'code' => 'code2',
-						'weight' => 2,
-					),
-					1 => array (
-						'id' => '4',
-						'language_id' => '2',
-						'user_attribute_id' => '2',
-						'key' => 'test_2',
-						'name' => 'Japanese name1',
-						'code' => 'code2',
-						'weight' => 2,
-					),
-				),
-			),
+			'UserAttributeChoice' => $userAttributeChoices,
 		);
+	}
+
+/**
+ * choice_edit_form
+ *
+ * @return void
+ */
+	public function choice_edit_form_null() {
+		$this->autoRender = true;
+		$this->view = 'choice_edit_form';
+
+		$this->request->data = array(
+			'UserAttributeChoice' => null,
+		);
+	}
+
+/**
+ * choice_edit_form
+ *
+ * @return void
+ */
+	public function choice_edit_form_without_id() {
+		$this->autoRender = true;
+		$this->view = 'choice_edit_form';
+
+		$this->choice_edit_form();
+		$this->request->data['UserAttributeChoice']['8']['2']['id'] = 0;
 	}
 
 /**
@@ -141,9 +133,9 @@ class TestUserAttributesViewElementsUserAttributesController extends AppControll
 		App::uses('UserAttributeFixture', 'UserAttributes.Test/Fixture');
 		App::uses('UserAttributeSettingFixture', 'UserAttributes.Test/Fixture');
 
-		$ruserAttributeRecords = (new UserAttributeFixture())->records;
+		$userAttributeRecords = (new UserAttributeFixture())->records;
 		//存在しない言語
-		array_push($ruserAttributeRecords, array(
+		array_push($userAttributeRecords, array(
 			'id' => '3',
 			'key' => 'user_attribute_key',
 			'language_id' => '3',
@@ -152,7 +144,7 @@ class TestUserAttributesViewElementsUserAttributesController extends AppControll
 		));
 		$this->request->data = array(
 			'UserAttributeSetting' => (new UserAttributeSettingFixture())->records[0],
-			'UserAttribute' => $ruserAttributeRecords,
+			'UserAttribute' => $userAttributeRecords,
 		);
 		debug($this->request->data);
 	}

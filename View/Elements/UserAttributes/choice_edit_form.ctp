@@ -1,9 +1,6 @@
 <?php
 /**
- * Element of Categories edit form
- *   - $categories:
- *       The results data of Category->getCategories(), and The formatter is camelized data.
- *   - $cancelUrl: Cancel url.
+ * 会員項目の選択肢項目Element
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
@@ -18,7 +15,8 @@ $this->request->data['UserAttributeChoiceMap'] = Hash::combine($this->request->d
 
 //Formヘルパーにセット
 foreach ($this->request->data['UserAttributeChoiceMap'] as $choiceMap) {
-	if (! $choiceMap['id']) {
+	debug(Hash::get($choiceMap, 'id'));
+	if (! Hash::get($choiceMap, 'id')) {
 		continue;
 	}
 
