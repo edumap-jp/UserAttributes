@@ -146,7 +146,6 @@ class TestUserAttributesViewElementsUserAttributesController extends AppControll
 			'UserAttributeSetting' => (new UserAttributeSettingFixture())->records[0],
 			'UserAttribute' => $userAttributeRecords,
 		);
-		debug($this->request->data);
 	}
 
 /**
