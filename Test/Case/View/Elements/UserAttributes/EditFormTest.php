@@ -60,7 +60,7 @@ class UserAttributesViewElementsUserAttributesEditFormTest extends NetCommonsCon
 		$this->assertInput('input', 'data[UserAttributeSetting][col]', '1', $this->view);
 		$this->assertInput('input', 'data[UserAttributeSetting][weight]', '1', $this->view);
 		$this->assertInput('input', 'data[UserAttributeSetting][display]', '1', $this->view);
-		$this->assertInput('input', 'data[UserAttributeSetting][user_attribute_key]', 'test2', $this->view);
+		$this->assertInput('input', 'data[UserAttributeSetting][user_attribute_key]', 'user_attribute_key', $this->view);
 
 		$this->assertInput('input', 'data[UserAttributeSetting][is_system]', null, $this->view);
 		$this->assertInput('input', 'data[UserAttributeSetting][display_label]', null, $this->view);
@@ -73,13 +73,13 @@ class UserAttributesViewElementsUserAttributesEditFormTest extends NetCommonsCon
 		$this->assertInput('input', 'data[UserAttributeSetting][self_email_setting]', null, $this->view);
 
 		$this->assertInput('input', 'data[UserAttribute][0][id]', '1', $this->view);
-		$this->assertInput('input', 'data[UserAttribute][0][key]', 'test2', $this->view);
+		$this->assertInput('input', 'data[UserAttribute][0][key]', 'user_attribute_key', $this->view);
 		$this->assertInput('input', 'data[UserAttribute][0][language_id]', '1', $this->view);
 		$this->assertInput('input', 'data[UserAttribute][0][name]', 'English name', $this->view);
 		$this->assertInput('textarea', 'data[UserAttribute][0][description]', 'English description', $this->view);
 
 		$this->assertInput('input', 'data[UserAttribute][1][id]', '2', $this->view);
-		$this->assertInput('input', 'data[UserAttribute][1][key]', 'test2', $this->view);
+		$this->assertInput('input', 'data[UserAttribute][1][key]', 'user_attribute_key', $this->view);
 		$this->assertInput('input', 'data[UserAttribute][1][language_id]', '2', $this->view);
 		$this->assertInput('input', 'data[UserAttribute][1][name]', 'Japanese name', $this->view);
 		$this->assertInput('textarea', 'data[UserAttribute][1][description]', 'Japanese description', $this->view);

@@ -47,7 +47,6 @@ class TestUserAttributesViewElementsUserAttributesController extends AppControll
  */
 	public function beforeRender() {
 		parent::beforeFilter();
-		$this->Auth->allow('delete_form', 'choice_edit_form', 'render_index_row', 'render_index_col', 'edit_form');
 	}
 
 /**
@@ -66,6 +65,51 @@ class TestUserAttributesViewElementsUserAttributesController extends AppControll
  */
 	public function choice_edit_form() {
 		$this->autoRender = true;
+
+		$this->request->data = array(
+			'UserAttributeChoice' => array(
+				'1' => array(
+					0 => array (
+						'id' => '1',
+						'language_id' => '1',
+						'user_attribute_id' => '1',
+						'key' => 'test_1',
+						'name' => 'English name1',
+						'code' => 'code1',
+						'weight' => 1,
+					),
+					1 => array (
+						'id' => '2',
+						'language_id' => '2',
+						'user_attribute_id' => '1',
+						'key' => 'test_1',
+						'name' => 'Japanese name1',
+						'code' => 'code1',
+						'weight' => 1,
+					),
+				),
+				'2' => array(
+					0 => array (
+						'id' => '3',
+						'language_id' => '1',
+						'user_attribute_id' => '2',
+						'key' => 'test_2',
+						'name' => 'English name2',
+						'code' => 'code2',
+						'weight' => 2,
+					),
+					1 => array (
+						'id' => '4',
+						'language_id' => '2',
+						'user_attribute_id' => '2',
+						'key' => 'test_2',
+						'name' => 'Japanese name1',
+						'code' => 'code2',
+						'weight' => 2,
+					),
+				),
+			),
+		);
 	}
 
 /**
@@ -94,49 +138,23 @@ class TestUserAttributesViewElementsUserAttributesController extends AppControll
 	public function edit_form() {
 		$this->autoRender = true;
 
+		App::uses('UserAttributeFixture', 'UserAttributes.Test/Fixture');
+		App::uses('UserAttributeSettingFixture', 'UserAttributes.Test/Fixture');
+
+		$ruserAttributeRecords = (new UserAttributeFixture())->records;
+		//存在しない言語
+		array_push($ruserAttributeRecords, array(
+			'id' => '3',
+			'key' => 'user_attribute_key',
+			'language_id' => '3',
+			'name' => 'Other name',
+			'description' => 'Other description',
+		));
 		$this->request->data = array(
-			'UserAttributeSetting' => array(
-				'id' => '1',
-				'row' => '1',
-				'col' => '1',
-				'weight' => 1,
-				'display' => '1',
-				'is_system' => '0',
-				'user_attribute_key' => 'test2',
-				'display_label' => '1',
-				'data_type_key' => 'text',
-				'is_multilingualization' => '1',
-				'required' => '0',
-				'only_administrator_readable' => '0',
-				'only_administrator_editable' => '0',
-				'self_public_setting' => '0',
-				'self_email_setting' => '0',
-			),
-			'UserAttribute' => array(
-				0 => array (
-					'id' => '1',
-					'key' => 'test2',
-					'language_id' => '1',
-					'name' => 'English name',
-					'description' => 'English description',
-				),
-				1 => array (
-					'id' => '2',
-					'key' => 'test2',
-					'language_id' => '2',
-					'name' => 'Japanese name',
-					'description' => 'Japanese description',
-				),
-				//存在しない言語
-				2 => array (
-					'id' => '3',
-					'key' => 'test2',
-					'language_id' => '3',
-					'name' => 'Other name',
-					'description' => 'Other description',
-				),
-			),
+			'UserAttributeSetting' => (new UserAttributeSettingFixture())->records[0],
+			'UserAttribute' => $ruserAttributeRecords,
 		);
+		debug($this->request->data);
 	}
 
 /**

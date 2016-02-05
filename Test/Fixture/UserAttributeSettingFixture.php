@@ -56,9 +56,9 @@ class UserAttributeSettingFixture extends CakeTestFixture {
  */
 	public $records = array(
 		array(
-			'id' => 1,
-			'user_attribute_key' => 'attribute_key',
-			'data_type_key' => 'Lorem ipsum dolor sit amet',
+			'id' => '1',
+			'user_attribute_key' => 'user_attribute_key',
+			'data_type_key' => 'text',
 			'row' => 1,
 			'col' => 1,
 			'weight' => 1,
@@ -70,12 +70,8 @@ class UserAttributeSettingFixture extends CakeTestFixture {
 			'display_label' => 1,
 			'display_search_result' => 1,
 			'self_public_setting' => 1,
-			'self_email_setting' => 1,
+			'self_email_setting' => 0,
 			'is_multilingualization' => 1,
-			'created_user' => 1,
-			'created' => '2015-08-05 08:35:08',
-			'modified_user' => 1,
-			'modified' => '2015-08-05 08:35:08'
 		),
 	);
 
