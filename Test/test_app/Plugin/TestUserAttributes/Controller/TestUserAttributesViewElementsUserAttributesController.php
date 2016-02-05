@@ -56,6 +56,13 @@ class TestUserAttributesViewElementsUserAttributesController extends AppControll
  */
 	public function delete_form() {
 		$this->autoRender = true;
+
+		App::uses('UserAttributeSettingFixture', 'UserAttributes.Test/Fixture');
+
+		$this->request->data = array(
+			'UserAttributeSetting' => (new UserAttributeSettingFixture())->records[0],
+		);
+
 	}
 
 /**
