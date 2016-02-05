@@ -56,9 +56,6 @@ echo '<div class="form-group">';
  */
 if ($this->request->data['UserAttributeSetting']['is_system'] || $this->params['action'] === 'edit') {
 	echo $this->NetCommonsForm->hidden('UserAttributeSetting.data_type_key');
-	$fieldName = 'UserAttributeSetting.data_type_key_';
-} else {
-	$fieldName = 'UserAttributeSetting.data_type_key';
 }
 echo $this->DataTypeForm->selectDataTypes('UserAttributeSetting.data_type_key', array(
 	'label' => __d('user_attributes', 'Input type'),
