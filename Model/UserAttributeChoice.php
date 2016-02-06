@@ -95,6 +95,19 @@ class UserAttributeChoice extends UsersAppModel {
 					'on' => 'update', // Limit validation to 'create' or 'update' operations
 				),
 			),
+			'code' => array(
+				'notBlank' => array(
+					'rule' => array('notBlank'),
+					'message' => __d('net_commons', 'Invalid request.'),
+					'required' => true,
+				),
+			),
+			'weight' => array(
+				'numeric' => array(
+					'rule' => array('numeric'),
+					'message' => __d('net_commons', 'Invalid request.'),
+				),
+			),
 		));
 
 		return parent::beforeValidate($options);
