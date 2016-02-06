@@ -43,6 +43,9 @@ class UserAttributesViewElementsUserAttributesChoiceEditFormTest extends NetComm
 
 		//テストプラグインのロード
 		NetCommonsCakeTestCase::loadTestPlugin($this, 'UserAttributes', 'TestUserAttributes');
+
+		//テストコントローラ生成
+		$this->generateNc('TestUserAttributes.TestViewElementsUserAttributesChoiceEditForm');
 	}
 
 /**
@@ -51,11 +54,8 @@ class UserAttributesViewElementsUserAttributesChoiceEditFormTest extends NetComm
  * @return void
  */
 	public function testChoiceEdit() {
-		//テストコントローラ生成
-		$this->generateNc('TestUserAttributes.TestUserAttributesViewElementsUserAttributes');
-
 		//テスト実行
-		$this->_testNcAction('/test_user_attributes/test_user_attributes_view_elements_user_attributes/choice_edit_form', array(
+		$this->_testNcAction('/test_user_attributes/test_view_elements_user_attributes_choice_edit_form/choice_edit_form', array(
 			'method' => 'get'
 		));
 
@@ -76,11 +76,8 @@ class UserAttributesViewElementsUserAttributesChoiceEditFormTest extends NetComm
  * @return void
  */
 	public function testChoiceEditFormNull() {
-		//テストコントローラ生成
-		$this->generateNc('TestUserAttributes.TestUserAttributesViewElementsUserAttributes');
-
 		//テスト実行
-		$this->_testNcAction('/test_user_attributes/test_user_attributes_view_elements_user_attributes/choice_edit_form_null', array(
+		$this->_testNcAction('/test_user_attributes/test_view_elements_user_attributes_choice_edit_form/choice_edit_form_null', array(
 			'method' => 'get'
 		));
 
@@ -98,11 +95,8 @@ class UserAttributesViewElementsUserAttributesChoiceEditFormTest extends NetComm
  * @return void
  */
 	public function testChoiceEditFormFormWOId() {
-		//テストコントローラ生成
-		$this->generateNc('TestUserAttributes.TestUserAttributesViewElementsUserAttributes');
-
 		//テスト実行
-		$this->_testNcAction('/test_user_attributes/test_user_attributes_view_elements_user_attributes/choice_edit_form_without_id', array(
+		$this->_testNcAction('/test_user_attributes/test_view_elements_user_attributes_choice_edit_form/choice_edit_form_without_id', array(
 			'method' => 'get'
 		));
 

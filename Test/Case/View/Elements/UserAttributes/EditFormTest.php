@@ -43,6 +43,9 @@ class UserAttributesViewElementsUserAttributesEditFormTest extends NetCommonsCon
 
 		//テストプラグインのロード
 		NetCommonsCakeTestCase::loadTestPlugin($this, 'UserAttributes', 'TestUserAttributes');
+
+		//テストコントローラ生成
+		$this->generateNc('TestUserAttributes.TestViewElementsUserAttributesEditForm');
 	}
 
 /**
@@ -99,15 +102,8 @@ class UserAttributesViewElementsUserAttributesEditFormTest extends NetCommonsCon
  * @return void
  */
 	public function testEditForm() {
-		//テストコントローラ生成
-		$this->generateNc('TestUserAttributes.TestUserAttributesViewElementsUserAttributes', array(
-			'helpers' => array(
-				'DataTypeForm' => array('selectDataTypes')
-			)
-		));
-
 		//テスト実行
-		$this->_testNcAction('/test_user_attributes/test_user_attributes_view_elements_user_attributes/edit_form', array(
+		$this->_testNcAction('/test_user_attributes/test_view_elements_user_attributes_edit_form/edit_form', array(
 			'method' => 'get'
 		));
 
@@ -124,15 +120,8 @@ class UserAttributesViewElementsUserAttributesEditFormTest extends NetCommonsCon
  * @return void
  */
 	public function testEditFormIsSystem() {
-		//テストコントローラ生成
-		$this->generateNc('TestUserAttributes.TestUserAttributesViewElementsUserAttributes', array(
-			'helpers' => array(
-				'DataTypeForm' => array('selectDataTypes')
-			)
-		));
-
 		//テスト実行
-		$this->_testNcAction('/test_user_attributes/test_user_attributes_view_elements_user_attributes/edit_form_is_system', array(
+		$this->_testNcAction('/test_user_attributes/test_view_elements_user_attributes_edit_form/edit_form_is_system', array(
 			'method' => 'get'
 		));
 
@@ -147,15 +136,8 @@ class UserAttributesViewElementsUserAttributesEditFormTest extends NetCommonsCon
  * @return void
  */
 	public function testEditFormByActionEdit() {
-		//テストコントローラ生成
-		$this->generateNc('TestUserAttributes.TestUserAttributesViewElementsUserAttributes', array(
-			'helpers' => array(
-				'DataTypeForm' => array('selectDataTypes')
-			)
-		));
-
 		//テスト実行
-		$this->_testNcAction('/test_user_attributes/test_user_attributes_view_elements_user_attributes/edit_form_action_edit', array(
+		$this->_testNcAction('/test_user_attributes/test_view_elements_user_attributes_edit_form/edit_form_action_edit', array(
 			'method' => 'get'
 		));
 

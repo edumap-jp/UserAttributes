@@ -52,10 +52,10 @@ class UserAttributesViewElementsUserAttributesDeleteFormTest extends NetCommonsC
  */
 	public function testDeleteForm() {
 		//テストコントローラ生成
-		$this->generateNc('TestUserAttributes.TestUserAttributesViewElementsUserAttributes');
+		$this->generateNc('TestUserAttributes.TestViewElementsUserAttributesDeleteForm');
 
 		//テスト実行
-		$this->_testNcAction('/test_user_attributes/test_user_attributes_view_elements_user_attributes/delete_form', array(
+		$this->_testNcAction('/test_user_attributes/test_view_elements_user_attributes_delete_form/delete_form', array(
 			'method' => 'get'
 		));
 
