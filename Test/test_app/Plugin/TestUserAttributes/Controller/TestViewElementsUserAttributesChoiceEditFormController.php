@@ -10,6 +10,7 @@
  */
 
 App::uses('AppController', 'Controller');
+App::uses('UserAttributeChoice4testFixture', 'UserAttributes.Test/Fixture');
 
 /**
  * View/Elements/UserAttributes/choice_edit_formテスト用Controller
@@ -47,7 +48,6 @@ class TestViewElementsUserAttributesChoiceEditFormController extends AppControll
 	public function choice_edit_form() {
 		$this->autoRender = true;
 
-		App::uses('UserAttributeChoice4testFixture', 'UserAttributes.Test/Fixture');
 		$choiceRecords = (new UserAttributeChoice4testFixture())->records;
 		$userAttributeChoices = Hash::extract($choiceRecords, '{n}[user_attribute_id=8]');
 		$userAttributeChoices = array_merge($userAttributeChoices, Hash::extract($choiceRecords, '{n}[user_attribute_id=28]'));
