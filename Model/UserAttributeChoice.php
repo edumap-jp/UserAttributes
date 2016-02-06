@@ -95,13 +95,6 @@ class UserAttributeChoice extends UsersAppModel {
 					'on' => 'update', // Limit validation to 'create' or 'update' operations
 				),
 			),
-			'code' => array(
-				'notBlank' => array(
-					'rule' => array('notBlank'),
-					'message' => __d('net_commons', 'Invalid request.'),
-					'required' => true,
-				),
-			),
 			'weight' => array(
 				'numeric' => array(
 					'rule' => array('numeric'),
@@ -200,7 +193,7 @@ class UserAttributeChoice extends UsersAppModel {
 
 		foreach ($data['UserAttributeChoice'] as $weight => $choiceByWeight) {
 			foreach ($choiceByWeight as $langId => $choice) {
-				if (! $choice['id']) {
+				if (! Hash::get($choice, 'id')) {
 					$created = $this->create(array(
 						'id' => null,
 						'language_id' => $choice['language_id'],

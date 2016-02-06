@@ -75,8 +75,6 @@ class UserAttributeChoiceValidateTest extends NetCommonsValidateTest {
 				'message' => __d('net_commons', 'Invalid request.')),
 			array('data' => $data, 'field' => 'name', 'value' => '',
 				'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('user_attributes', 'Item choice name'))),
-			array('data' => $data, 'field' => 'code', 'value' => '',
-				'message' => __d('net_commons', 'Invalid request.')),
 			array('data' => $data, 'field' => 'key', 'value' => '',
 				'message' => __d('net_commons', 'Invalid request.')),
 			array('data' => $data, 'field' => 'weight', 'value' => 'aaaa',
