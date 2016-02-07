@@ -324,6 +324,9 @@ class UserAttribute extends UserAttributesAppModel {
 
 		//バリデーション
 		$userAttributeKeys = Hash::extract($data['UserAttribute'], '{n}.key');
+		if (! $userAttributeKeys) {
+			return false;
+		}
 		$userAttributeKey = $userAttributeKeys[0];
 		if (! $this->validateUserAttribute($data)) {
 			return false;
@@ -334,7 +337,8 @@ class UserAttribute extends UserAttributesAppModel {
 			//UserAttributeの登録処理
 			foreach ($data['UserAttribute'] as $i => $userAttribute) {
 				$userAttribute['key'] = $userAttributeKey;
-				if (! $data['UserAttribute'][$i] = $this->save($userAttribute, false)) {
+				$data['UserAttribute'][$i] = $this->save($userAttribute, false);
+				if (! $data['UserAttribute'][$i]) {
 					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 				}
 				$userAttributeKey = $data['UserAttribute'][$i]['UserAttribute']['key'];
@@ -379,11 +383,17 @@ class UserAttribute extends UserAttributesAppModel {
  */
 	public function validateUserAttribute($data) {
 		//UserAttributeのバリデーション処理
+		if (! isset($data['UserAttribute'])) {
+			return false;
+		}
 		if (! $this->validateMany($data['UserAttribute'])) {
 			return false;
 		}
 
 		//UserAttributeSettingのバリデーション処理
+		if (! isset($data['UserAttributeSetting'])) {
+			return false;
+		}
 		$this->UserAttributeSetting->set($data['UserAttributeSetting']);
 		if (! $this->UserAttributeSetting->validates()) {
 			$this->validationErrors = Hash::merge(
@@ -394,6 +404,9 @@ class UserAttribute extends UserAttributesAppModel {
 		}
 
 		//UserAttributeChoiceのバリデーション処理
+		if (! isset($data['UserAttributeChoice'])) {
+			return false;
+		}
 		foreach ($data['UserAttributeChoice'] as $choice) {
 			if (! $this->UserAttributeChoice->validateMany($choice)) {
 				$this->validationErrors = Hash::merge(
