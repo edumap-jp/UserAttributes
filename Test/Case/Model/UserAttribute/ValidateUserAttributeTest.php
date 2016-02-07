@@ -107,7 +107,7 @@ class UserAttributeValidateUserAttributeTest extends NetCommonsModelTestCase {
  *
  * @return array テストデータ
  */
-	public function ValidateUserAttributeOnFailure() {
+	public function dataProviderValidateUserAttributeOnFailure() {
 		return array(
 			array($this->__data('text'), 'UserAttributes.UserAttribute', 'validateMany'),
 			array($this->__data('text'), 'UserAttributes.UserAttributeSetting'),
@@ -124,7 +124,7 @@ class UserAttributeValidateUserAttributeTest extends NetCommonsModelTestCase {
  * @param array $data 登録データ
  * @param string $mockModel Mockのモデル
  * @param string $mockMethod Mockのメソッド
- * @dataProvider ValidateUserAttributeOnFailure
+ * @dataProvider dataProviderValidateUserAttributeOnFailure
  * @return void
  */
 	public function testValidateUserAttributeOnFailure($data, $mockModel, $mockMethod = 'validates') {
