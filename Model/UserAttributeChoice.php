@@ -12,6 +12,7 @@
  */
 
 App::uses('UsersAppModel', 'Users.Model');
+App::uses('DataType', 'DataTypes.Model');
 
 /**
  * UserAttributeChoice Model
