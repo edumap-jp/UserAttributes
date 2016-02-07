@@ -173,7 +173,7 @@ class UserAttributeSaveUserAttributeTest extends NetCommonsModelTestCase {
 		$this->assertNotEmpty($result);
 
 		//チェック
-		$expected = $this->__expected($data);
+		$expected = $this->__expected();
 		$this->assertEquals($actual, $expected);
 	}
 
@@ -217,7 +217,7 @@ class UserAttributeSaveUserAttributeTest extends NetCommonsModelTestCase {
 		$data['UserAttributeSetting']['user_attribute_key'] = OriginalKeyBehavior::generateKey($this->$model->alias, $this->$model->useDbConfig);
 		$actual['UserAttributeSetting'][] = array('UserAttributeSetting' => $data['UserAttributeSetting']);
 
-		$expected = $this->__expected($data);
+		$expected = $this->__expected();
 		$expected = Hash::remove($expected, '{s}.{n}.{s}.created_user');
 		$expected = Hash::remove($expected, '{s}.{n}.{s}.created');
 
