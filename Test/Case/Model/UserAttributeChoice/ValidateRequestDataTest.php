@@ -97,7 +97,7 @@ class UserAttributeChoiceValidateRequestDataTest extends NetCommonsModelTestCase
 	}
 
 /**
- * validateRequestData()のテスト
+ * validateRequestData()のテスト(追加)
  *
  * @return void
  */
@@ -135,7 +135,7 @@ class UserAttributeChoiceValidateRequestDataTest extends NetCommonsModelTestCase
 	}
 
 /**
- * validateRequestData()のテスト
+ * validateRequestData()のテスト(削除)
  *
  * @return void
  */
