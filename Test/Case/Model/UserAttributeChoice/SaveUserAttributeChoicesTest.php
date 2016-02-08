@@ -63,7 +63,7 @@ class UserAttributeChoiceSaveUserAttributeChoicesTest extends NetCommonsModelTes
  * @param string $type 入力タイプ
  * @return array テストデータ
  */
-	public function __data($action, $type = 'radio') {
+	private function __data($action, $type = 'radio') {
 		$records = (new UserAttributeSetting4testFixture())->records;
 		$data['UserAttributeSetting'] = Hash::get(Hash::extract($records, '{n}[id=8]'), '0');
 		$data['UserAttributeSetting']['data_type_key'] = $type;
@@ -114,6 +114,7 @@ class UserAttributeChoiceSaveUserAttributeChoicesTest extends NetCommonsModelTes
 /**
  * 期待値用データ取得
  *
+ * @param string $action 処理アクション
  * @return void
  */
 	private function __actual($action) {
