@@ -125,7 +125,7 @@ class UserAttributesController extends UserAttributesAppController {
  * @return void
  */
 	public function edit($key = null) {
-		if ($this->request->isPost()) {
+		if ($this->request->isPut()) {
 			//不要パラメータ除去
 			unset($this->request->data['save'], $this->request->data['active_lang_id']);
 
