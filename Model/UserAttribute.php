@@ -438,11 +438,11 @@ class UserAttribute extends UserAttributesAppModel {
 /**
  * UserAttribute削除処理
  *
- * @param array $data received post data
+ * @param string $userAttributeKey received post data
  * @return mixed On success Model::$data if its not empty or true, false on failure
  * @throws InternalErrorException
  */
-	public function deleteUserAttribute($data) {
+	public function deleteUserAttribute($userAttributeKey) {
 		$this->loadModels([
 			'UserAttributeSetting' => 'UserAttributes.UserAttributeSetting',
 			'UserAttributeChoice' => 'UserAttributes.UserAttributeChoice',
@@ -452,8 +452,6 @@ class UserAttribute extends UserAttributesAppModel {
 		$this->begin();
 
 		$colUserAttributeKey = $this->UserAttributeSetting->alias . '.user_attribute_key';
-		$userAttributeKey = $data[$this->UserAttributeSetting->alias]['user_attribute_key'];
-
 		$userAttributeSetting = $this->UserAttributeSetting->find('first', array(
 			'recursive' => -1,
 			'conditions' => array($colUserAttributeKey => $userAttributeKey),

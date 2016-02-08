@@ -28,7 +28,7 @@ class UserAttributesControllerEditTest extends NetCommonsControllerTestCase {
  */
 	public $fixtures = array(
 		'plugin.user_attributes.user_attribute4edit',
-		'plugin.user_attributes.user_attribute_choice',
+		'plugin.user_attributes.user_attribute_choice4edit',
 		'plugin.user_attributes.user_attribute_layout',
 		'plugin.user_attributes.user_attribute_setting4edit',
 	);

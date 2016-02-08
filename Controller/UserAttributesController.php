@@ -170,7 +170,7 @@ class UserAttributesController extends UserAttributesAppController {
 			return;
 		}
 
-		if (! $this->UserAttribute->deleteUserAttribute($this->data)) {
+		if (! $this->UserAttribute->deleteUserAttribute(Hash::get($this->data, 'UserAttributeSetting.user_attribute_key'))) {
 			$this->throwBadRequest();
 			return;
 		}

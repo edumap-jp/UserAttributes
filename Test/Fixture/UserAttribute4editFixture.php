@@ -57,12 +57,26 @@ class UserAttribute4editFixture extends UserAttributeFixture {
 		array (
 			'id' => '3',
 			'language_id' => '1',
+			'key' => 'radio_attribute_key',
+			'name' => 'English radio name',
+			'description' => 'English radio description',
+		),
+		array (
+			'id' => '4',
+			'language_id' => '2',
+			'key' => 'radio_attribute_key',
+			'name' => 'Japanese radio name',
+			'description' => 'Japanese radio description',
+		),
+		array (
+			'id' => '5',
+			'language_id' => '1',
 			'key' => 'system_attribute_key',
 			'name' => 'English system name',
 			'description' => 'English system description',
 		),
 		array (
-			'id' => '4',
+			'id' => '6',
 			'language_id' => '2',
 			'key' => 'system_attribute_key',
 			'name' => 'Japanese system name',
