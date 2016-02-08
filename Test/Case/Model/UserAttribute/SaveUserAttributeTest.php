@@ -246,6 +246,46 @@ class UserAttributeSaveUserAttributeTest extends NetCommonsModelTestCase {
 	}
 
 /**
+ * testOnlyAdmin用DataProvider
+ *
+ * ### 戻り値
+ *  - data 登録データ
+ *  - execProcess 処理実行有無(1:実行,0:未実行)
+ *
+ * @return array テストデータ
+ */
+	public function dataProviderOnlyAdmin() {
+		$data = $this->__data();
+
+		return array(
+			array(Hash::merge($data, array('UserAttributeSetting' => array('only_administrator_readable' => 0))), 1),
+			array(Hash::merge($data, array('UserAttributeSetting' => array('only_administrator_editable' => 0))), 1),
+			array(Hash::merge($data, array()), 0),
+		);
+	}
+
+/**
+ * UserAttributeSetting.only_administrator_readableもしくはUserAttributeSetting.only_administrator_editableが変わった場合の
+ * saveDefaultUserAttributeRoles()を実行有無テスト
+ *
+ * @param array $data 登録データ
+ * @param int $execProcess 処理実行有無(1:実行,0:未実行)
+ * @dataProvider dataProviderOnlyAdmin
+ * @return void
+ */
+	public function testOnlyAdmin($data, $execProcess) {
+		$model = $this->_modelName;
+		$method = $this->_methodName;
+
+		//Mockの生成
+		$this->_mockForReturn($model, 'UserAttributes.UserAttribute', 'saveDefaultUserAttributeRoles', true, $execProcess);
+
+		//テスト実行
+		$result = $this->$model->$method($data);
+		$this->assertNotEmpty($result);
+	}
+
+/**
  * SaveのExceptionError用DataProvider
  *
  * ### 戻り値

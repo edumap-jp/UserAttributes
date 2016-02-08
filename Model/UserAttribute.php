@@ -344,6 +344,14 @@ class UserAttribute extends UserAttributesAppModel {
 				$userAttributeKey = $data['UserAttribute'][$i]['UserAttribute']['key'];
 			}
 
+			//既存のデータ取得
+			$before = $this->UserAttributeSetting->find('first', array(
+				'recursive' => -1,
+				'conditions' => array(
+					'user_attribute_key' => $userAttributeKey,
+ 				),
+			));
+
 			//UserAttributeSettingの登録処理
 			$data['UserAttributeSetting']['user_attribute_key'] = $userAttributeKey;
 			if (! $this->UserAttributeSetting->save($data['UserAttributeSetting'], false)) {
@@ -356,10 +364,17 @@ class UserAttribute extends UserAttributesAppModel {
 				$this->UserAttributeChoice->saveUserAttributeChoices($data);
 			}
 
-			if (! $updated) {
-				//UserAttributesRoleのデフォルトデータ登録処理
+			//UserAttributesRoleのデフォルトデータ登録処理
+			if (! $before ||
+					(int)Hash::get($before, 'UserAttributeSetting.only_administrator_readable') !==
+										(int)Hash::get($data, 'UserAttributeSetting.only_administrator_readable') ||
+					(int)Hash::get($before, 'UserAttributeSetting.only_administrator_editable') !==
+										(int)Hash::get($data, 'UserAttributeSetting.only_administrator_editable')
+			) {
 				$this->saveDefaultUserAttributeRoles($data);
+			}
 
+			if (! $updated) {
 				//フィールドの作成処理
 				$this->addColumnByUserAttribute($data);
 			}
