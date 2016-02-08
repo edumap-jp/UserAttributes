@@ -1,8 +1,7 @@
 <?php
 /**
  * UserAttribute index row template
- *   - $row: UserAttributeLayout.row
- *   - $layout: UserAttributeLayout
+ * - $layout: UserAttributeLayout
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>

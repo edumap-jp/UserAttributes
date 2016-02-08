@@ -78,7 +78,7 @@ class UserAttributeLayoutsControllerEditTest extends NetCommonsControllerTestCas
 		$this->_mockForReturnTrue('UserAttributes.UserAttributeLayout', 'updateUserAttributeLayout');
 
 		//テスト実行
-		$this->_testPostAction('post', array(), array('action' => 'edit'), null, 'view');
+		$this->_testPostAction('put', array(), array('action' => 'edit'), null, 'view');
 
 		//チェック
 		$header = $this->controller->response->header();
@@ -115,7 +115,7 @@ class UserAttributeLayoutsControllerEditTest extends NetCommonsControllerTestCas
 		$this->_mockForReturnFalse('UserAttributes.UserAttributeLayout', 'updateUserAttributeLayout');
 
 		//テスト実行
-		$this->_testPostAction('post', array(), array('action' => 'edit'), 'BadRequestException', 'view');
+		$this->_testPostAction('put', array(), array('action' => 'edit'), 'BadRequestException', 'view');
 	}
 
 /**
@@ -127,7 +127,7 @@ class UserAttributeLayoutsControllerEditTest extends NetCommonsControllerTestCas
 		$this->_mockForReturnFalse('UserAttributes.UserAttributeLayout', 'updateUserAttributeLayout');
 
 		//テスト実行
-		$this->_testPostAction('post', array(), array('action' => 'edit'), 'BadRequestException', 'json');
+		$this->_testPostAction('put', array(), array('action' => 'edit'), 'BadRequestException', 'json');
 	}
 
 }

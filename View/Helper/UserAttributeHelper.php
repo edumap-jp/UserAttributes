@@ -45,7 +45,7 @@ class UserAttributeHelper extends AppHelper {
 			'action' => 'edit',
 			$layout['UserAttributeLayout']['id']
 		));
-		$output .= $this->NetCommonsForm->create(null, array('url' => $url));
+		$output .= $this->NetCommonsForm->create('UserAttributeLayout', array('type' => 'put', 'url' => $url));
 
 		$output .= $this->NetCommonsForm->hidden('UserAttributeLayout.id',
 				array('value' => $layout['UserAttributeLayout']['id']));
