@@ -117,7 +117,7 @@ class UserAttributeBehaviorAddColumnByUserAttributeTest extends NetCommonsCakeTe
 	}
 
 /**
- * addColumnByUserAttribute()のテスト(is_multilingualization=trueの場合)
+ * addColumnByUserAttribute()のテスト(data_type_key=emailの場合)
  *
  * @return void
  */
