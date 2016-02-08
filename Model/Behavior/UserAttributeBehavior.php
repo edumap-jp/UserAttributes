@@ -229,6 +229,7 @@ class UserAttributeBehavior extends ModelBehavior {
  */
 	public function dropColumnByUserAttribute(Model $model, $data) {
 		$model->loadModels([
+			'UserAttributeSetting' => 'UserAttributes.UserAttributeSetting',
 			'User' => 'Users.User',
 			'UsersLanguage' => 'Users.UsersLanguage',
 		]);
