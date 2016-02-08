@@ -62,6 +62,7 @@ class UserAttribute4testFixture extends UserAttributeFixture {
 		array('id' => '19', 'language_id' => '2', 'key' => 'profile', 'name' => 'プロフィール', ),
 		array('id' => '20', 'language_id' => '2', 'key' => 'search_keywords', 'name' => '検索キーワード', ),
 		//英語
+		array('id' => '22', 'language_id' => '1', 'key' => 'username', 'name' => 'ID', ),
 		array('id' => '28', 'language_id' => '1', 'key' => 'sex', 'name' => 'Sex', ),
 	);
 
