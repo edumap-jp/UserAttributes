@@ -43,7 +43,7 @@ foreach ($this->request->data['UserAttribute'] as $userAttribute) {
 </div>
 
 <div class="panel panel-default" ng-controller="UserAttributes" ng-init='initialize(<?php echo h(json_encode($camelizeData)) ?>)'>
-	<?php echo $this->NetCommonsForm->create('UserAttribute'); ?>
+	<?php echo $this->NetCommonsForm->create('UserAttributeSetting'); ?>
 
 	<div class="panel-body">
 		<?php echo $this->SwitchLanguage->tablist('user-attributes-'); ?>
