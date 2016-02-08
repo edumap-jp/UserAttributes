@@ -323,11 +323,7 @@ class UserAttribute extends UserAttributesAppModel {
 		$this->begin();
 
 		//バリデーション
-		$userAttributeKeys = Hash::extract($data['UserAttribute'], '{n}.key');
-		if (! $userAttributeKeys) {
-			return false;
-		}
-		$userAttributeKey = $userAttributeKeys[0];
+		$userAttributeKey = Hash::get(Hash::extract($data['UserAttribute'], '{n}.key'), '0');
 		if (! $this->validateUserAttribute($data)) {
 			return false;
 		}
@@ -348,8 +344,8 @@ class UserAttribute extends UserAttributesAppModel {
 			$before = $this->UserAttributeSetting->find('first', array(
 				'recursive' => -1,
 				'conditions' => array(
-					'user_attribute_key' => $userAttributeKey,
- 				),
+					'user_attribute_key' => $data['UserAttributeSetting']['user_attribute_key'],
+				),
 			));
 
 			//UserAttributeSettingの登録処理
@@ -365,12 +361,7 @@ class UserAttribute extends UserAttributesAppModel {
 			}
 
 			//UserAttributesRoleのデフォルトデータ登録処理
-			if (! $before ||
-					(int)Hash::get($before, 'UserAttributeSetting.only_administrator_readable') !==
-										(int)Hash::get($data, 'UserAttributeSetting.only_administrator_readable') ||
-					(int)Hash::get($before, 'UserAttributeSetting.only_administrator_editable') !==
-										(int)Hash::get($data, 'UserAttributeSetting.only_administrator_editable')
-			) {
+			if ($this->hasUpdatedUserAttributeRole($before, $data)) {
 				$this->saveDefaultUserAttributeRoles($data);
 			}
 
@@ -388,6 +379,30 @@ class UserAttribute extends UserAttributesAppModel {
 		}
 
 		return true;
+	}
+
+/**
+ * 会員項目権限の登録できるかどうか
+ *
+ * @param array $before 更新前データ
+ * @param array $data リクエストデータ
+ * @return bool Trueはあり。Falseはなし
+ */
+	public function hasUpdatedUserAttributeRole($before, $data) {
+		if (! $before) {
+			return true;
+		}
+
+		//UserAttributesRole登録の判断
+		if ((int)Hash::get($before, 'UserAttributeSetting.only_administrator_readable') ===
+					(int)Hash::get($data, 'UserAttributeSetting.only_administrator_readable') &&
+			(int)Hash::get($before, 'UserAttributeSetting.only_administrator_editable') ===
+					(int)Hash::get($data, 'UserAttributeSetting.only_administrator_editable')) {
+
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 /**

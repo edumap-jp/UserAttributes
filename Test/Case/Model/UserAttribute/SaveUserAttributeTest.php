@@ -258,8 +258,8 @@ class UserAttributeSaveUserAttributeTest extends NetCommonsModelTestCase {
 		$data = $this->__data();
 
 		return array(
-			array(Hash::merge($data, array('UserAttributeSetting' => array('only_administrator_readable' => 0))), 1),
-			array(Hash::merge($data, array('UserAttributeSetting' => array('only_administrator_editable' => 0))), 1),
+			array(Hash::merge($data, array('UserAttributeSetting' => array('only_administrator_readable' => false))), 1),
+			array(Hash::merge($data, array('UserAttributeSetting' => array('only_administrator_editable' => false))), 1),
 			array(Hash::merge($data, array()), 0),
 		);
 	}

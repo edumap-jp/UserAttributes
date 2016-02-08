@@ -89,7 +89,6 @@ class UserAttributeDeleteUserAttributeTest extends NetCommonsDeleteTest {
  */
 	public function testDelete($data, $associationModels = null) {
 		$model = $this->_modelName;
-		$method = $this->_methodName;
 
 		//Mockの生成
 		$this->_mockForReturnTrue($model, 'UserAttributes.UserAttribute', 'dropColumnByUserAttribute');
