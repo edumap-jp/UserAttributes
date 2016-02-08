@@ -1,6 +1,6 @@
 <?php
 /**
- * アクセス権限(Permission)テスト用Fixture
+ * Unitテスト用Fixture
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
@@ -9,29 +9,29 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('PluginsRoleFixture', 'PluginManager.Test/Fixture');
+App::uses('PluginFixture', 'PluginManager.Test/Fixture');
 
 /**
- * アクセス権限(Permission)テスト用Fixture
+ * Unitテスト用Fixture
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\UserAttributes\Test\Fixture
  */
-class PluginsRole4permissionFixture extends PluginsRoleFixture {
+class Plugin4testFixture extends PluginFixture {
 
 /**
  * Model name
  *
  * @var string
  */
-	public $name = 'PluginsRole';
+	public $name = 'Plugin';
 
 /**
  * Full Table Name
  *
  * @var string
  */
-	public $table = 'plugins_roles';
+	public $table = 'plugins';
 
 /**
  * Records
@@ -40,12 +40,20 @@ class PluginsRole4permissionFixture extends PluginsRoleFixture {
  */
 	public $records = array(
 		array(
-			'role_key' => 'administrator',
-			'plugin_key' => 'test_user_attributes',
+			'language_id' => '2',
+			'key' => 'user_manager',
+			'name' => 'User Manager',
+			'weight' => '1',
+			'type' => '2',
+			'default_action' => 'user_manager/index',
 		),
 		array(
-			'role_key' => 'system_administrator',
-			'plugin_key' => 'test_user_attributes',
+			'language_id' => '2',
+			'key' => 'user_attributes',
+			'name' => 'User Attributes',
+			'weight' => '1',
+			'type' => '2',
+			'default_action' => 'user_attributes/index',
 		),
 	);
 

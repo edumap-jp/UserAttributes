@@ -73,6 +73,7 @@ class UserAttributeBehavior extends ModelBehavior {
 				'role_key' => $userRoleSetting['UserRoleSetting']['role_key'],
 				'origin_role_key' => $userRoleSetting['UserRoleSetting']['origin_role_key'],
 				'user_attribute_key' => $data['UserAttributeSetting']['user_attribute_key'],
+				'data_type_key' => $data['UserAttributeSetting']['data_type_key'],
 				'only_administrator_readable' => (bool)$data['UserAttributeSetting']['only_administrator_readable'],
 				'only_administrator_editable' => (bool)$data['UserAttributeSetting']['only_administrator_editable'],
 				'is_system' => (bool)$data['UserAttributeSetting']['is_system']

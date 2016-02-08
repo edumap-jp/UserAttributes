@@ -1,6 +1,6 @@
 <?php
 /**
- * アクセス権限(Permission)テスト用Fixture
+ * Unitテスト用Fixture
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
@@ -12,12 +12,12 @@
 App::uses('PluginsRoleFixture', 'PluginManager.Test/Fixture');
 
 /**
- * アクセス権限(Permission)テスト用Fixture
+ * Unitテスト用Fixture
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\UserAttributes\Test\Fixture
  */
-class PluginsRole4permissionFixture extends PluginsRoleFixture {
+class PluginsRole4testFixture extends PluginsRoleFixture {
 
 /**
  * Model name
@@ -41,11 +41,19 @@ class PluginsRole4permissionFixture extends PluginsRoleFixture {
 	public $records = array(
 		array(
 			'role_key' => 'administrator',
-			'plugin_key' => 'test_user_attributes',
+			'plugin_key' => 'user_attributes',
 		),
 		array(
 			'role_key' => 'system_administrator',
-			'plugin_key' => 'test_user_attributes',
+			'plugin_key' => 'user_attributes',
+		),
+		array(
+			'role_key' => 'administrator',
+			'plugin_key' => 'user_manager',
+		),
+		array(
+			'role_key' => 'system_administrator',
+			'plugin_key' => 'user_manager',
 		),
 	);
 
