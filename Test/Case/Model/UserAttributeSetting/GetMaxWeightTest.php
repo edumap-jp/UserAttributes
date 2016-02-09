@@ -72,6 +72,24 @@ class UserAttributeSettingGetMaxWeightTest extends NetCommonsGetTest {
 	}
 
 /**
+ * getMaxWeight()のテスト(rowのみ指定)
+ *
+ * @return void
+ */
+	public function testGetMaxWeightOnlyRow() {
+		//データ生成
+		$row = 1;
+
+		//テスト実施
+		$model = $this->_modelName;
+		$methodName = $this->_methodName;
+		$result = $this->$model->$methodName($row);
+
+		//チェック
+		$this->assertEquals(array(2, 11), $result);
+	}
+
+/**
  * getMaxWeight()のテスト(データなし)
  *
  * @return void
@@ -88,6 +106,24 @@ class UserAttributeSettingGetMaxWeightTest extends NetCommonsGetTest {
 
 		//チェック
 		$this->assertEquals(0, $result);
+	}
+
+/**
+ * getMaxWeight()のテスト(データなし、Rowのみ指定)
+ *
+ * @return void
+ */
+	public function testGetMaxWeightByNoDataOnlyRow() {
+		//データ生成
+		$row = 4;
+
+		//テスト実施
+		$model = $this->_modelName;
+		$methodName = $this->_methodName;
+		$result = $this->$model->$methodName($row);
+
+		//チェック
+		$this->assertEquals(array(1, 0), $result);
 	}
 
 }

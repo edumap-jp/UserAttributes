@@ -57,7 +57,6 @@ class UserAttributesControllerIndexTest extends NetCommonsControllerTestCase {
 		$this->_testGetAction(array('action' => 'index'), array('method' => 'assertNotEmpty'), null, 'view');
 
 		//チェック
-		//TODO:assert追加
 		$this->assertEquals('index', $this->controller->view);
 		$this->assertNull($this->controller->DataTypeForm->dataTypes);
 

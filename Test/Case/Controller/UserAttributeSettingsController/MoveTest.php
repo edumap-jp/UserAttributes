@@ -81,21 +81,8 @@ class UserAttributeSettingsControllerMoveTest extends NetCommonsControllerTestCa
 		$results = array();
 
 		//テストデータ
-		// * 'row', 'col', 'weight'が3つある場合
 		$results[0] = array('data' => array(
-			'UserAttributeSetting' => array('id' => '1', 'row_1' => '1', 'col_1' => '2', 'weight_1' => '3')
-		));
-		// * 'row'が空値のある場合
-		$results[1] = array('data' => array(
-			'UserAttributeSetting' => array('id' => '1', 'row_1' => '', 'col_1' => '2', 'weight_1' => '3')
-		));
-		// * 'col'が空値のある場合
-		$results[2] = array('data' => array(
-			'UserAttributeSetting' => array('id' => '1', 'row_1' => '1', 'col_1' => '', 'weight_1' => '3')
-		));
-		// * 'weight'が空値のある場合
-		$results[3] = array('data' => array(
-			'UserAttributeSetting' => array('id' => '1', 'row_1' => '1', 'col_1' => '2', 'weight_1' => '')
+			'UserAttributeSetting' => array('id' => '1', 'row' => '1', 'col' => '2', 'weight' => '3')
 		));
 
 		return $results;
@@ -144,58 +131,6 @@ class UserAttributeSettingsControllerMoveTest extends NetCommonsControllerTestCa
 	public function testSaveUserAttributeWeightErrorJson($data) {
 		$this->_mockForReturnFalse('UserAttributes.UserAttributeSetting', 'saveUserAttributeWeight');
 
-		//テスト実行
-		$this->_testPostAction('post', $data, array('action' => 'move'), 'BadRequestException', 'json');
-	}
-
-/**
- * 意図しない(フィールドが不足している)リクエストデータ用DataProvider
- *
- * ### 戻り値
- *  - data POSTデータ
- *
- * @return array
- */
-	public function dataProviderFieldError() {
-		$results = array();
-
-		//テストデータ
-		// * 'row'が不足している場合
-		$results[0] = array('data' => array(
-			'UserAttributeSetting' => array('id' => '1', 'col_1' => '2', 'weight_1' => '3')
-		));
-		// * 'col'が不足している場合
-		$results[1] = array('data' => array(
-			'UserAttributeSetting' => array('id' => '1', 'row_1' => '1', 'weight_1' => '3')
-		));
-		// * 'weight'が不足している場合
-		$results[2] = array('data' => array(
-			'UserAttributeSetting' => array('id' => '1', 'row_1' => '1', 'col_1' => '2')
-		));
-
-		return $results;
-	}
-
-/**
- * 'row', 'col', 'weight'のフィールドエラーのテスト
- *
- * @param array $data リクエストデータ
- * @dataProvider dataProviderFieldError
- * @return void
- */
-	public function testMoveFieldError($data) {
-		//テスト実行
-		$this->_testPostAction('post', $data, array('action' => 'move'), 'BadRequestException', 'view');
-	}
-
-/**
- * 'row', 'col', 'weight'のフィールドエラーのテスト(JSON形式)
- *
- * @param array $data リクエストデータ
- * @dataProvider dataProviderFieldError
- * @return void
- */
-	public function testMoveFieldErrorJson($data) {
 		//テスト実行
 		$this->_testPostAction('post', $data, array('action' => 'move'), 'BadRequestException', 'json');
 	}

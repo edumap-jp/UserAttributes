@@ -105,6 +105,19 @@ class UserAttributesControllerEditTest extends NetCommonsControllerTestCase {
 	}
 
 /**
+ * edit()アクションのGETパラメータテスト(選択肢がある)
+ *
+ * @return void
+ */
+	public function testEditGetRadio() {
+		//テスト実行
+		$this->_testGetAction(array('action' => 'edit', 'key' => 'radio_attribute_key'), array('method' => 'assertNotEmpty'), null, 'view');
+
+		//チェック
+		$this->assertInput('form', null, 'user_attributes/user_attributes/edit/radio_attribute_key', $this->view);
+	}
+
+/**
  * edit()アクションのGETパラメータテスト(システムフィールド)
  *
  * @return void

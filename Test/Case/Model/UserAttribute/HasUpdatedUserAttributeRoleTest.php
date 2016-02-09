@@ -58,14 +58,6 @@ class UserAttributeHasUpdatedUserAttributeRoleTest extends NetCommonsModelTestCa
  *
  * @param bool $isNew 新規かどうか
  * @return void
- * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
- */
-
-/**
- * テストデータセット
- *
- * @param bool $isNew 新規かどうか
- * @return void
  */
 	private function __data($isNew) {
 		if ($isNew) {

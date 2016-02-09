@@ -50,15 +50,6 @@ class TestViewElementsUserAttributesRenderIndexColController extends AppControll
 	}
 
 /**
- * afterRender
- *
- * @return void
- */
-	public function afterRender() {
-		parent::afterRender();
-	}
-
-/**
  * render_index_col
  *
  * @return void
@@ -71,6 +62,7 @@ class TestViewElementsUserAttributesRenderIndexColController extends AppControll
 		Current::$current['User']['role_key'] = UserRole::USER_ROLE_KEY_SYSTEM_ADMINISTRATOR;
 
 		$UserAttribute = ClassRegistry::init('UserAttributes.UserAttribute');
+		UserAttribute::$userAttributes = null;
 		$userAttributes = $UserAttribute->getUserAttributesForLayout();
 		$this->set('userAttributes', $userAttributes);
 

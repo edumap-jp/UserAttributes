@@ -56,6 +56,7 @@ class UserAttributeLayoutHelperRenderColTest extends NetCommonsHelperTestCase {
 		$UserAttribute = ClassRegistry::init('UserAttributes.UserAttribute');
 		$UserAttributeLayout = ClassRegistry::init('UserAttributes.UserAttributeLayout');
 
+		UserAttribute::$userAttributes = null;
 		$this->__viewVars['userAttributes'] = $UserAttribute->getUserAttributesForLayout();
 		$this->__viewVars['userAttributeLayouts'] = $UserAttributeLayout->find('all', array(
 			'fields' => array('id', 'col'),

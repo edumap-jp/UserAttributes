@@ -153,9 +153,9 @@ class UserAttributeHelper extends AppHelper {
  *
  * @param string $formName フォーム名
  * @param int $userAttrSettingId UserAttributeSetting.id
- * @param int $weight 順序
- * @param int $row ○段目
- * @param int $col 行
+ * @param int $updWeight 順序
+ * @param int $updRow ○段目
+ * @param int $updCol 行
  * @param string $disabled disabledのCSS
  * @param string $class ボタンのCSS
  * @param string $message メッセージ

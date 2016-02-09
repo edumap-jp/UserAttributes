@@ -96,54 +96,67 @@ class UserAttributeSettingSaveUserAttributeWeightTest extends NetCommonsModelTes
 	}
 
 /**
- * データエラーのDataProvider
+ * saveUserAttributeWeight()のテスト(段の移動のテスト)
  *
- * ### 戻り値
- *  - data 登録データ
- *
- * @return array テストデータ
+ * @return void
  */
-	public function dataProvider() {
-		return array(
-			// * 存在しないID
-			array(array(
-				'UserAttributeSetting' => array('id' => '999', 'row' => '1', 'col' => '2', 'weight' => '6')
-			)),
-			// * rowが数値以外
-			array(array(
-				'UserAttributeSetting' => array('id' => '5', 'row' => 'aa', 'col' => '2', 'weight' => '6')
-			)),
-			// * rowがない
-			array(array(
-				'UserAttributeSetting' => array('id' => '5', 'col' => '2', 'weight' => '6')
-			)),
-			// * colが数値以外
-			array(array(
-				'UserAttributeSetting' => array('id' => '5', 'row' => '1', 'col' => 'a', 'weight' => '6')
-			)),
-			// * colがない
-			array(array(
-				'UserAttributeSetting' => array('id' => '5', 'row' => '1', 'weight' => '6')
-			)),
-			// * weightが数値以外
-			array(array(
-				'UserAttributeSetting' => array('id' => '5', 'row' => '1', 'col' => '2', 'weight' => 'a')
-			)),
-			// * weightがない
-			array(array(
-				'UserAttributeSetting' => array('id' => '5', 'row' => '1', 'col' => '2')
-			)),
+	public function testSaveUserAttributeWeightOnlyRow() {
+		$model = $this->_modelName;
+		$methodName = $this->_methodName;
+
+		//期待値のデータ取得
+		$expected = $this->$model->find('all', array(
+			'recursive' => -1,
+			'order' => array('id' => 'asc'),
+		));
+		$expected = Hash::combine($expected, '{n}.UserAttributeSetting.id', '{n}');
+		$expected = Hash::remove($expected, '5.UserAttributeSetting.modified');
+		$expected = Hash::remove($expected, '5.UserAttributeSetting.modified_user');
+		$expected['16']['UserAttributeSetting']['weight'] = '4';
+		$expected['17']['UserAttributeSetting']['weight'] = '5';
+		$expected['18']['UserAttributeSetting']['weight'] = '6';
+		$expected['12']['UserAttributeSetting']['weight'] = '7';
+		$expected['13']['UserAttributeSetting']['weight'] = '8';
+		$expected['14']['UserAttributeSetting']['weight'] = '9';
+		$expected['15']['UserAttributeSetting']['weight'] = '10';
+
+		$expected['5']['UserAttributeSetting']['row'] = '3';
+		$expected['5']['UserAttributeSetting']['col'] = '1';
+		$expected['5']['UserAttributeSetting']['weight'] = '1';
+
+		//データ生成
+		$data = array(
+			'UserAttributeSetting' => array('id' => '5', 'row' => '3')
 		);
+
+		//テスト実施
+		$result = $this->$model->$methodName($data);
+
+		//チェック
+		$this->assertTrue($result);
+
+		$actual = $this->$model->find('all', array(
+			'recursive' => -1,
+			'order' => array('id' => 'asc'),
+		));
+		$actual = Hash::combine($actual, '{n}.UserAttributeSetting.id', '{n}');
+		$actual = Hash::remove($actual, '5.UserAttributeSetting.modified');
+		$actual = Hash::remove($actual, '5.UserAttributeSetting.modified_user');
+
+		$this->assertEquals($expected, $actual);
 	}
 
 /**
  * データエラーのテスト
  *
- * @param array $data 登録データ
- * @dataProvider dataProvider
  * @return void
  */
-	public function testDataError($data) {
+	public function testDataError() {
+		//データ生成
+		$data = array(
+			'UserAttributeSetting' => array('id' => '999', 'row' => '1', 'col' => '2', 'weight' => '6')
+		);
+
 		//テスト実施
 		$model = $this->_modelName;
 		$methodName = $this->_methodName;
@@ -159,10 +172,10 @@ class UserAttributeSettingSaveUserAttributeWeightTest extends NetCommonsModelTes
  * @return void
  */
 	public function testErrorException() {
-		$this->_mockForReturnFalse('UserAttributeSetting', 'UserAttributes.UserAttributeSetting', 'save');
-
 		$this->setExpectedException('InternalErrorException');
+
 		//データ生成
+		$this->_mockForReturnFalse('UserAttributeSetting', 'UserAttributes.UserAttributeSetting', 'save');
 		$data = array(
 			'UserAttributeSetting' => array('id' => '5', 'row' => '1', 'col' => '2', 'weight' => '6')
 		);

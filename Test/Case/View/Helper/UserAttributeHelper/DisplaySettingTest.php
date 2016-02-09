@@ -43,7 +43,6 @@ class UserAttributeHelperDisplaySettingTest extends NetCommonsHelperTestCase {
 		parent::setUp();
 
 		//テストデータ生成
-		//TODO:必要に応じてセットする
 		$viewVars = array();
 		$requestData = array();
 
