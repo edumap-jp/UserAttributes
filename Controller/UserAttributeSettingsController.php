@@ -54,7 +54,7 @@ class UserAttributeSettingsController extends UserAttributesAppController {
  * @return void
  */
 	public function move() {
-		if (! $this->request->isPost()) {
+		if (! $this->request->isPut()) {
 			$this->throwBadRequest();
 			return;
 		}

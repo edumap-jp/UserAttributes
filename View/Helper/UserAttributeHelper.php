@@ -172,7 +172,7 @@ class UserAttributeHelper extends AppHelper {
 
 		$output .= '<span class="glyphicon ' . $class . '">' . $message . '</span>';
 
-		$output .= $this->NetCommonsForm->create(null, array('name' => $formName,
+		$output .= $this->NetCommonsForm->create(null, array('type' => 'put', 'name' => $formName,
 			'url' => $this->NetCommonsHtml->url(array(
 				'controller' => 'user_attribute_settings',
 				'action' => 'move',

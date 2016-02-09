@@ -99,7 +99,7 @@ class UserAttributeSettingsControllerMoveTest extends NetCommonsControllerTestCa
 		$this->_mockForReturnTrue('UserAttributes.UserAttributeSetting', 'saveUserAttributeWeight');
 
 		//テスト実行
-		$this->_testPostAction('post', $data, array('action' => 'move'), null, 'view');
+		$this->_testPostAction('put', $data, array('action' => 'move'), null, 'view');
 
 		//チェック
 		$header = $this->controller->response->header();
@@ -118,7 +118,7 @@ class UserAttributeSettingsControllerMoveTest extends NetCommonsControllerTestCa
 		$this->_mockForReturnFalse('UserAttributes.UserAttributeSetting', 'saveUserAttributeWeight');
 
 		//テスト実行
-		$this->_testPostAction('post', $data, array('action' => 'move'), 'BadRequestException', 'view');
+		$this->_testPostAction('put', $data, array('action' => 'move'), 'BadRequestException', 'view');
 	}
 
 /**
@@ -132,7 +132,7 @@ class UserAttributeSettingsControllerMoveTest extends NetCommonsControllerTestCa
 		$this->_mockForReturnFalse('UserAttributes.UserAttributeSetting', 'saveUserAttributeWeight');
 
 		//テスト実行
-		$this->_testPostAction('post', $data, array('action' => 'move'), 'BadRequestException', 'json');
+		$this->_testPostAction('put', $data, array('action' => 'move'), 'BadRequestException', 'json');
 	}
 
 /**
