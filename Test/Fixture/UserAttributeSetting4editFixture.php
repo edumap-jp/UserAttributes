@@ -84,7 +84,7 @@ class UserAttributeSetting4editFixture extends UserAttributeSettingFixture {
 			'col' => '1',
 			'weight' => '3',
 			'required' => true,
-			'display' => true,
+			'display' => false,
 			'only_administrator_readable' => true,
 			'only_administrator_editable' => true,
 			'is_system' => true,
