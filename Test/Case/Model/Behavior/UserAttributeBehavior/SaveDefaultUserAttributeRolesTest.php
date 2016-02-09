@@ -187,7 +187,6 @@ class UserAttributeBehaviorSaveDefaultUserAttributeRolesTest extends NetCommonsM
  * @return void
  */
 	public function testSaveOnExceptionError() {
-		$this->TestModel->UserAttributesRole = $this->getMockForModel('UserRoles.UserAttributesRole', array('save'));
 		$this->_mockForReturnFalse('TestModel', 'UserRoles.UserAttributesRole', 'save');
 		$this->setExpectedException('InternalErrorException');
 

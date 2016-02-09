@@ -152,12 +152,8 @@ class UserAttributeSaveUserAttributeTest extends NetCommonsModelTestCase {
 		$method = $this->_methodName;
 
 		//Mockの生成
-		$this->UserAttribute = $this->getMockForModel('UserAttributes.UserAttribute', array(
-			'saveDefaultUserAttributeRoles',
-			'addColumnByUserAttribute')
-		);
-		$this->_mockForReturn($model, 'UserAttributes.UserAttribute', 'saveDefaultUserAttributeRoles', true, 0);
-		$this->_mockForReturn($model, 'UserAttributes.UserAttribute', 'addColumnByUserAttribute', true, 0);
+		$mockMethods = array('saveDefaultUserAttributeRoles', 'addColumnByUserAttribute');
+		$this->_mockForReturn($model, 'UserAttributes.UserAttribute', $mockMethods, true, 0);
 		$this->_mockForReturnTrue($model, 'UserAttributes.UserAttributeChoice', 'saveUserAttributeChoices');
 
 		//テストデータ
@@ -187,12 +183,8 @@ class UserAttributeSaveUserAttributeTest extends NetCommonsModelTestCase {
 		$method = $this->_methodName;
 
 		//Mockの生成
-		$this->UserAttribute = $this->getMockForModel('UserAttributes.UserAttribute', array(
-			'saveDefaultUserAttributeRoles',
-			'addColumnByUserAttribute')
-		);
-		$this->_mockForReturnTrue($model, 'UserAttributes.UserAttribute', 'saveDefaultUserAttributeRoles');
-		$this->_mockForReturnTrue($model, 'UserAttributes.UserAttribute', 'addColumnByUserAttribute');
+		$mockMethods = array('saveDefaultUserAttributeRoles', 'addColumnByUserAttribute');
+		$this->_mockForReturnTrue($model, 'UserAttributes.UserAttribute', $mockMethods);
 		$this->_mockForReturnTrue($model, 'UserAttributes.UserAttributeChoice', 'saveUserAttributeChoices');
 
 		//テストデータ
