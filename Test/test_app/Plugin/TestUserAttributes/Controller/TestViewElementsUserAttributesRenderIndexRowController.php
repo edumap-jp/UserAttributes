@@ -57,11 +57,6 @@ class TestViewElementsUserAttributesRenderIndexRowController extends AppControll
 	public function render_index_row() {
 		$this->autoRender = true;
 
-		$records = (new UserAttributeLayoutFixture())->records;
-		foreach ($records as $i => $record) {
-			$viewVars['userAttributeLayouts'][$i]['UserAttributeLayout'] = $record;
-		}
-
 		$this->set('data', array(
 			'layout' => array('UserAttributeLayout' => (new UserAttributeLayoutFixture())->records[0]),
 		));
