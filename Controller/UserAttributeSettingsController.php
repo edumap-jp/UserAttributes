@@ -58,19 +58,7 @@ class UserAttributeSettingsController extends UserAttributesAppController {
 			$this->throwBadRequest();
 			return;
 		}
-		$data['UserAttributeSetting']['id'] = $this->data['UserAttributeSetting']['id'];
-		foreach (['row', 'col', 'weight'] as $field) {
-			if (! isset($this->data['UserAttributeSetting'][$field . '_' . $data['UserAttributeSetting']['id']])) {
-				$this->throwBadRequest();
-				return;
-			}
-			if (! $this->data['UserAttributeSetting'][$field . '_' . $data['UserAttributeSetting']['id']]) {
-				continue;
-			}
-			$data['UserAttributeSetting'][$field] = $this->data['UserAttributeSetting'][$field . '_' . $data['UserAttributeSetting']['id']];
-		}
-
-		if (! $this->UserAttributeSetting->saveUserAttributeWeight($data)) {
+		if (! $this->UserAttributeSetting->saveUserAttributeWeight($this->data)) {
 			$this->throwBadRequest();
 			return;
 		}

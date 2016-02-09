@@ -121,30 +121,6 @@ class UserAttributeHelper extends AppHelper {
 	public function moveSetting($layout, $userAttribute) {
 		$output = '';
 
-		$userAttrSettingId = $userAttribute['UserAttributeSetting']['id'];
-
-		$output .= $this->NetCommonsForm->create(null, array(
-			'name' => 'UserAttributeMoveForm' . $userAttrSettingId,
-			'url' => $this->NetCommonsHtml->url(array(
-				'controller' => 'user_attribute_settings',
-				'action' => 'move',
-				$userAttrSettingId
-			)),
-		));
-
-		$output .= $this->NetCommonsForm->hidden('UserAttributeSetting.id',
-				array('value' => $userAttrSettingId));
-
-		$fields = array(
-			'UserAttributeSetting.row_' . $userAttrSettingId,
-			'UserAttributeSetting.col_' . $userAttrSettingId,
-			'UserAttributeSetting.weight_' . $userAttrSettingId
-		);
-		foreach ($fields as $field) {
-			$this->NetCommonsForm->unlockField($field);
-			$output .= $this->NetCommonsForm->hidden($field, array('value' => ''));
-		}
-
 		$output .= '<button type="button" ' .
 							'class="btn btn-xs btn-default dropdown-toggle" ' .
 							'data-toggle="dropdown" ' .
@@ -175,6 +151,63 @@ class UserAttributeHelper extends AppHelper {
 /**
  * 項目の移動メニューHTMLを出力する
  *
+ * @param string $formName フォーム名
+ * @param int $userAttrSettingId UserAttributeSetting.id
+ * @param int $weight 順序
+ * @param int $row ○段目
+ * @param int $col 行
+ * @param string $disabled disabledのCSS
+ * @param string $class ボタンのCSS
+ * @param string $message メッセージ
+ * @return string HTML
+ */
+	private function __moveSettingForm($formName, $userAttrSettingId, $updWeight, $updRow, $updCol, $disabled, $class, $message) {
+		$output = '';
+
+		$output .= '<li' . $disabled . '>';
+		if ($disabled) {
+			$output .= '<a href=""> ';
+		} else {
+			$output .= '<a href="" onclick="$(\'form[name=' . $formName . ']\')[0].submit()"> ';
+		}
+
+		$output .= '<span class="glyphicon ' . $class . '">' . $message . '</span>';
+
+		$output .= $this->NetCommonsForm->create(null, array('name' => $formName,
+			'url' => $this->NetCommonsHtml->url(array(
+				'controller' => 'user_attribute_settings',
+				'action' => 'move',
+				'key' => $userAttrSettingId
+			)),
+		));
+
+		$output .= $this->NetCommonsForm->hidden(
+			'UserAttributeSetting.id', array('value' => $userAttrSettingId)
+		);
+		$output .= $this->NetCommonsForm->hidden(
+			'UserAttributeSetting.row', array('value' => $updRow)
+		);
+		if ($updCol) {
+			$output .= $this->NetCommonsForm->hidden(
+				'UserAttributeSetting.col', array('value' => $updCol)
+			);
+		}
+		if ($updWeight) {
+			$output .= $this->NetCommonsForm->hidden(
+				'UserAttributeSetting.weight', array('value' => $updWeight)
+			);
+		}
+
+		$output .= $this->NetCommonsForm->end();
+
+		$output .= '</a></li>';
+
+		return $output;
+	}
+
+/**
+ * 項目の移動メニューHTMLを出力する(上へ)
+ *
  * @param array $layout userAttributeLayoutデータ配列
  * @param array $userAttribute userAttributeデータ配列
  * @return string HTML
@@ -187,43 +220,40 @@ class UserAttributeHelper extends AppHelper {
 		$weight = (int)$userAttribute['UserAttributeSetting']['weight'];
 		$row = (int)$layout['UserAttributeLayout']['id'];
 		$col = (int)$userAttribute['UserAttributeSetting']['col'];
-
-		//HTMLタグセット
-		$colInputForm = 'UserAttributeSettingCol' . $userAttrSettingId;
-		$weightInputForm = 'UserAttributeSettingWeight' . $userAttrSettingId;
-		$formSubmit = '$(\'form[name=' . 'UserAttributeMoveForm' . $userAttrSettingId . ']\')[0].submit()';
-		$moveMenuTag =
-			'<li%s>' .
-				'<a href="" onclick="%s"> ' .
-					'<span class="glyphicon%s">%s</span>' .
-				'</a>' .
-			'</li>';
+		$formName = 'UserAttributeMoveForm' . $userAttrSettingId . 'Top';
 
 		//上に移動
 		if ($weight === 1) {
 			if ((int)$layout['UserAttributeLayout']['col'] === 2 ||
 					$col === 1 || ! isset($this->_View->viewVars['userAttributes'][$row][1])) {
 				$disabled = ' class="disabled"';
-				$onclick = '';
+				$updCol = $col;
+				$updRow = $row;
+				$updWeight = $weight;
 			} else {
 				$disabled = '';
-
+				$updCol = $col - 1;
+				$updRow = $row;
 				$updWeight = count($this->_View->viewVars['userAttributes'][$row][($col - 1)]);
-				$onclick = '$(\'#' . $colInputForm . '\')[0].value = \'' . ($col - 1) . '\'; ';
-				$onclick .= '$(\'#' . $weightInputForm . '\')[0].value = \'' . ($updWeight) . '\'; ';
-				$onclick .= $formSubmit . ';';
 			}
 		} else {
 			$disabled = '';
-			$onclick = '$(\'#' . $weightInputForm . '\')[0].value = \'' . ($weight - 1) . '\'; ' . $formSubmit . ';';
+			$updCol = $col;
+			$updRow = $row;
+			$updWeight = $weight - 1;
 		}
-		$output .= sprintf($moveMenuTag, $disabled, $onclick, ' glyphicon-arrow-up', __d('user_attributes', 'Go to Up'));
+
+		//HTML出力
+		$output .= $this->__moveSettingForm(
+			$formName, $userAttrSettingId, $updWeight, $updRow, $updCol,
+			$disabled, 'glyphicon-arrow-up', __d('user_attributes', 'Go to Up')
+		);
 
 		return $output;
 	}
 
 /**
- * 項目の移動メニューHTMLを出力する
+ * 項目の移動メニューHTMLを出力する(下へ)
  *
  * @param array $layout userAttributeLayoutデータ配列
  * @param array $userAttribute userAttributeデータ配列
@@ -237,43 +267,41 @@ class UserAttributeHelper extends AppHelper {
 		$weight = (int)$userAttribute['UserAttributeSetting']['weight'];
 		$row = (int)$layout['UserAttributeLayout']['id'];
 		$col = (int)$userAttribute['UserAttributeSetting']['col'];
-
-		//HTMLタグセット
-		$colInputForm = 'UserAttributeSettingCol' . $userAttrSettingId;
-		$weightInputForm = 'UserAttributeSettingWeight' . $userAttrSettingId;
-		$formSubmit = '$(\'form[name=' . 'UserAttributeMoveForm' . $userAttrSettingId . ']\')[0].submit()';
-		$moveMenuTag =
-			'<li%s>' .
-				'<a href="" onclick="%s"> ' .
-					'<span class="glyphicon%s">%s</span>' .
-				'</a>' .
-			'</li>';
+		$formName = 'UserAttributeMoveForm' . $userAttrSettingId . 'Bottom';
 
 		//下に移動
 		if ($weight === count($this->_View->viewVars['userAttributes'][$row][$col])) {
 			if ((int)$layout['UserAttributeLayout']['col'] === 2 ||
 					$col === 2 || ! isset($this->_View->viewVars['userAttributes'][$row][2])) {
 				$disabled = ' class="disabled"';
-				$onclick = '';
+				$updCol = $col;
+				$updRow = $row;
+				$updWeight = $weight;
 			} else {
 				$disabled = '';
 
+				$updCol = $col + 1;
+				$updRow = $row;
 				$updWeight = 2;
-				$onclick = '$(\'#' . $colInputForm . '\')[0].value = \'' . ($col + 1) . '\'; ';
-				$onclick .= '$(\'#' . $weightInputForm . '\')[0].value = \'' . ($updWeight) . '\'; ';
-				$onclick .= $formSubmit . ';';
 			}
 		} else {
 			$disabled = '';
-			$onclick = '$(\'#' . $weightInputForm . '\')[0].value = \'' . ($weight + 1) . '\'; ' . $formSubmit . ';';
+			$updCol = $col;
+			$updRow = $row;
+			$updWeight = $weight + 1;
 		}
-		$output .= sprintf($moveMenuTag, $disabled, $onclick, ' glyphicon-arrow-down', __d('user_attributes', 'Go to Down'));
+
+		//HTML出力
+		$output .= $this->__moveSettingForm(
+			$formName, $userAttrSettingId, $updWeight, $updRow, $updCol,
+			$disabled, 'glyphicon-arrow-down', __d('user_attributes', 'Go to Down')
+		);
 
 		return $output;
 	}
 
 /**
- * 項目の移動メニューHTMLを出力する
+ * 項目の移動メニューHTMLを出力する(左へ)
  *
  * @param array $layout userAttributeLayoutデータ配列
  * @param array $userAttribute userAttributeデータ配列
@@ -287,26 +315,19 @@ class UserAttributeHelper extends AppHelper {
 		$weight = (int)$userAttribute['UserAttributeSetting']['weight'];
 		$row = (int)$layout['UserAttributeLayout']['id'];
 		$col = (int)$userAttribute['UserAttributeSetting']['col'];
-
-		//HTMLタグセット
-		$colInputForm = 'UserAttributeSettingCol' . $userAttrSettingId;
-		$weightInputForm = 'UserAttributeSettingWeight' . $userAttrSettingId;
-		$formSubmit = '$(\'form[name=' . 'UserAttributeMoveForm' . $userAttrSettingId . ']\')[0].submit()';
-		$moveMenuTag =
-			'<li%s>' .
-				'<a href="" onclick="%s"> ' .
-					'<span class="glyphicon%s">%s</span>' .
-				'</a>' .
-			'</li>';
+		$formName = 'UserAttributeMoveForm' . $userAttrSettingId . 'Left';
 
 		if ((int)$layout['UserAttributeLayout']['col'] === 2) {
 			//左に移動
 			if ($col === 1) {
 				$disabled = ' class="disabled"';
-				$onclick = '';
+				$updCol = $col;
+				$updRow = $row;
+				$updWeight = $weight;
 			} else {
 				$disabled = '';
-				$onclick = '$(\'#' . $colInputForm . '\')[0].value = \'' . ($col - 1) . '\'; ';
+				$updCol = $col - 1;
+				$updRow = $row;
 				if (! isset($this->_View->viewVars['userAttributes'][$row][1])) {
 					$updWeight = 1;
 				} elseif ($weight > count($this->_View->viewVars['userAttributes'][$row][1])) {
@@ -314,17 +335,20 @@ class UserAttributeHelper extends AppHelper {
 				} else {
 					$updWeight = $weight;
 				}
-				$onclick .= '$(\'#' . $weightInputForm . '\')[0].value = \'' . ($updWeight) . '\'; ';
-				$onclick .= $formSubmit . ';';
 			}
-			$output .= sprintf($moveMenuTag, $disabled, $onclick, ' glyphicon-arrow-left', __d('user_attributes', 'Go to Left'));
+
+			//HTML出力
+			$output .= $this->__moveSettingForm(
+				$formName, $userAttrSettingId, $updWeight, $updRow, $updCol,
+				$disabled, 'glyphicon-arrow-left', __d('user_attributes', 'Go to Left')
+			);
 		}
 
 		return $output;
 	}
 
 /**
- * 項目の移動メニューHTMLを出力する
+ * 項目の移動メニューHTMLを出力する(右へ)
  *
  * @param array $layout userAttributeLayoutデータ配列
  * @param array $userAttribute userAttributeデータ配列
@@ -338,26 +362,19 @@ class UserAttributeHelper extends AppHelper {
 		$weight = (int)$userAttribute['UserAttributeSetting']['weight'];
 		$row = (int)$layout['UserAttributeLayout']['id'];
 		$col = (int)$userAttribute['UserAttributeSetting']['col'];
-
-		//HTMLタグセット
-		$colInputForm = 'UserAttributeSettingCol' . $userAttrSettingId;
-		$weightInputForm = 'UserAttributeSettingWeight' . $userAttrSettingId;
-		$formSubmit = '$(\'form[name=' . 'UserAttributeMoveForm' . $userAttrSettingId . ']\')[0].submit()';
-		$moveMenuTag =
-			'<li%s>' .
-				'<a href="" onclick="%s"> ' .
-					'<span class="glyphicon%s">%s</span>' .
-				'</a>' .
-			'</li>';
+		$formName = 'UserAttributeMoveForm' . $userAttrSettingId . 'Right';
 
 		if ((int)$layout['UserAttributeLayout']['col'] === 2) {
 			//右に移動
 			if ($col === 2) {
 				$disabled = ' class="disabled"';
-				$onclick = '';
+				$updCol = $col;
+				$updRow = $row;
+				$updWeight = $weight;
 			} else {
 				$disabled = '';
-				$onclick = '$(\'#' . $colInputForm . '\')[0].value = \'' . ($col + 1) . '\'; ';
+				$updCol = $col + 1;
+				$updRow = $row;
 				if (! isset($this->_View->viewVars['userAttributes'][$row][2])) {
 					$updWeight = 1;
 				} elseif ($weight > count($this->_View->viewVars['userAttributes'][$row][2])) {
@@ -365,17 +382,20 @@ class UserAttributeHelper extends AppHelper {
 				} else {
 					$updWeight = $weight;
 				}
-				$onclick .= '$(\'#' . $weightInputForm . '\')[0].value = \'' . ($updWeight) . '\'; ';
-				$onclick .= $formSubmit . ';';
 			}
-			$output .= sprintf($moveMenuTag, $disabled, $onclick, ' glyphicon-arrow-right', __d('user_attributes', 'Go to Right'));
+
+			//HTML出力
+			$output .= $this->__moveSettingForm(
+				$formName, $userAttrSettingId, $updWeight, $updRow, $updCol,
+				$disabled, 'glyphicon-arrow-right', __d('user_attributes', 'Go to Right')
+			);
 		}
 
 		return $output;
 	}
 
 /**
- * 項目の移動メニューHTMLを出力する
+ * 項目の移動メニューHTMLを出力する(○段へ)
  *
  * @param array $layout userAttributeLayoutデータ配列
  * @param array $userAttribute userAttributeデータ配列
@@ -387,27 +407,23 @@ class UserAttributeHelper extends AppHelper {
 		//データを変数にセット
 		$userAttrSettingId = $userAttribute['UserAttributeSetting']['id'];
 		$row = (int)$layout['UserAttributeLayout']['id'];
-
-		//HTMLタグセット
-		$rowInputForm = 'UserAttributeSettingRow' . $userAttrSettingId;
-		$formSubmit = '$(\'form[name=' . 'UserAttributeMoveForm' . $userAttrSettingId . ']\')[0].submit()';
-		$moveMenuTag =
-			'<li%s>' .
-				'<a href="" onclick="%s"> ' .
-					'<span class="glyphicon%s">%s</span>' .
-				'</a>' .
-			'</li>';
+		$formName = 'UserAttributeMoveForm' . $userAttrSettingId;
 
 		foreach ($this->_View->viewVars['userAttributeLayouts'] as $moveLayout) {
 			//○段目に移動
 			if ((int)$moveLayout['UserAttributeLayout']['id'] === (int)$row) {
 				$disabled = ' class="disabled"';
-				$onclick = '';
+				$updRow = $row;
 			} else {
 				$disabled = '';
-				$onclick = '$(\'#' . $rowInputForm . '\')[0].value = \'' . ($moveLayout['UserAttributeLayout']['id']) . '\'; ' . $formSubmit . ';';
+				$updRow = $moveLayout['UserAttributeLayout']['id'];
 			}
-			$output .= sprintf($moveMenuTag, $disabled, $onclick, '', sprintf(__d('user_attributes', 'Go to %s row'), $moveLayout['UserAttributeLayout']['id']));
+
+			//HTML出力
+			$output .= $this->__moveSettingForm(
+				$formName . $moveLayout['UserAttributeLayout']['id'], $userAttrSettingId, null, $updRow, null,
+				$disabled, '', sprintf(__d('user_attributes', 'Go to %s row'), $moveLayout['UserAttributeLayout']['id'])
+			);
 		}
 
 		return $output;

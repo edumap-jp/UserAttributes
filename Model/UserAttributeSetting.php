@@ -154,22 +154,30 @@ class UserAttributeSetting extends UserAttributesAppModel {
  *
  * @param int $row Row number
  * @param int $col Col number
- * @return int $weight user_attribute_settings.weight
+ * @return int|array UserAttributeSettings.weight
  */
-	public function getMaxWeight($row, $col) {
+	public function getMaxWeight($row, $col = null) {
+		if ($col) {
+			$conditions = array('row' => $row, 'col' => $col);
+			$order = array('weight' => 'desc');
+		} else {
+			$conditions = array('row' => $row);
+			$order = array('col' => 'desc', 'weight' => 'desc');
+		}
 		$order = $this->find('first', array(
 			'recursive' => -1,
-			'fields' => array('weight'),
-			'conditions' => array('row' => $row, 'col' => $col),
-			'order' => array('weight' => 'DESC')
+			'fields' => array('col', 'weight'),
+			'conditions' => $conditions,
+			'order' => $order
 		));
 
-		if (isset($order['UserAttributeSetting']['weight'])) {
-			$weight = (int)$order['UserAttributeSetting']['weight'];
+		$weight = (int)Hash::get($order, 'UserAttributeSetting.weight', 0);
+		if ($col) {
+			return $weight;
 		} else {
-			$weight = 0;
+			$col = (int)Hash::get($order, 'UserAttributeSetting.col', 1);
+			return array($col, $weight);
 		}
-		return $weight;
 	}
 
 /**
@@ -183,10 +191,10 @@ class UserAttributeSetting extends UserAttributesAppModel {
 		//トランザクションBegin
 		$this->begin();
 
-		if (! is_numeric(Hash::get($data[$this->alias], 'row')) ||
-				! is_numeric(Hash::get($data[$this->alias], 'col')) ||
-				! is_numeric(Hash::get($data[$this->alias], 'weight'))) {
-			return false;
+		if (! Hash::check($data[$this->alias], 'col') && ! Hash::check($data[$this->alias], 'weight')) {
+			list($col, $weight) = $this->getMaxWeight(Hash::get($data[$this->alias], 'row'));
+			$data[$this->alias]['col'] = $col;
+			$data[$this->alias]['weight'] = $weight + 1;
 		}
 
 		$before = $this->find('first', array(
