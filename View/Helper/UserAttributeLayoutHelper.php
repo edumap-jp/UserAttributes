@@ -74,6 +74,9 @@ class UserAttributeLayoutHelper extends AppHelper {
 
 		$row = $layout['UserAttributeLayout']['id'];
 		for ($col = 1; $col <= UserAttributeLayout::LAYOUT_COL_NUMBER; $col++) {
+			if ((int)Hash::get((array)$layout, 'UserAttributeLayout.col') === 0) {
+				continue;
+			}
 			if ($layout['UserAttributeLayout']['col'] === '2' &&
 					! isset($this->_View->viewVars['userAttributes'][$row][1]) &&
 					isset($this->_View->viewVars['userAttributes'][$row][2])) {

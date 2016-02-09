@@ -47,7 +47,6 @@ class UserAttributeLayoutHelperRenderRowTest extends NetCommonsHelperTestCase {
 		parent::setUp();
 
 		//テストデータ生成
-		//TODO:必要に応じてセットする
 		$viewVars = array();
 		$records = (new UserAttributeLayoutFixture())->records;
 		foreach ($records as $i => $record) {
