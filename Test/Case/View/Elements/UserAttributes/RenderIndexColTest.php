@@ -93,12 +93,12 @@ class UserAttributesViewElementsUserAttributesRenderIndexColTest extends NetComm
  *
  * @return void
  */
-	public function testDisplayNone() {
+	public function testDisplayFalse() {
 		//テストコントローラ生成
 		$this->generateNc('TestUserAttributes.TestViewElementsUserAttributesRenderIndexCol');
 
 		//テスト実行
-		$this->_testNcAction('/test_user_attributes/test_view_elements_user_attributes_render_index_col/render_index_col_display_none', array(
+		$this->_testNcAction('/test_user_attributes/test_view_elements_user_attributes_render_index_col/render_index_col_display_false', array(
 			'method' => 'get'
 		));
 

@@ -98,7 +98,7 @@ class TestViewElementsUserAttributesRenderIndexColController extends AppControll
  *
  * @return void
  */
-	public function render_index_col_display_none() {
+	public function render_index_col_display_false() {
 		$this->render_index_col();
 
 		$this->set('data', array(
