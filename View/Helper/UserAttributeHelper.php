@@ -144,7 +144,6 @@ class UserAttributeHelper extends AppHelper {
 
 		$output .= '</ul>';
 
-		$output .= $this->NetCommonsForm->end();
 		return $output;
 	}
 
