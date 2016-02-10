@@ -15,7 +15,6 @@ $this->request->data['UserAttributeChoiceMap'] = Hash::combine($this->request->d
 
 //Formヘルパーにセット
 foreach ($this->request->data['UserAttributeChoiceMap'] as $choiceMap) {
-	debug(Hash::get($choiceMap, 'id'));
 	if (! Hash::get($choiceMap, 'id')) {
 		continue;
 	}
