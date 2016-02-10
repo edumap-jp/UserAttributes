@@ -34,12 +34,12 @@ class UserAttributeSettingsController extends UserAttributesAppController {
  * @return void
  */
 	public function display() {
-		if (! $this->request->isPost()) {
+		if (! $this->request->is('post')) {
 			$this->throwBadRequest();
 			return;
 		}
 
-		if (! $this->UserAttributeSetting->saveUserAttributeSetting($this->data, 'display')) {
+		if (! $this->UserAttributeSetting->updateDisplay($this->data, 'display')) {
 			$this->throwBadRequest();
 			return;
 		}
@@ -54,23 +54,11 @@ class UserAttributeSettingsController extends UserAttributesAppController {
  * @return void
  */
 	public function move() {
-		if (! $this->request->isPost()) {
+		if (! $this->request->is('put')) {
 			$this->throwBadRequest();
 			return;
 		}
-		$data['UserAttributeSetting']['id'] = $this->data['UserAttributeSetting']['id'];
-		foreach (['row', 'col', 'weight'] as $field) {
-			if (! isset($this->data['UserAttributeSetting'][$field . '_' . $data['UserAttributeSetting']['id']])) {
-				$this->throwBadRequest();
-				return;
-			}
-			if (! $this->data['UserAttributeSetting'][$field . '_' . $data['UserAttributeSetting']['id']]) {
-				continue;
-			}
-			$data['UserAttributeSetting'][$field] = $this->data['UserAttributeSetting'][$field . '_' . $data['UserAttributeSetting']['id']];
-		}
-
-		if (! $this->UserAttributeSetting->saveUserAttributeWeight($data)) {
+		if (! $this->UserAttributeSetting->saveUserAttributeWeight($this->data)) {
 			$this->throwBadRequest();
 			return;
 		}

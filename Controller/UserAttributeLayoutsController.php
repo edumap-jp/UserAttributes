@@ -34,12 +34,12 @@ class UserAttributeLayoutsController extends UserAttributesAppController {
  * @return void
  */
 	public function edit() {
-		if (! $this->request->isPost()) {
+		if (! $this->request->is('put')) {
 			$this->throwBadRequest();
 			return;
 		}
 
-		if (! $this->UserAttributeLayout->saveUserAttributeLayout($this->data, 'col')) {
+		if (! $this->UserAttributeLayout->updateUserAttributeLayout($this->data, 'col')) {
 			$this->throwBadRequest();
 			return;
 		}

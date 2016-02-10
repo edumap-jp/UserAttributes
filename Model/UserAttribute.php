@@ -172,6 +172,7 @@ class UserAttribute extends UserAttributesAppModel {
 				'notBlank' => array(
 					'rule' => array('notBlank'),
 					'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('user_attributes', 'Item name')),
+					'required' => true,
 				),
 			),
 		));
@@ -221,7 +222,7 @@ class UserAttribute extends UserAttributesAppModel {
 		$userRoles = $this->UserRole->find('all', array(
 			'recursive' => -1,
 			'fields' => array(
-				'id', 'key', 'name'
+				'id', 'language_id', 'key', 'name'
 			),
 			'conditions' => array(
 				'type' => UserRole::ROLE_TYPE_USER,
@@ -322,8 +323,7 @@ class UserAttribute extends UserAttributesAppModel {
 		$this->begin();
 
 		//バリデーション
-		$userAttributeKeys = Hash::extract($data['UserAttribute'], '{n}.key');
-		$userAttributeKey = $userAttributeKeys[0];
+		$userAttributeKey = Hash::get(Hash::extract($data['UserAttribute'], '{n}.key'), '0');
 		if (! $this->validateUserAttribute($data)) {
 			return false;
 		}
@@ -333,11 +333,20 @@ class UserAttribute extends UserAttributesAppModel {
 			//UserAttributeの登録処理
 			foreach ($data['UserAttribute'] as $i => $userAttribute) {
 				$userAttribute['key'] = $userAttributeKey;
-				if (! $data['UserAttribute'][$i] = $this->save($userAttribute, false)) {
+				$data['UserAttribute'][$i] = $this->save($userAttribute, false);
+				if (! $data['UserAttribute'][$i]) {
 					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 				}
 				$userAttributeKey = $data['UserAttribute'][$i]['UserAttribute']['key'];
 			}
+
+			//既存のデータ取得
+			$before = $this->UserAttributeSetting->find('first', array(
+				'recursive' => -1,
+				'conditions' => array(
+					'user_attribute_key' => $data['UserAttributeSetting']['user_attribute_key'],
+				),
+			));
 
 			//UserAttributeSettingの登録処理
 			$data['UserAttributeSetting']['user_attribute_key'] = $userAttributeKey;
@@ -351,10 +360,12 @@ class UserAttribute extends UserAttributesAppModel {
 				$this->UserAttributeChoice->saveUserAttributeChoices($data);
 			}
 
-			if (! $updated) {
-				//UserAttributesRoleのデフォルトデータ登録処理
+			//UserAttributesRoleのデフォルトデータ登録処理
+			if ($this->hasUpdatedUserAttributeRole($before, $data)) {
 				$this->saveDefaultUserAttributeRoles($data);
+			}
 
+			if (! $updated) {
 				//フィールドの作成処理
 				$this->addColumnByUserAttribute($data);
 			}
@@ -371,6 +382,30 @@ class UserAttribute extends UserAttributesAppModel {
 	}
 
 /**
+ * 会員項目権限の登録できるかどうか
+ *
+ * @param array $before 更新前データ
+ * @param array $data リクエストデータ
+ * @return bool Trueはあり。Falseはなし
+ */
+	public function hasUpdatedUserAttributeRole($before, $data) {
+		if (! $before) {
+			return true;
+		}
+
+		//UserAttributesRole登録の判断
+		if ((int)Hash::get($before, 'UserAttributeSetting.only_administrator_readable') ===
+					(int)Hash::get($data, 'UserAttributeSetting.only_administrator_readable') &&
+			(int)Hash::get($before, 'UserAttributeSetting.only_administrator_editable') ===
+					(int)Hash::get($data, 'UserAttributeSetting.only_administrator_editable')) {
+
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+/**
  * UserAttributeのバリデーション処理
  *
  * @param array $data received post data
@@ -378,11 +413,17 @@ class UserAttribute extends UserAttributesAppModel {
  */
 	public function validateUserAttribute($data) {
 		//UserAttributeのバリデーション処理
+		if (! isset($data['UserAttribute'])) {
+			return false;
+		}
 		if (! $this->validateMany($data['UserAttribute'])) {
 			return false;
 		}
 
 		//UserAttributeSettingのバリデーション処理
+		if (! isset($data['UserAttributeSetting'])) {
+			return false;
+		}
 		$this->UserAttributeSetting->set($data['UserAttributeSetting']);
 		if (! $this->UserAttributeSetting->validates()) {
 			$this->validationErrors = Hash::merge(
@@ -393,6 +434,9 @@ class UserAttribute extends UserAttributesAppModel {
 		}
 
 		//UserAttributeChoiceのバリデーション処理
+		if (! isset($data['UserAttributeChoice'])) {
+			return false;
+		}
 		foreach ($data['UserAttributeChoice'] as $choice) {
 			if (! $this->UserAttributeChoice->validateMany($choice)) {
 				$this->validationErrors = Hash::merge(
@@ -409,11 +453,11 @@ class UserAttribute extends UserAttributesAppModel {
 /**
  * UserAttribute削除処理
  *
- * @param array $data received post data
+ * @param string $userAttributeKey received post data
  * @return mixed On success Model::$data if its not empty or true, false on failure
  * @throws InternalErrorException
  */
-	public function deleteUserAttribute($data) {
+	public function deleteUserAttribute($userAttributeKey) {
 		$this->loadModels([
 			'UserAttributeSetting' => 'UserAttributes.UserAttributeSetting',
 			'UserAttributeChoice' => 'UserAttributes.UserAttributeChoice',
@@ -423,8 +467,6 @@ class UserAttribute extends UserAttributesAppModel {
 		$this->begin();
 
 		$colUserAttributeKey = $this->UserAttributeSetting->alias . '.user_attribute_key';
-		$userAttributeKey = $data[$this->UserAttributeSetting->alias]['user_attribute_key'];
-
 		$userAttributeSetting = $this->UserAttributeSetting->find('first', array(
 			'recursive' => -1,
 			'conditions' => array($colUserAttributeKey => $userAttributeKey),

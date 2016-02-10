@@ -53,24 +53,12 @@ class UserAttributesController extends UserAttributesAppController {
 	);
 
 /**
- * beforeFilter
- *
- * @return void
- */
-	public function beforeFilter() {
-		parent::beforeFilter();
-		if ($this->params['action'] === 'add') {
-		} else {
-			$this->DataTypeForm->dataTypes = $this->UserAttributeSetting->dataTypes;
-		}
-	}
-
-/**
  * index
  *
  * @return void
  */
 	public function index() {
+		$this->DataTypeForm->dataTypes = null;
 	}
 
 /**
@@ -83,7 +71,7 @@ class UserAttributesController extends UserAttributesAppController {
 	public function add($row, $col) {
 		$this->view = 'edit';
 
-		if ($this->request->isPost()) {
+		if ($this->request->is('post')) {
 			//不要パラメータ除去
 			unset($this->request->data['save'], $this->request->data['active_lang_id']);
 
@@ -137,7 +125,7 @@ class UserAttributesController extends UserAttributesAppController {
  * @return void
  */
 	public function edit($key = null) {
-		if ($this->request->isPost()) {
+		if ($this->request->is('put')) {
 			//不要パラメータ除去
 			unset($this->request->data['save'], $this->request->data['active_lang_id']);
 
@@ -177,12 +165,12 @@ class UserAttributesController extends UserAttributesAppController {
  * @return void
  */
 	public function delete() {
-		if (! $this->request->isDelete()) {
+		if (! $this->request->is('delete')) {
 			$this->throwBadRequest();
 			return;
 		}
 
-		if (! $this->UserAttribute->deleteUserAttribute($this->data)) {
+		if (! $this->UserAttribute->deleteUserAttribute(Hash::get($this->data, 'UserAttributeSetting.user_attribute_key'))) {
 			$this->throwBadRequest();
 			return;
 		}

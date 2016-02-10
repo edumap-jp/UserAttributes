@@ -82,6 +82,12 @@ class UserAttributeSetting extends UserAttributesAppModel {
 					'message' => __d('net_commons', 'Invalid request.'),
 				),
 			),
+			'weight' => array(
+				'numeric' => array(
+					'rule' => array('numeric'),
+					'message' => __d('net_commons', 'Invalid request.'),
+				),
+			),
 			'required' => array(
 				'boolean' => array(
 					'rule' => array('boolean'),
@@ -148,22 +154,30 @@ class UserAttributeSetting extends UserAttributesAppModel {
  *
  * @param int $row Row number
  * @param int $col Col number
- * @return int $weight user_attribute_settings.weight
+ * @return int|array UserAttributeSettings.weight
  */
-	public function getMaxWeight($row, $col) {
+	public function getMaxWeight($row, $col = null) {
+		if ($col) {
+			$conditions = array('row' => $row, 'col' => $col);
+			$order = array('weight' => 'desc');
+		} else {
+			$conditions = array('row' => $row);
+			$order = array('col' => 'desc', 'weight' => 'desc');
+		}
 		$order = $this->find('first', array(
 			'recursive' => -1,
-			'fields' => array('weight'),
-			'conditions' => array('row' => $row, 'col' => $col),
-			'order' => array('weight' => 'DESC')
+			'fields' => array('col', 'weight'),
+			'conditions' => $conditions,
+			'order' => $order
 		));
 
-		if (isset($order['UserAttributeSetting']['weight'])) {
-			$weight = (int)$order['UserAttributeSetting']['weight'];
+		$weight = (int)Hash::get($order, 'UserAttributeSetting.weight', 0);
+		if ($col) {
+			return $weight;
 		} else {
-			$weight = 0;
+			$col = (int)Hash::get($order, 'UserAttributeSetting.col', 1);
+			return array($col, $weight);
 		}
-		return $weight;
 	}
 
 /**
@@ -176,6 +190,12 @@ class UserAttributeSetting extends UserAttributesAppModel {
 	public function saveUserAttributeWeight($data) {
 		//トランザクションBegin
 		$this->begin();
+
+		if (! Hash::check($data[$this->alias], 'col') && ! Hash::check($data[$this->alias], 'weight')) {
+			list($col, $weight) = $this->getMaxWeight(Hash::get($data[$this->alias], 'row'));
+			$data[$this->alias]['col'] = $col;
+			$data[$this->alias]['weight'] = $weight + 1;
+		}
 
 		$before = $this->find('first', array(
 			'recursive' => -1,
@@ -227,12 +247,14 @@ class UserAttributeSetting extends UserAttributesAppModel {
  * @return bool True on success
  * @throws InternalErrorException
  */
-	public function saveUserAttributeSetting($data, $fieldName) {
+	public function updateDisplay($data, $fieldName) {
 		//トランザクションBegin
 		$this->begin();
 
 		$this->id = $data[$this->alias]['id'];
-		if (! $this->exists()) {
+		$value = Hash::get($data, $this->alias . '.display');
+		if (! $this->exists() || $fieldName !== 'display' ||
+				! is_numeric($value) || ! in_array((int)$value, [0, 1], true)) {
 			return false;
 		}
 
@@ -255,7 +277,7 @@ class UserAttributeSetting extends UserAttributesAppModel {
 
 /**
  * ユーザ属性の順番を更新メソッド
- * ※トランザクションは、呼び出し元で行う。
+ * ※トランザクション、引数の正当性チェックは、呼び出し元で行う。
  *
  * @param int $row 段
  * @param int $col 列

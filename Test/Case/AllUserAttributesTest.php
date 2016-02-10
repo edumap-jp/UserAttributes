@@ -9,6 +9,8 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
+App::uses('NetCommonsTestSuite', 'NetCommons.TestSuite');
+
 /**
  * UserAttributes All Test Suite
  *
@@ -16,29 +18,17 @@
  * @package NetCommons\UserAttributes\Test\Case
  * @codeCoverageIgnore
  */
-class AllUserAttributesTest extends CakeTestSuite {
+class AllUserAttributesTest extends NetCommonsTestSuite {
 
 /**
  * All test suite
  *
- * @return CakeTestSuite
+ * @return NetCommonsTestSuite
  */
 	public static function suite() {
 		$plugin = preg_replace('/^All([\w]+)Test$/', '$1', __CLASS__);
-		$suite = new CakeTestSuite(sprintf('All %s Plugin tests', $plugin));
-
-		$directory = CakePlugin::path($plugin) . 'Test' . DS . 'Case';
-		$Folder = new Folder($directory);
-		$exceptions = array(
-			//'AccessCountersControllerTestBase.php',
-			//'AccessCountersModelTestBase.php'
-		);
-		$files = $Folder->tree(null, $exceptions, 'files');
-		foreach ($files as $file) {
-			if (substr($file, -4) === '.php') {
-				$suite->addTestFile($file);
-			}
-		}
+		$suite = new NetCommonsTestSuite(sprintf('All %s Plugin tests', $plugin));
+		$suite->addTestDirectoryRecursive(CakePlugin::path($plugin) . 'Test' . DS . 'Case');
 		return $suite;
 	}
 }

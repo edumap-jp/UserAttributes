@@ -33,15 +33,16 @@ class UserAttributeLayoutComponent extends Component {
 		}
 
 		//Modelの呼び出し
-		$this->UserAttributeLayout = ClassRegistry::init('UserAttributes.UserAttributeLayout');
-		$this->UserAttribute = ClassRegistry::init('UserAttributes.UserAttribute');
+		$controller->UserAttributeLayout = ClassRegistry::init('UserAttributes.UserAttributeLayout');
+		$controller->UserAttribute = ClassRegistry::init('UserAttributes.UserAttribute');
 
 		//UserAttributeデータセット
-		$userAttributes = $this->UserAttribute->getUserAttributesForLayout();
+		$userAttributes = $controller->UserAttribute->getUserAttributesForLayout();
 		$controller->set('userAttributes', $userAttributes);
 
 		//UserAttributeLayoutデータセット
-		$userAttributeLayouts = $this->UserAttributeLayout->find('all', array(
+		$userAttributeLayouts = $controller->UserAttributeLayout->find('all', array(
+			'fields' => array('id', 'col'),
 			'recursive' => -1,
 			'order' => array('id' => 'asc'),
 		));

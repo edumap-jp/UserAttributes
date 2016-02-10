@@ -10,7 +10,10 @@
  */
 
 /**
- * Summary for UserAttributeSettingFixture
+ * UserAttributeSettingFixture
+ *
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
+ * @package NetCommons\UserAttributes\Test\Fixture
  */
 class UserAttributeSettingFixture extends CakeTestFixture {
 
@@ -28,7 +31,8 @@ class UserAttributeSettingFixture extends CakeTestFixture {
 		'weight' => array('type' => 'integer', 'null' => true, 'default' => null, 'unsigned' => false, 'comment' => '表示順'),
 		'required' => array('type' => 'boolean', 'null' => true, 'default' => '0', 'comment' => '「必須項目とする」の有無'),
 		'display' => array('type' => 'boolean', 'null' => true, 'default' => '1', 'comment' => '表示の有無'),
-		'only_administrator' => array('type' => 'boolean', 'null' => true, 'default' => '0', 'comment' => '「管理者以外の読み書きを禁ずる」の有無'),
+		'only_administrator_readable' => array('type' => 'boolean', 'null' => true, 'default' => '0', 'comment' => '「本人も読めない（管理者のみ読める）」の有無'),
+		'only_administrator_editable' => array('type' => 'boolean', 'null' => true, 'default' => '0', 'comment' => '「本人も書けない（管理者のみ書ける）」の有無'),
 		'is_system' => array('type' => 'boolean', 'null' => true, 'default' => '0', 'comment' => 'システム項目かどうか'),
 		'display_label' => array('type' => 'boolean', 'null' => true, 'default' => '1', 'comment' => '「項目名を表示する」の有無'),
 		'display_search_result' => array('type' => 'boolean', 'null' => true, 'default' => '0', 'comment' => '「検索結果リストに表示する（デフォルト）」の有無。画面からの設定は不可'),
@@ -52,25 +56,22 @@ class UserAttributeSettingFixture extends CakeTestFixture {
  */
 	public $records = array(
 		array(
-			'id' => 1,
-			'user_attribute_key' => 'Lorem ipsum dolor sit amet',
-			'data_type_key' => 'Lorem ipsum dolor sit amet',
-			'row' => 1,
-			'col' => 1,
-			'weight' => 1,
-			'required' => 1,
-			'display' => 1,
-			'only_administrator' => 1,
-			'is_system' => 1,
-			'display_label' => 1,
-			'display_search_result' => 1,
-			'self_public_setting' => 1,
-			'self_email_setting' => 1,
-			'is_multilingualization' => 1,
-			'created_user' => 1,
-			'created' => '2015-08-05 08:35:08',
-			'modified_user' => 1,
-			'modified' => '2015-08-05 08:35:08'
+			'id' => '1',
+			'user_attribute_key' => 'user_attribute_key',
+			'data_type_key' => 'text',
+			'row' => '1',
+			'col' => '1',
+			'weight' => '1',
+			'required' => true,
+			'display' => true,
+			'only_administrator_readable' => true,
+			'only_administrator_editable' => true,
+			'is_system' => false,
+			'display_label' => true,
+			'display_search_result' => true,
+			'self_public_setting' => true,
+			'self_email_setting' => false,
+			'is_multilingualization' => true,
 		),
 	);
 

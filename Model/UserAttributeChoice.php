@@ -12,6 +12,7 @@
  */
 
 App::uses('UsersAppModel', 'Users.Model');
+App::uses('DataType', 'DataTypes.Model');
 
 /**
  * UserAttributeChoice Model
@@ -75,20 +76,30 @@ class UserAttributeChoice extends UsersAppModel {
 					'message' => __d('net_commons', 'Invalid request.'),
 				),
 			),
-
+			'user_attribute_id' => array(
+				'numeric' => array(
+					'rule' => array('numeric'),
+					'message' => __d('net_commons', 'Invalid request.'),
+				),
+			),
 			'name' => array(
 				'notBlank' => array(
 					'rule' => array('notBlank'),
 					'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('user_attributes', 'Item choice name')),
 				),
 			),
-
 			'key' => array(
 				'notBlank' => array(
 					'rule' => array('notBlank'),
 					'message' => __d('net_commons', 'Invalid request.'),
 					'required' => true,
 					'on' => 'update', // Limit validation to 'create' or 'update' operations
+				),
+			),
+			'weight' => array(
+				'numeric' => array(
+					'rule' => array('numeric'),
+					'message' => __d('net_commons', 'Invalid request.'),
 				),
 			),
 		));
@@ -177,30 +188,32 @@ class UserAttributeChoice extends UsersAppModel {
 	public function validateRequestData($data) {
 		$result = array();
 
-		if (! isset($data['UserAttributeChoice'])) {
+		if (! is_array(Hash::get($data, 'UserAttributeChoice'))) {
 			return $result;
 		}
 
-		foreach ($data['UserAttributeChoice'] as $weight => $choiceByWeight) {
+		$weight = 0;
+		foreach ($data['UserAttributeChoice'] as $choiceByWeight) {
 			foreach ($choiceByWeight as $langId => $choice) {
-				if (! $choice['id']) {
+				if (! Hash::get($choice, 'id')) {
 					$created = $this->create(array(
 						'id' => null,
 						'language_id' => $choice['language_id'],
 						'user_attribute_id' => $choice['user_attribute_id'],
-						'weight' => $choice['weight'],
+						'weight' => $weight + 1,
 						'name' => $choice['name'],
 					));
 					$result[$weight][$langId] = $created[$this->alias];
 				} elseif (isset($data['UserAttributeChoiceMap'][$choice['id']])) {
 					$result[$weight][$langId] = $data['UserAttributeChoiceMap'][$choice['id']];
-					$result[$weight][$langId]['weight'] = $choice['weight'];
+					$result[$weight][$langId]['weight'] = $weight + 1;
 					$result[$weight][$langId]['name'] = $choice['name'];
 				} else {
 					//不正なリクエスト
 					return false;
 				}
 			}
+			$weight++;
 		}
 
 		return $result;
