@@ -10,7 +10,7 @@
  * @param {string} Controller name
  * @param {function($scope)} Controller
  */
-NetCommonsApp.controller('UserAttributes', function($scope) {
+NetCommonsApp.controller('UserAttributes', ['$scope', function($scope) {
 
   /**
    * activeLangId
@@ -117,4 +117,4 @@ NetCommonsApp.controller('UserAttributes', function($scope) {
     }
   };
 
-});
+}]);
