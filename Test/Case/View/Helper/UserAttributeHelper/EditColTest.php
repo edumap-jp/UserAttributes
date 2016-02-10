@@ -68,7 +68,7 @@ class UserAttributeHelperEditColTest extends NetCommonsHelperTestCase {
 		$result = $this->UserAttribute->editCol($layout);
 
 		//チェック
-		$this->assertInput('form', null, '/user_attribute_layouts/edit', $result);
+		$this->assertInput('form', null, '/user_attribute_layouts/edit/1', $result);
 		$this->assertInput('input', '_method', 'PUT', $result);
 		$this->assertInput('input', 'data[UserAttributeLayout][id]', '1', $result);
 		$this->assertInput('select', 'data[UserAttributeLayout][col]', null, $result);
