@@ -1,6 +1,6 @@
 <?php
 /**
- * UserAttributeHelper::moveSettingTopMenu()のテスト
+ * UserAttributeHelper::moveSettingBottomMenu()のテスト
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
@@ -13,12 +13,12 @@ App::uses('NetCommonsHelperTestCase', 'NetCommons.TestSuite');
 App::uses('UserAttributeLayoutFixture', 'UserAttributes.Test/Fixture');
 
 /**
- * UserAttributeHelper::moveSettingTopMenu()のテスト
+ * UserAttributeHelper::moveSettingBottomMenu()のテスト
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\UserAttributes\Test\Case\View\Helper\UserAttributeHelper
  */
-class UserAttributeHelperMoveSettingTopMenuTest extends NetCommonsHelperTestCase {
+class UserAttributeHelperMoveSettingBottomMenuTest extends NetCommonsHelperTestCase {
 
 /**
  * Fixtures
@@ -74,7 +74,7 @@ class UserAttributeHelperMoveSettingTopMenuTest extends NetCommonsHelperTestCase
 	}
 
 /**
- * moveSettingTopMenu()のテストチェック
+ * moveSettingBottomMenu()のテストチェック
  *
  * @param string $result テスト結果
  * @param int $userAttrSettingId UserAttributeSetting.id
@@ -84,8 +84,8 @@ class UserAttributeHelperMoveSettingTopMenuTest extends NetCommonsHelperTestCase
  * @param bool $disabled disabledかどうか
  * @return void
  */
-	private function __assertMoveSettingTopMenu($result, $userAttrSettingId, $updRow, $updCol, $updWeight, $disabled) {
-		$formName = 'UserAttributeMoveForm' . $userAttrSettingId . 'Top';
+	private function __assertMoveSettingBottomMenu($result, $userAttrSettingId, $updRow, $updCol, $updWeight, $disabled) {
+		$formName = 'UserAttributeMoveForm' . $userAttrSettingId . 'Bottom';
 		//チェック
 		if ($disabled) {
 			$this->assertContains('<li class="disabled">', $result);
@@ -94,7 +94,7 @@ class UserAttributeHelperMoveSettingTopMenuTest extends NetCommonsHelperTestCase
 			$this->assertNotContains('<li class="disabled">', $result);
 			$this->assertContains('<a href="" onclick="$(\'form[name=' . $formName . ']\')[0].submit()">', $result);
 		}
-		$this->assertContains('<span class="glyphicon glyphicon-arrow-up">' . __d('user_attributes', 'Go to Up') . '</span>', $result);
+		$this->assertContains('<span class="glyphicon glyphicon-arrow-down">' . __d('user_attributes', 'Go to Down') . '</span>', $result);
 		$this->assertInput('form', $formName, '/user_attribute_settings/move/' . $userAttrSettingId, $result);
 		$this->assertInput('input', '_method', 'PUT', $result);
 		$this->assertInput('input', 'data[UserAttributeSetting][id]', $userAttrSettingId, $result);
@@ -104,8 +104,8 @@ class UserAttributeHelperMoveSettingTopMenuTest extends NetCommonsHelperTestCase
 	}
 
 /**
- * moveSettingTopMenu()のテスト
- * [レイアウト＝2列、順序＝先頭]
+ * moveSettingBottomMenu()のテスト
+ * [レイアウト＝2列、順序＝末尾以外]
  *
  * @return void
  */
@@ -122,19 +122,19 @@ class UserAttributeHelperMoveSettingTopMenuTest extends NetCommonsHelperTestCase
 		$userAttribute = Hash::get($viewVars['userAttributes'], '1.1.1');
 
 		//テスト実施
-		$result = $this->UserAttribute->moveSettingTopMenu($layout, $userAttribute);
+		$result = $this->UserAttribute->moveSettingBottomMenu($layout, $userAttribute);
 
 		//チェック
-		$this->__assertMoveSettingTopMenu($result, '1', '1', '1', '1', true);
+		$this->__assertMoveSettingBottomMenu($result, '1', '1', '1', '2', false);
 	}
 
 /**
- * moveSettingTopMenu()のテスト
- * [レイアウト＝2列、順序＝真ん中]
+ * moveSettingBottomMenu()のテスト
+ * [レイアウト＝2列、順序＝末尾]
  *
  * @return void
  */
-	public function testLayout2AndWeight2() {
+	public function testLayout2AndWeight3() {
 		//テストデータ生成
 		$viewVars = $this->__viewVars;
 		$requestData = array();
@@ -144,82 +144,23 @@ class UserAttributeHelperMoveSettingTopMenuTest extends NetCommonsHelperTestCase
 
 		//データ生成
 		$layout['UserAttributeLayout'] = (new UserAttributeLayoutFixture())->records[0];
-		$userAttribute = Hash::get($viewVars['userAttributes'], '1.1.2');
+		$userAttribute = Hash::get($viewVars['userAttributes'], '1.1.3');
 
 		//テスト実施
-		$result = $this->UserAttribute->moveSettingTopMenu($layout, $userAttribute);
+		$result = $this->UserAttribute->moveSettingBottomMenu($layout, $userAttribute);
 
 		//チェック
-		$this->__assertMoveSettingTopMenu($result, '2', '1', '1', '1', false);
+		$this->__assertMoveSettingBottomMenu($result, '3', '1', '1', '3', true);
 	}
 
 /**
- * moveSettingTopMenu()のテスト
- * [レイアウト＝1列、順序＝真ん中]
- *
- * @return void
- */
-	public function testLayout1AndWeight1() {
-	//テストデータ生成
-		$viewVars = $this->__viewVars;
-		$viewVars['userAttributeLayouts']['1'] = '1';
-
-		$requestData = array();
-
-		//Helperロード
-		$this->loadHelper('UserAttributes.UserAttribute', $viewVars, $requestData);
-
-		//データ生成
-		$layout['UserAttributeLayout'] = (new UserAttributeLayoutFixture())->records[0];
-		$layout['UserAttributeLayout']['col'] = $viewVars['userAttributeLayouts']['1'];
-		$userAttribute = Hash::get($viewVars['userAttributes'], '1.1.1');
-
-		//テスト実施
-		$result = $this->UserAttribute->moveSettingTopMenu($layout, $userAttribute);
-
-		//チェック
-		$this->__assertMoveSettingTopMenu($result, '1', '1', '1', '1', true);
-	}
-
-/**
- * moveSettingTopMenu()のテスト
- * [レイアウト＝1列、順序＝2列目の先頭(全て2列)。レイアウトを2列から1列に途中から変更した場合]
- *
- * @return void
- */
-	public function testLayout1AndCol2AndWeight1AndNoRow1() {
-	//テストデータ生成
-		$viewVars = $this->__viewVars;
-		$viewVars['userAttributeLayouts']['1'] = '1';
-		$viewVars['userAttributes'] = Hash::insert($viewVars['userAttributes'], '{n}.{n}.{n}.UserAttributeSetting.col', '2');
-		$viewVars['userAttributes'][1][2] = $viewVars['userAttributes'][1][1];
-		unset($viewVars['userAttributes'][1][1]);
-
-		$requestData = array();
-
-		//Helperロード
-		$this->loadHelper('UserAttributes.UserAttribute', $viewVars, $requestData);
-
-		//データ生成
-		$layout['UserAttributeLayout'] = (new UserAttributeLayoutFixture())->records[0];
-		$layout['UserAttributeLayout']['col'] = $viewVars['userAttributeLayouts']['1'];
-		$userAttribute = Hash::get($viewVars['userAttributes'], '1.2.1');
-
-		//テスト実施
-		$result = $this->UserAttribute->moveSettingTopMenu($layout, $userAttribute);
-
-		//チェック
-		$this->__assertMoveSettingTopMenu($result, '1', '1', '1', '1', true);
-	}
-
-/**
- * moveSettingTopMenu()のテスト
- * [レイアウト＝1列、順序＝2列目の先頭。レイアウトを2列から1列に途中から変更した場合]
+ * moveSettingBottomMenu()のテスト
+ * [レイアウト＝1列、順序＝2列目の末尾]
  *
  * @return void
  */
 	public function testLayout1AndCol2AndWeight1() {
-	//テストデータ生成
+		//テストデータ生成
 		$viewVars = $this->__viewVars;
 		$viewVars['userAttributeLayouts']['1'] = '1';
 		$viewVars['userAttributes'] = Hash::insert($viewVars['userAttributes'], '{n}.{n}.2.UserAttributeSetting.col', '2');
@@ -239,10 +180,71 @@ class UserAttributeHelperMoveSettingTopMenuTest extends NetCommonsHelperTestCase
 		$userAttribute = Hash::get($viewVars['userAttributes'], '1.2.1');
 
 		//テスト実施
-		$result = $this->UserAttribute->moveSettingTopMenu($layout, $userAttribute);
+		$result = $this->UserAttribute->moveSettingBottomMenu($layout, $userAttribute);
 
 		//チェック
-		$this->__assertMoveSettingTopMenu($result, '2', '1', '1', '2', false);
+		$this->__assertMoveSettingBottomMenu($result, '2', '1', '2', '1', true);
+	}
+
+/**
+ * moveSettingBottomMenu()のテスト
+ * [レイアウト＝1列、順序＝1列目の末尾(全て1列)。レイアウトを2列から1列に途中から変更した場合]
+ *
+ * @return void
+ */
+	public function testLayout1AndCol1AndWeight3AndNoRow2() {
+	//テストデータ生成
+		$viewVars = $this->__viewVars;
+		$viewVars['userAttributeLayouts']['1'] = '1';
+
+		$requestData = array();
+
+		//Helperロード
+		$this->loadHelper('UserAttributes.UserAttribute', $viewVars, $requestData);
+
+		//データ生成
+		$layout['UserAttributeLayout'] = (new UserAttributeLayoutFixture())->records[0];
+		$layout['UserAttributeLayout']['col'] = $viewVars['userAttributeLayouts']['1'];
+		$userAttribute = Hash::get($viewVars['userAttributes'], '1.1.3');
+
+		//テスト実施
+		$result = $this->UserAttribute->moveSettingBottomMenu($layout, $userAttribute);
+
+		//チェック
+		$this->__assertMoveSettingBottomMenu($result, '3', '1', '1', '3', true);
+	}
+
+/**
+ * moveSettingBottomMenu()のテスト
+ * [レイアウト＝1列、順序＝1列目の末尾]
+ *
+ * @return void
+ */
+	public function testLayout1AndCol1Weight2() {
+		//テストデータ生成
+		$viewVars = $this->__viewVars;
+		$viewVars['userAttributeLayouts']['1'] = '1';
+		$viewVars['userAttributes'] = Hash::insert($viewVars['userAttributes'], '{n}.{n}.2.UserAttributeSetting.col', '2');
+		$viewVars['userAttributes'] = Hash::insert($viewVars['userAttributes'], '{n}.{n}.2.UserAttributeSetting.weight', '1');
+		$viewVars['userAttributes'] = Hash::insert($viewVars['userAttributes'], '{n}.{n}.3.UserAttributeSetting.weight', '2');
+		$viewVars['userAttributes'][1][2][1] = $viewVars['userAttributes'][1][1][2];
+		unset($viewVars['userAttributes'][1][1][2]);
+
+		$requestData = array();
+
+		//Helperロード
+		$this->loadHelper('UserAttributes.UserAttribute', $viewVars, $requestData);
+
+		//データ生成
+		$layout['UserAttributeLayout'] = (new UserAttributeLayoutFixture())->records[0];
+		$layout['UserAttributeLayout']['col'] = $viewVars['userAttributeLayouts']['1'];
+		$userAttribute = Hash::get($viewVars['userAttributes'], '1.1.3');
+
+		//テスト実施
+		$result = $this->UserAttribute->moveSettingBottomMenu($layout, $userAttribute);
+
+		//チェック
+		$this->__assertMoveSettingBottomMenu($result, '3', '1', '2', '2', false);
 	}
 
 }

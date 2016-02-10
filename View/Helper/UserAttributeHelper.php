@@ -277,6 +277,8 @@ class UserAttributeHelper extends AppHelper {
 				$updRow = $row;
 				$updWeight = $weight;
 			} else {
+				//レイアウトが2列から1列の場合で、2列目がある場合の処理で、
+				//その1列目の末尾だった項目に対する移動のため、2列目の2番目に移動する
 				$disabled = '';
 
 				$updCol = $col + 1;
