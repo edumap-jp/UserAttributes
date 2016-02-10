@@ -45,9 +45,6 @@ class UserAttributesAppControllerBeforeFilterTest extends NetCommonsControllerTe
 		//テストプラグインのロード
 		NetCommonsCakeTestCase::loadTestPlugin($this, 'UserAttributes', 'TestUserAttributes');
 		$this->generateNc('TestUserAttributes.TestUserAttributesAppControllerIndex');
-
-		//ログイン
-		TestAuthGeneral::login($this);
 	}
 
 /**
@@ -68,6 +65,9 @@ class UserAttributesAppControllerBeforeFilterTest extends NetCommonsControllerTe
  * @return void
  */
 	public function testBeforeFilter() {
+		//ログイン
+		TestAuthGeneral::login($this);
+
 		//テスト実行
 		$this->_testNcAction('/test_user_attributes/test_user_attributes_app_controller_index/index', array(
 			'method' => 'get'
@@ -76,6 +76,20 @@ class UserAttributesAppControllerBeforeFilterTest extends NetCommonsControllerTe
 		//チェック
 		$pattern = '/' . preg_quote('Controller/UserAttributesAppController', '/') . '/';
 		$this->assertRegExp($pattern, $this->view);
+	}
+
+/**
+ * ログインなしのテスト
+ *
+ * @return void
+ */
+	public function testBeforeFilterNoLogin() {
+		$this->setExpectedException('ForbiddenException');
+
+		//テスト実行
+		$this->_testNcAction('/test_user_attributes/test_user_attributes_app_controller_index/index', array(
+			'method' => 'get'
+		));
 	}
 
 }
