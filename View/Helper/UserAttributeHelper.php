@@ -170,7 +170,11 @@ class UserAttributeHelper extends AppHelper {
 			$output .= '<a href="" onclick="$(\'form[name=' . $formName . ']\')[0].submit()"> ';
 		}
 
-		$output .= '<span class="glyphicon ' . $class . '">' . $message . '</span>';
+		if ($class) {
+			$output .= '<span class="glyphicon ' . $class . '">' . $message . '</span>';
+		} else {
+			$output .= '<span>' . $message . '</span>';
+		}
 
 		$output .= $this->NetCommonsForm->create(null, array('type' => 'put', 'name' => $formName,
 			'url' => $this->NetCommonsHtml->url(array(
@@ -408,7 +412,7 @@ class UserAttributeHelper extends AppHelper {
 		//データを変数にセット
 		$userAttrSettingId = $userAttribute['UserAttributeSetting']['id'];
 		$row = (int)$layout['UserAttributeLayout']['id'];
-		$formName = 'UserAttributeMoveForm' . $userAttrSettingId;
+		$formName = 'UserAttributeMoveForm' . $userAttrSettingId . 'Row';
 
 		foreach ($this->_View->viewVars['userAttributeLayouts'] as $moveLayout) {
 			//○段目に移動
