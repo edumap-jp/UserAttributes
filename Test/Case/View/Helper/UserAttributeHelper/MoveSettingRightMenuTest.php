@@ -1,6 +1,6 @@
 <?php
 /**
- * UserAttributeHelper::moveSettingLeftMenu()のテスト
+ * UserAttributeHelper::moveSettingRightMenu()のテスト
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
@@ -13,12 +13,12 @@ App::uses('NetCommonsHelperTestCase', 'NetCommons.TestSuite');
 App::uses('UserAttributeLayoutFixture', 'UserAttributes.Test/Fixture');
 
 /**
- * UserAttributeHelper::moveSettingLeftMenu()のテスト
+ * UserAttributeHelper::moveSettingRightMenu()のテスト
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\UserAttributes\Test\Case\View\Helper\UserAttributeHelper
  */
-class UserAttributeHelperMoveSettingLeftMenuTest extends NetCommonsHelperTestCase {
+class UserAttributeHelperMoveSettingRightMenuTest extends NetCommonsHelperTestCase {
 
 /**
  * Fixtures
@@ -74,7 +74,7 @@ class UserAttributeHelperMoveSettingLeftMenuTest extends NetCommonsHelperTestCas
 	}
 
 /**
- * moveSettingLeftMenu()のテストチェック
+ * moveSettingRightMenu()のテストチェック
  *
  * @param string $result テスト結果
  * @param int $userAttrSettingId UserAttributeSetting.id
@@ -84,8 +84,8 @@ class UserAttributeHelperMoveSettingLeftMenuTest extends NetCommonsHelperTestCas
  * @param bool $disabled disabledかどうか
  * @return void
  */
-	private function __assertMoveSettingLeftMenu($result, $userAttrSettingId, $updRow, $updCol, $updWeight, $disabled) {
-		$formName = 'UserAttributeMoveForm' . $userAttrSettingId . 'Left';
+	private function __assertMoveSettingRightMenu($result, $userAttrSettingId, $updRow, $updCol, $updWeight, $disabled) {
+		$formName = 'UserAttributeMoveForm' . $userAttrSettingId . 'Right';
 		//チェック
 		if ($disabled) {
 			$this->assertContains('<li class="disabled">', $result);
@@ -94,7 +94,7 @@ class UserAttributeHelperMoveSettingLeftMenuTest extends NetCommonsHelperTestCas
 			$this->assertNotContains('<li class="disabled">', $result);
 			$this->assertContains('<a href="" onclick="$(\'form[name=' . $formName . ']\')[0].submit()">', $result);
 		}
-		$this->assertContains('<span class="glyphicon glyphicon-arrow-left">' . __d('user_attributes', 'Go to Left') . '</span>', $result);
+		$this->assertContains('<span class="glyphicon glyphicon-arrow-right">' . __d('user_attributes', 'Go to Right') . '</span>', $result);
 		$this->assertInput('form', $formName, '/user_attribute_settings/move/' . $userAttrSettingId, $result);
 		$this->assertInput('input', '_method', 'PUT', $result);
 		$this->assertInput('input', 'data[UserAttributeSetting][id]', $userAttrSettingId, $result);
@@ -104,12 +104,11 @@ class UserAttributeHelperMoveSettingLeftMenuTest extends NetCommonsHelperTestCas
 	}
 
 /**
- * moveSettingLeftMenu()のテスト
- * [レイアウト＝2列、順序＝1列目]
+ * moveSettingRightMenu()のテスト
  *
  * @return void
  */
-	public function testLayout2AndCol1() {
+	public function testMoveSettingRightMenu() {
 		//テストデータ生成
 		$viewVars = $this->__viewVars;
 		$requestData = array();
@@ -122,19 +121,20 @@ class UserAttributeHelperMoveSettingLeftMenuTest extends NetCommonsHelperTestCas
 		$userAttribute = Hash::get($viewVars['userAttributes'], '1.1.1');
 
 		//テスト実施
-		$result = $this->UserAttribute->moveSettingLeftMenu($layout, $userAttribute);
+		$result = $this->UserAttribute->moveSettingRightMenu($layout, $userAttribute);
 
 		//チェック
-		$this->__assertMoveSettingLeftMenu($result, '1', '1', '1', '1', true);
+		//TODO:assertを書く
+		debug($result);
 	}
 
 /**
- * moveSettingLeftMenu()のテスト
+ * moveSettingRightMenu()のテスト
  * [レイアウト＝2列、順序＝全て2列目]
  *
  * @return void
  */
-	public function testLayout2AndAllCol2() {
+	public function testLayout1AndAllCol2() {
 		//テストデータ生成
 		$viewVars = $this->__viewVars;
 		$viewVars['userAttributes'] = Hash::insert($viewVars['userAttributes'], '{n}.{n}.{n}.UserAttributeSetting.col', '2');
@@ -151,29 +151,21 @@ class UserAttributeHelperMoveSettingLeftMenuTest extends NetCommonsHelperTestCas
 		$userAttribute = Hash::get($viewVars['userAttributes'], '1.2.2');
 
 		//テスト実施
-		$result = $this->UserAttribute->moveSettingLeftMenu($layout, $userAttribute);
+		$result = $this->UserAttribute->moveSettingRightMenu($layout, $userAttribute);
 
 		//チェック
-		$this->__assertMoveSettingLeftMenu($result, '2', '1', '1', '1', false);
+		$this->__assertMoveSettingRightMenu($result, '2', '1', '2', '2', true);
 	}
 
 /**
- * moveSettingLeftMenu()のテスト
- * [レイアウト＝2列、順序＝2列目、先頭]
+ * moveSettingRightMenu()のテスト
+ * [レイアウト＝2列、順序＝全て1列目]
  *
  * @return void
  */
-	public function testLayout2AndCol2AndWeight1() {
+	public function testLayout2AndAllCol1() {
 		//テストデータ生成
 		$viewVars = $this->__viewVars;
-		$viewVars['userAttributes'] = Hash::insert($viewVars['userAttributes'], '1.1.2.UserAttributeSetting.col', '2');
-		$viewVars['userAttributes'] = Hash::insert($viewVars['userAttributes'], '1.1.2.UserAttributeSetting.weight', '1');
-		$viewVars['userAttributes'][1][2][1] = $viewVars['userAttributes'][1][1][2];
-		unset($viewVars['userAttributes'][1][1][2]);
-		$viewVars['userAttributes'] = Hash::insert($viewVars['userAttributes'], '1.1.3.UserAttributeSetting.col', '2');
-		$viewVars['userAttributes'] = Hash::insert($viewVars['userAttributes'], '1.1.3.UserAttributeSetting.weight', '2');
-		$viewVars['userAttributes'][1][2][2] = $viewVars['userAttributes'][1][1][3];
-		unset($viewVars['userAttributes'][1][1][3]);
 
 		$requestData = array();
 
@@ -182,33 +174,30 @@ class UserAttributeHelperMoveSettingLeftMenuTest extends NetCommonsHelperTestCas
 
 		//データ生成
 		$layout['UserAttributeLayout'] = (new UserAttributeLayoutFixture())->records[0];
-		$userAttribute = Hash::get($viewVars['userAttributes'], '1.2.1');
+		$userAttribute = Hash::get($viewVars['userAttributes'], '1.1.2');
 
 		//テスト実施
-		$result = $this->UserAttribute->moveSettingLeftMenu($layout, $userAttribute);
+		$result = $this->UserAttribute->moveSettingRightMenu($layout, $userAttribute);
 
 		//チェック
-		$this->__assertMoveSettingLeftMenu($result, '2', '1', '1', '1', false);
+		$this->__assertMoveSettingRightMenu($result, '2', '1', '2', '1', false);
 	}
 
 /**
- * moveSettingLeftMenu()のテスト
- * [レイアウト＝2列、順序＝2列目、末尾]
+ * moveSettingRightMenu()のテスト
+ * [レイアウト＝2列、順序＝1列目の末尾]
  *
  * @return void
  */
-	public function testLayout2AndCol2AndWeight2() {
+	public function testLayout2AndCol1Weight2() {
 		//テストデータ生成
 		$viewVars = $this->__viewVars;
 		$viewVars['userAttributes'] = Hash::insert($viewVars['userAttributes'], '1.1.2.UserAttributeSetting.col', '2');
 		$viewVars['userAttributes'] = Hash::insert($viewVars['userAttributes'], '1.1.2.UserAttributeSetting.weight', '1');
 		$viewVars['userAttributes'][1][2][1] = $viewVars['userAttributes'][1][1][2];
 		unset($viewVars['userAttributes'][1][1][2]);
-		$viewVars['userAttributes'] = Hash::insert($viewVars['userAttributes'], '1.1.3.UserAttributeSetting.col', '2');
 		//本来はweight=2だけれども、data[UserAttributeSetting][weight]=2になることのチェックのためweight=3に設定する
 		$viewVars['userAttributes'] = Hash::insert($viewVars['userAttributes'], '1.1.3.UserAttributeSetting.weight', '3');
-		$viewVars['userAttributes'][1][2][2] = $viewVars['userAttributes'][1][1][3];
-		unset($viewVars['userAttributes'][1][1][3]);
 
 		$requestData = array();
 
@@ -217,17 +206,48 @@ class UserAttributeHelperMoveSettingLeftMenuTest extends NetCommonsHelperTestCas
 
 		//データ生成
 		$layout['UserAttributeLayout'] = (new UserAttributeLayoutFixture())->records[0];
-		$userAttribute = Hash::get($viewVars['userAttributes'], '1.2.2');
+		$userAttribute = Hash::get($viewVars['userAttributes'], '1.1.3');
 
 		//テスト実施
-		$result = $this->UserAttribute->moveSettingLeftMenu($layout, $userAttribute);
+		$result = $this->UserAttribute->moveSettingRightMenu($layout, $userAttribute);
 
 		//チェック
-		$this->__assertMoveSettingLeftMenu($result, '3', '1', '1', '2', false);
+		$this->__assertMoveSettingRightMenu($result, '3', '1', '2', '2', false);
 	}
 
 /**
- * moveSettingLeftMenu()のテスト
+ * moveSettingRightMenu()のテスト
+ * [レイアウト＝2列、順序＝1列目の先頭]
+ *
+ * @return void
+ */
+	public function testLayout2AndCol1Weight1() {
+		//テストデータ生成
+		$viewVars = $this->__viewVars;
+		$viewVars['userAttributes'] = Hash::insert($viewVars['userAttributes'], '1.1.2.UserAttributeSetting.col', '2');
+		$viewVars['userAttributes'] = Hash::insert($viewVars['userAttributes'], '1.1.2.UserAttributeSetting.weight', '1');
+		$viewVars['userAttributes'][1][2][1] = $viewVars['userAttributes'][1][1][2];
+		unset($viewVars['userAttributes'][1][1][2]);
+		$viewVars['userAttributes'] = Hash::insert($viewVars['userAttributes'], '1.1.3.UserAttributeSetting.weight', '2');
+
+		$requestData = array();
+
+		//Helperロード
+		$this->loadHelper('UserAttributes.UserAttribute', $viewVars, $requestData);
+
+		//データ生成
+		$layout['UserAttributeLayout'] = (new UserAttributeLayoutFixture())->records[0];
+		$userAttribute = Hash::get($viewVars['userAttributes'], '1.1.1');
+
+		//テスト実施
+		$result = $this->UserAttribute->moveSettingRightMenu($layout, $userAttribute);
+
+		//チェック
+		$this->__assertMoveSettingRightMenu($result, '1', '1', '2', '1', false);
+	}
+
+/**
+ * moveSettingRightMenu()のテスト
  * [レイアウト＝1列]
  *
  * @return void
@@ -248,7 +268,7 @@ class UserAttributeHelperMoveSettingLeftMenuTest extends NetCommonsHelperTestCas
 		$userAttribute = Hash::get($viewVars['userAttributes'], '1.1.1');
 
 		//テスト実施
-		$result = $this->UserAttribute->moveSettingLeftMenu($layout, $userAttribute);
+		$result = $this->UserAttribute->moveSettingRightMenu($layout, $userAttribute);
 
 		//チェック
 		$this->assertEmpty($result);

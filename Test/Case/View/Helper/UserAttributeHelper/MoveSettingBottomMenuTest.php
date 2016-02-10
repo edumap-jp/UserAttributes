@@ -163,11 +163,11 @@ class UserAttributeHelperMoveSettingBottomMenuTest extends NetCommonsHelperTestC
 		//テストデータ生成
 		$viewVars = $this->__viewVars;
 		$viewVars['userAttributeLayouts']['1'] = '1';
-		$viewVars['userAttributes'] = Hash::insert($viewVars['userAttributes'], '{n}.{n}.2.UserAttributeSetting.col', '2');
-		$viewVars['userAttributes'] = Hash::insert($viewVars['userAttributes'], '{n}.{n}.2.UserAttributeSetting.weight', '1');
-		$viewVars['userAttributes'] = Hash::insert($viewVars['userAttributes'], '{n}.{n}.3.UserAttributeSetting.weight', '2');
+		$viewVars['userAttributes'] = Hash::insert($viewVars['userAttributes'], '1.1.2.UserAttributeSetting.col', '2');
+		$viewVars['userAttributes'] = Hash::insert($viewVars['userAttributes'], '1.1.2.UserAttributeSetting.weight', '1');
 		$viewVars['userAttributes'][1][2][1] = $viewVars['userAttributes'][1][1][2];
 		unset($viewVars['userAttributes'][1][1][2]);
+		$viewVars['userAttributes'] = Hash::insert($viewVars['userAttributes'], '1.1.3.UserAttributeSetting.weight', '2');
 
 		$requestData = array();
 
@@ -224,11 +224,11 @@ class UserAttributeHelperMoveSettingBottomMenuTest extends NetCommonsHelperTestC
 		//テストデータ生成
 		$viewVars = $this->__viewVars;
 		$viewVars['userAttributeLayouts']['1'] = '1';
-		$viewVars['userAttributes'] = Hash::insert($viewVars['userAttributes'], '{n}.{n}.2.UserAttributeSetting.col', '2');
-		$viewVars['userAttributes'] = Hash::insert($viewVars['userAttributes'], '{n}.{n}.2.UserAttributeSetting.weight', '1');
-		$viewVars['userAttributes'] = Hash::insert($viewVars['userAttributes'], '{n}.{n}.3.UserAttributeSetting.weight', '2');
+		$viewVars['userAttributes'] = Hash::insert($viewVars['userAttributes'], '1.1.2.UserAttributeSetting.col', '2');
+		$viewVars['userAttributes'] = Hash::insert($viewVars['userAttributes'], '1.1.2.UserAttributeSetting.weight', '1');
 		$viewVars['userAttributes'][1][2][1] = $viewVars['userAttributes'][1][1][2];
 		unset($viewVars['userAttributes'][1][1][2]);
+		$viewVars['userAttributes'] = Hash::insert($viewVars['userAttributes'], '1.1.3.UserAttributeSetting.weight', '2');
 
 		$requestData = array();
 
