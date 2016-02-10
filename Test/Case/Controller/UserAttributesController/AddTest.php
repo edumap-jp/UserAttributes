@@ -128,6 +128,13 @@ class UserAttributesControllerAddTest extends NetCommonsControllerTestCase {
 		$this->assertInput('form', null, 'user_attributes/user_attributes/add/2/1', $this->view);
 		$this->assertTextNotContains('user_attributes/user_attributes/delete', $this->view);
 		$this->assertEquals($this->controller->UserAttributeSetting->addDataTypes, $this->controller->DataTypeForm->dataTypes );
+
+		$this->assertArrayHasKey('UserAttribute', $this->controller->data);
+		$this->assertCount(2, $this->controller->data['UserAttribute']);
+		$this->assertArrayHasKey('key', $this->controller->data['UserAttribute'][0]);
+		$this->assertArrayHasKey('key', $this->controller->data['UserAttribute'][1]);
+		$this->assertArrayHasKey('UserAttributeSetting', $this->controller->data);
+		$this->assertArrayHasKey('user_attribute_key', $this->controller->data['UserAttributeSetting']);
 	}
 
 /**

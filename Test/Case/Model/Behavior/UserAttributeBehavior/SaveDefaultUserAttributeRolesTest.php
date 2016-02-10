@@ -78,15 +78,19 @@ class UserAttributeBehaviorSaveDefaultUserAttributeRolesTest extends NetCommonsM
 
 		$expected = array(
 			0 => array('UserAttributesRole' => Hash::merge(array(
-				'id' => '4', 'role_key' => 'system_administrator',
+				'id' => '5', 'role_key' => 'system_administrator',
 				'user_attribute_key' => $userAttributeKey,
 			), $sysAdmin)),
 			1 => array('UserAttributesRole' => Hash::merge(array(
-				'id' => '5', 'role_key' => 'administrator',
+				'id' => '6', 'role_key' => 'administrator',
 				'user_attribute_key' => $userAttributeKey,
 			), $admin)),
 			2 => array('UserAttributesRole' => Hash::merge(array(
-				'id' => '6', 'role_key' => 'common_user',
+				'id' => '7', 'role_key' => 'common_user',
+				'user_attribute_key' => $userAttributeKey,
+			), $commonUser)),
+			3 => array('UserAttributesRole' => Hash::merge(array(
+				'id' => '8', 'role_key' => 'test_user',
 				'user_attribute_key' => $userAttributeKey,
 			), $commonUser)),
 		);
