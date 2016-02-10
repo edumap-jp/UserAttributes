@@ -34,7 +34,7 @@ class UserAttributeSettingsController extends UserAttributesAppController {
  * @return void
  */
 	public function display() {
-		if (! $this->request->isPost()) {
+		if (! $this->request->is('post')) {
 			$this->throwBadRequest();
 			return;
 		}
@@ -54,7 +54,7 @@ class UserAttributeSettingsController extends UserAttributesAppController {
  * @return void
  */
 	public function move() {
-		if (! $this->request->isPut()) {
+		if (! $this->request->is('put')) {
 			$this->throwBadRequest();
 			return;
 		}

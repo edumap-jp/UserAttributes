@@ -71,7 +71,7 @@ class UserAttributesController extends UserAttributesAppController {
 	public function add($row, $col) {
 		$this->view = 'edit';
 
-		if ($this->request->isPost()) {
+		if ($this->request->is('post')) {
 			//不要パラメータ除去
 			unset($this->request->data['save'], $this->request->data['active_lang_id']);
 
@@ -125,7 +125,7 @@ class UserAttributesController extends UserAttributesAppController {
  * @return void
  */
 	public function edit($key = null) {
-		if ($this->request->isPut()) {
+		if ($this->request->is('put')) {
 			//不要パラメータ除去
 			unset($this->request->data['save'], $this->request->data['active_lang_id']);
 
@@ -165,7 +165,7 @@ class UserAttributesController extends UserAttributesAppController {
  * @return void
  */
 	public function delete() {
-		if (! $this->request->isDelete()) {
+		if (! $this->request->is('delete')) {
 			$this->throwBadRequest();
 			return;
 		}

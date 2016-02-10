@@ -34,7 +34,7 @@ class UserAttributeLayoutsController extends UserAttributesAppController {
  * @return void
  */
 	public function edit() {
-		if (! $this->request->isPut()) {
+		if (! $this->request->is('put')) {
 			$this->throwBadRequest();
 			return;
 		}
