@@ -193,7 +193,7 @@ class UserAttributeHelperMoveSettingBottomMenuTest extends NetCommonsHelperTestC
  * @return void
  */
 	public function testLayout1AndCol1AndWeight3AndNoRow2() {
-	//テストデータ生成
+		//テストデータ生成
 		$viewVars = $this->__viewVars;
 		$viewVars['userAttributeLayouts']['1'] = '1';
 

@@ -160,7 +160,7 @@ class UserAttributeHelperMoveSettingTopMenuTest extends NetCommonsHelperTestCase
  * @return void
  */
 	public function testLayout1AndWeight1() {
-	//テストデータ生成
+		//テストデータ生成
 		$viewVars = $this->__viewVars;
 		$viewVars['userAttributeLayouts']['1'] = '1';
 
@@ -188,7 +188,7 @@ class UserAttributeHelperMoveSettingTopMenuTest extends NetCommonsHelperTestCase
  * @return void
  */
 	public function testLayout1AndCol2AndWeight1AndNoRow1() {
-	//テストデータ生成
+		//テストデータ生成
 		$viewVars = $this->__viewVars;
 		$viewVars['userAttributeLayouts']['1'] = '1';
 		$viewVars['userAttributes'] = Hash::insert($viewVars['userAttributes'], '{n}.{n}.{n}.UserAttributeSetting.col', '2');
@@ -219,7 +219,7 @@ class UserAttributeHelperMoveSettingTopMenuTest extends NetCommonsHelperTestCase
  * @return void
  */
 	public function testLayout1AndCol2AndWeight1() {
-	//テストデータ生成
+		//テストデータ生成
 		$viewVars = $this->__viewVars;
 		$viewVars['userAttributeLayouts']['1'] = '1';
 		$viewVars['userAttributes'] = Hash::insert($viewVars['userAttributes'], '1.1.2.UserAttributeSetting.col', '2');
