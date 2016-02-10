@@ -105,31 +105,6 @@ class UserAttributeHelperMoveSettingRightMenuTest extends NetCommonsHelperTestCa
 
 /**
  * moveSettingRightMenu()のテスト
- *
- * @return void
- */
-	public function testMoveSettingRightMenu() {
-		//テストデータ生成
-		$viewVars = $this->__viewVars;
-		$requestData = array();
-
-		//Helperロード
-		$this->loadHelper('UserAttributes.UserAttribute', $viewVars, $requestData);
-
-		//データ生成
-		$layout['UserAttributeLayout'] = (new UserAttributeLayoutFixture())->records[0];
-		$userAttribute = Hash::get($viewVars['userAttributes'], '1.1.1');
-
-		//テスト実施
-		$result = $this->UserAttribute->moveSettingRightMenu($layout, $userAttribute);
-
-		//チェック
-		//TODO:assertを書く
-		debug($result);
-	}
-
-/**
- * moveSettingRightMenu()のテスト
  * [レイアウト＝2列、順序＝全て2列目]
  *
  * @return void
