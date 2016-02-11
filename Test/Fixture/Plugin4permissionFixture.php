@@ -44,7 +44,7 @@ class Plugin4permissionFixture extends PluginFixture {
 			'key' => 'test_user_attributes',
 			'name' => 'TestUserAttributesAppControllerPermission',
 			'weight' => 1,
-			'type' => 2,
+			'type' => 1,
 			'default_action' => 'test_user_attributes_app_controller_permission/index',
 		),
 	);

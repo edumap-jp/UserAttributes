@@ -44,7 +44,7 @@ class Plugin4testFixture extends PluginFixture {
 			'key' => 'user_manager',
 			'name' => 'User Manager',
 			'weight' => '1',
-			'type' => '2',
+			'type' => '1',
 			'default_action' => 'user_manager/index',
 		),
 		array(
@@ -52,7 +52,7 @@ class Plugin4testFixture extends PluginFixture {
 			'key' => 'user_attributes',
 			'name' => 'User Attributes',
 			'weight' => '1',
-			'type' => '2',
+			'type' => '1',
 			'default_action' => 'user_attributes/index',
 		),
 	);
