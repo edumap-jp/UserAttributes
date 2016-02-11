@@ -30,16 +30,6 @@ class TestViewElementsUserAttributesEditFormController extends AppController {
 	);
 
 /**
- * beforeRender
- *
- * @return void
- */
-	public function beforeRender() {
-		parent::beforeFilter();
-		$this->Auth->allow('edit_form');
-	}
-
-/**
  * edit_form
  *
  * @return void

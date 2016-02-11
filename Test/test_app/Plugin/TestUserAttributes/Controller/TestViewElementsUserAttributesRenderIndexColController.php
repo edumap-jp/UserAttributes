@@ -40,16 +40,6 @@ class TestViewElementsUserAttributesRenderIndexColController extends AppControll
 	);
 
 /**
- * beforeRender
- *
- * @return void
- */
-	public function beforeRender() {
-		parent::beforeFilter();
-		$this->Auth->allow('render_index_col');
-	}
-
-/**
  * render_index_col
  *
  * @return void
