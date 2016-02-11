@@ -20,16 +20,6 @@ App::uses('AppController', 'Controller');
 class TestViewElementsUserAttributesDeleteFormController extends AppController {
 
 /**
- * beforeRender
- *
- * @return void
- */
-	public function beforeRender() {
-		parent::beforeFilter();
-		$this->Auth->allow('delete_form');
-	}
-
-/**
  * delete_form
  *
  * @return void

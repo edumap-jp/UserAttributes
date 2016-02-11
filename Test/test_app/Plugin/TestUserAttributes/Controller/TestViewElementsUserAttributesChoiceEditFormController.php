@@ -31,16 +31,6 @@ class TestViewElementsUserAttributesChoiceEditFormController extends AppControll
 	);
 
 /**
- * beforeRender
- *
- * @return void
- */
-	public function beforeRender() {
-		parent::beforeFilter();
-		$this->Auth->allow('choice_edit_form');
-	}
-
-/**
  * choice_edit_form
  *
  * @return void
