@@ -23,6 +23,15 @@ App::uses('UserAttribute4editFixture', 'UserAttributes.Test/Fixture');
 class TestViewElementsUserAttributesRenderIndexColController extends AppController {
 
 /**
+ * use component
+ *
+ * @var array
+ */
+	public $components = array(
+		'UserAttributes.UserAttributeLayout',
+	);
+
+/**
  * use model
  *
  * @var array
@@ -40,6 +49,17 @@ class TestViewElementsUserAttributesRenderIndexColController extends AppControll
 	);
 
 /**
+ * beforeFilter
+ *
+ * @return void
+ */
+	public function beforeFilter() {
+		parent::beforeFilter();
+		//テストデータ生成
+		Current::$current['User']['role_key'] = UserRole::USER_ROLE_KEY_SYSTEM_ADMINISTRATOR;
+	}
+
+/**
  * render_index_col
  *
  * @return void
@@ -48,24 +68,6 @@ class TestViewElementsUserAttributesRenderIndexColController extends AppControll
 		$this->autoRender = true;
 		$this->view = 'render_index_col';
 
-		//テストデータ生成
-		Current::$current['User']['role_key'] = UserRole::USER_ROLE_KEY_SYSTEM_ADMINISTRATOR;
-
-		$UserAttribute = ClassRegistry::init('UserAttributes.UserAttribute');
-		UserAttribute::$userAttributes = null;
-		$userAttributes = $UserAttribute->getUserAttributesForLayout();
-		$this->set('userAttributes', $userAttributes);
-
-		$UserAttributeLayout = ClassRegistry::init('UserAttributes.UserAttributeLayout');
-		$userAttributeLayouts = $UserAttributeLayout->find('all', array(
-			'fields' => array('id', 'col'),
-			'recursive' => -1,
-			'order' => array('id' => 'asc'),
-		));
-		$this->set('userAttributeLayouts', $userAttributeLayouts);
-
-		Current::$current['User']['role_key'] = null;
-
 		$this->set('data', array(
 			'layout' => array('UserAttributeLayout' => (new UserAttributeLayoutFixture())->records[0]),
 			'userAttribute' => array(
@@ -73,6 +75,8 @@ class TestViewElementsUserAttributesRenderIndexColController extends AppControll
 				'UserAttribute' => (new UserAttribute4editFixture())->records[1],
 			),
 		));
+
+		Current::$current['User']['role_key'] = null;
 	}
 
 /**

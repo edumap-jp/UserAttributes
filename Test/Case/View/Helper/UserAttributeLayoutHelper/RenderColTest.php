@@ -32,7 +32,7 @@ class UserAttributeLayoutHelperRenderColTest extends NetCommonsHelperTestCase {
 		'plugin.user_attributes.user_attribute_choice4edit',
 		'plugin.user_attributes.user_attribute_layout',
 		'plugin.user_attributes.user_attribute_setting4edit',
-		'plugin.user_attributes.user_attributes_role4edit',
+		'plugin.user_roles.user_attributes_role4edit',
 		'plugin.user_attributes.user_role_setting4test',
 	);
 
