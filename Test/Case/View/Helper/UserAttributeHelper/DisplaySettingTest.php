@@ -87,7 +87,7 @@ class UserAttributeHelperDisplaySettingTest extends NetCommonsHelperTestCase {
 		//チェック
 		$this->assertInput('form', null, '/user_attribute_settings/display/1', $result);
 		$this->assertInput('input', 'data[UserAttributeSetting][id]', '1', $result);
-		$this->assertInput('input', 'data[UserAttributeSetting][display]', null, $result);
+		$this->assertInput('input', 'data[UserAttributeSetting][display]', '0', $result);
 		$this->assertNotContains('glyphicon-eye-open', $result);
 		$this->assertContains('glyphicon-eye-close', $result);
 		$this->assertContains('btn btn-xs btn-default', $result);

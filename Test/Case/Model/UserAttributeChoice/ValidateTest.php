@@ -51,7 +51,7 @@ class UserAttributeChoiceValidateTest extends NetCommonsValidateTest {
  *
  * @var string
  */
-	protected $_methodName = 'validate';
+	protected $_methodName = 'validates';
 
 /**
  * ValidationErrorのDataProvider
@@ -69,12 +69,20 @@ class UserAttributeChoiceValidateTest extends NetCommonsValidateTest {
 		$data['UserAttributeChoice'] = (new UserAttributeChoiceFixture())->records[0];
 
 		return array(
+			array('data' => $data, 'field' => 'language_id', 'value' => null,
+				'message' => __d('net_commons', 'Invalid request.')),
 			array('data' => $data, 'field' => 'language_id', 'value' => 'aaaa',
+				'message' => __d('net_commons', 'Invalid request.')),
+			array('data' => $data, 'field' => 'user_attribute_id', 'value' => null,
 				'message' => __d('net_commons', 'Invalid request.')),
 			array('data' => $data, 'field' => 'user_attribute_id', 'value' => 'aaaa',
 				'message' => __d('net_commons', 'Invalid request.')),
+			array('data' => $data, 'field' => 'name', 'value' => null,
+				'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('user_attributes', 'Item choice name'))),
 			array('data' => $data, 'field' => 'name', 'value' => '',
 				'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('user_attributes', 'Item choice name'))),
+			array('data' => $data, 'field' => 'key', 'value' => null,
+				'message' => __d('net_commons', 'Invalid request.')),
 			array('data' => $data, 'field' => 'key', 'value' => '',
 				'message' => __d('net_commons', 'Invalid request.')),
 			array('data' => $data, 'field' => 'weight', 'value' => 'aaaa',

@@ -95,11 +95,11 @@ class UserAttributeHelper extends AppHelper {
 		));
 
 		if ($userAttribute['UserAttributeSetting']['display']) {
-			$output .= $this->NetCommonsForm->hidden('UserAttributeSetting.display', array('value' => false));
+			$output .= $this->NetCommonsForm->hidden('UserAttributeSetting.display', array('value' => '0'));
 			$buttonIcon = 'glyphicon-eye-open';
 			$active = ' active';
 		} else {
-			$output .= $this->NetCommonsForm->hidden('UserAttributeSetting.display', array('value' => true));
+			$output .= $this->NetCommonsForm->hidden('UserAttributeSetting.display', array('value' => '1'));
 			$buttonIcon = 'glyphicon-eye-close';
 			$active = '';
 		}

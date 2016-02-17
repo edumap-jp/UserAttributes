@@ -46,10 +46,12 @@ class UserAttributeLayout extends UserAttributesAppModel {
 				'numeric' => array(
 					'rule' => array('numeric'),
 					'message' => __d('net_commons', 'Invalid request.'),
+					'required' => true,
 				),
 				'range' => array(
 					'rule' => array('range', 0, self::LAYOUT_COL_NUMBER + 1),
 					'message' => __d('net_commons', 'Invalid request.'),
+					'required' => true,
 				),
 			),
 		));
