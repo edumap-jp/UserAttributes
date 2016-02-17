@@ -69,6 +69,8 @@ class UserAttributeLayoutValidateTest extends NetCommonsValidateTest {
 		$data['UserAttributeLayout'] = (new UserAttributeLayoutFixture())->records[0];
 
 		return array(
+			array('data' => $data, 'field' => 'col', 'value' => null,
+				'message' => __d('net_commons', 'Invalid request.')),
 			array('data' => $data, 'field' => 'col', 'value' => 'aaaa',
 				'message' => __d('net_commons', 'Invalid request.')),
 			array('data' => $data, 'field' => 'col', 'value' => -1,

@@ -74,18 +74,21 @@ class UserAttributeChoice extends UsersAppModel {
 				'numeric' => array(
 					'rule' => array('numeric'),
 					'message' => __d('net_commons', 'Invalid request.'),
+					'required' => true,
 				),
 			),
 			'user_attribute_id' => array(
 				'numeric' => array(
 					'rule' => array('numeric'),
 					'message' => __d('net_commons', 'Invalid request.'),
+					'required' => true,
 				),
 			),
 			'name' => array(
 				'notBlank' => array(
 					'rule' => array('notBlank'),
 					'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('user_attributes', 'Item choice name')),
+					'required' => true,
 				),
 			),
 			'key' => array(

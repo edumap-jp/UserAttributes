@@ -158,6 +158,7 @@ class UserAttribute extends UserAttributesAppModel {
 				'numeric' => array(
 					'rule' => array('numeric'),
 					'message' => __d('net_commons', 'Invalid request.'),
+					'required' => true,
 				),
 			),
 			'key' => array(

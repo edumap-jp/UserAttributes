@@ -69,10 +69,16 @@ class UserAttributeValidateTest extends NetCommonsValidateTest {
 		$data['UserAttribute'] = (new UserAttributeFixture())->records[0];
 
 		return array(
+			array('data' => $data, 'field' => 'language_id', 'value' => null,
+				'message' => __d('net_commons', 'Invalid request.')),
 			array('data' => $data, 'field' => 'language_id', 'value' => 'aaaa',
+				'message' => __d('net_commons', 'Invalid request.')),
+			array('data' => $data, 'field' => 'key', 'value' => null,
 				'message' => __d('net_commons', 'Invalid request.')),
 			array('data' => $data, 'field' => 'key', 'value' => '',
 				'message' => __d('net_commons', 'Invalid request.')),
+			array('data' => $data, 'field' => 'name', 'value' => null,
+				'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('user_attributes', 'Item name'))),
 			array('data' => $data, 'field' => 'name', 'value' => '',
 				'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('user_attributes', 'Item name'))),
 		);
