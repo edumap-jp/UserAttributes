@@ -113,6 +113,9 @@ class UserAttributeLayoutComponentStartupTest extends NetCommonsControllerTestCa
 		));
 
 		//チェック
+		$pattern = '/' . preg_quote('Controller/Component/UserAttributeLayoutComponent', '/') . '/';
+		$this->assertRegExp($pattern, $this->view);
+
 		$pattern = '/' . preg_quote('Controller/Component/UserAttributeLayoutComponent/index_request_action', '/') . '/';
 		$this->assertRegExp($pattern, $this->view);
 	}
