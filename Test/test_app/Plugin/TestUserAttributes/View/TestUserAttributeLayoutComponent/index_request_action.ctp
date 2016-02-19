@@ -10,4 +10,6 @@
  */
 ?>
 
+<?php echo $view; ?>
+
 Controller/Component/UserAttributeLayoutComponent/index_request_action
