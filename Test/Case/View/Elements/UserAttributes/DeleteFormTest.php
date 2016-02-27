@@ -63,9 +63,7 @@ class UserAttributesViewElementsUserAttributesDeleteFormTest extends NetCommonsC
 		$pattern = '/' . preg_quote('View/Elements/UserAttributes/delete_form', '/') . '/';
 		$this->assertRegExp($pattern, $this->view);
 
-		$pattern = '/' . preg_quote('test_user_attributes/user_attributes/delete', '/') . '/';
-		$this->assertRegExp($pattern, $this->view);
-
+		$this->assertInput('form', null, 'user_attributes/user_attributes/delete', $this->view);
 		$this->assertInput('input', 'data[UserAttributeSetting][user_attribute_key]', 'user_attribute_key', $this->view);
 	}
 
