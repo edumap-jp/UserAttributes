@@ -57,9 +57,8 @@ class UserAttributesViewElementsUserAttributesRenderIndexRowTest extends NetComm
 		$this->generateNc('TestUserAttributes.TestViewElementsUserAttributesRenderIndexRow');
 
 		//テスト実行
-		$this->_testNcAction('/test_user_attributes/test_view_elements_user_attributes_render_index_row/render_index_row', array(
-			'method' => 'get'
-		));
+		$this->_testGetAction('/test_user_attributes/test_view_elements_user_attributes_render_index_row/render_index_row',
+				array('method' => 'assertNotEmpty'), null, 'view');
 
 		//チェック
 		$pattern = '/' . preg_quote('View/Elements/UserAttributes/render_index_row', '/') . '/';

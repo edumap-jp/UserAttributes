@@ -103,9 +103,8 @@ class UserAttributesViewElementsUserAttributesEditFormTest extends NetCommonsCon
  */
 	public function testEditForm() {
 		//テスト実行
-		$this->_testNcAction('/test_user_attributes/test_view_elements_user_attributes_edit_form/edit_form', array(
-			'method' => 'get'
-		));
+		$this->_testGetAction('/test_user_attributes/test_view_elements_user_attributes_edit_form/edit_form',
+				array('method' => 'assertNotEmpty'), null, 'view');
 
 		//チェック
 		$this->__commonAssert();
@@ -121,9 +120,8 @@ class UserAttributesViewElementsUserAttributesEditFormTest extends NetCommonsCon
  */
 	public function testEditFormIsSystem() {
 		//テスト実行
-		$this->_testNcAction('/test_user_attributes/test_view_elements_user_attributes_edit_form/edit_form_is_system', array(
-			'method' => 'get'
-		));
+		$this->_testGetAction('/test_user_attributes/test_view_elements_user_attributes_edit_form/edit_form_is_system',
+				array('method' => 'assertNotEmpty'), null, 'view');
 
 		//チェック
 		$this->__commonAssert();
@@ -137,9 +135,8 @@ class UserAttributesViewElementsUserAttributesEditFormTest extends NetCommonsCon
  */
 	public function testEditFormByActionEdit() {
 		//テスト実行
-		$this->_testNcAction('/test_user_attributes/test_view_elements_user_attributes_edit_form/edit_form_action_edit', array(
-			'method' => 'get'
-		));
+		$this->_testGetAction('/test_user_attributes/test_view_elements_user_attributes_edit_form/edit_form_action_edit',
+				array('method' => 'assertNotEmpty'), null, 'view');
 
 		//チェック
 		$this->__commonAssert();
