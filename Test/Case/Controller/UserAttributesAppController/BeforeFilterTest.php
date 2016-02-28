@@ -69,9 +69,8 @@ class UserAttributesAppControllerBeforeFilterTest extends NetCommonsControllerTe
 		TestAuthGeneral::login($this);
 
 		//テスト実行
-		$this->_testNcAction('/test_user_attributes/test_user_attributes_app_controller_index/index', array(
-			'method' => 'get'
-		));
+		$this->_testGetAction('/test_user_attributes/test_user_attributes_app_controller_index/index',
+				array('method' => 'assertNotEmpty'), null, 'view');
 
 		//チェック
 		$pattern = '/' . preg_quote('Controller/UserAttributesAppController', '/') . '/';
@@ -84,12 +83,9 @@ class UserAttributesAppControllerBeforeFilterTest extends NetCommonsControllerTe
  * @return void
  */
 	public function testBeforeFilterNoLogin() {
-		$this->setExpectedException('ForbiddenException');
-
 		//テスト実行
-		$this->_testNcAction('/test_user_attributes/test_user_attributes_app_controller_index/index', array(
-			'method' => 'get'
-		));
+		$this->_testGetAction('/test_user_attributes/test_user_attributes_app_controller_index/index',
+				null, 'ForbiddenException', 'view');
 	}
 
 }

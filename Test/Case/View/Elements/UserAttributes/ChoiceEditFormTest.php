@@ -55,9 +55,8 @@ class UserAttributesViewElementsUserAttributesChoiceEditFormTest extends NetComm
  */
 	public function testChoiceEdit() {
 		//テスト実行
-		$this->_testNcAction('/test_user_attributes/test_view_elements_user_attributes_choice_edit_form/choice_edit_form', array(
-			'method' => 'get'
-		));
+		$this->_testGetAction('/test_user_attributes/test_view_elements_user_attributes_choice_edit_form/choice_edit_form',
+				array('method' => 'assertNotEmpty'), null, 'view');
 
 		//チェック
 		$pattern = '/' . preg_quote('View/Elements/UserAttributes/choice_edit_form', '/') . '/';
@@ -77,9 +76,8 @@ class UserAttributesViewElementsUserAttributesChoiceEditFormTest extends NetComm
  */
 	public function testChoiceEditFormNull() {
 		//テスト実行
-		$this->_testNcAction('/test_user_attributes/test_view_elements_user_attributes_choice_edit_form/choice_edit_form_null', array(
-			'method' => 'get'
-		));
+		$this->_testGetAction('/test_user_attributes/test_view_elements_user_attributes_choice_edit_form/choice_edit_form_null',
+				array('method' => 'assertNotEmpty'), null, 'view');
 
 		//チェック
 		$pattern = '/' . preg_quote('View/Elements/UserAttributes/choice_edit_form', '/') . '/';
@@ -96,9 +94,8 @@ class UserAttributesViewElementsUserAttributesChoiceEditFormTest extends NetComm
  */
 	public function testChoiceEditFormFormWOId() {
 		//テスト実行
-		$this->_testNcAction('/test_user_attributes/test_view_elements_user_attributes_choice_edit_form/choice_edit_form_without_id', array(
-			'method' => 'get'
-		));
+		$this->_testGetAction('/test_user_attributes/test_view_elements_user_attributes_choice_edit_form/choice_edit_form_without_id',
+				array('method' => 'assertNotEmpty'), null, 'view');
 
 		//チェック
 		$pattern = '/' . preg_quote('View/Elements/UserAttributes/choice_edit_form', '/') . '/';

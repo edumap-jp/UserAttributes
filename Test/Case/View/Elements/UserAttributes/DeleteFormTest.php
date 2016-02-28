@@ -55,18 +55,16 @@ class UserAttributesViewElementsUserAttributesDeleteFormTest extends NetCommonsC
 		$this->generateNc('TestUserAttributes.TestViewElementsUserAttributesDeleteForm');
 
 		//テスト実行
-		$this->_testNcAction('/test_user_attributes/test_view_elements_user_attributes_delete_form/delete_form', array(
-			'method' => 'get'
-		));
+		$this->_testGetAction('/test_user_attributes/test_view_elements_user_attributes_delete_form/delete_form',
+				array('method' => 'assertNotEmpty'), null, 'view');
 
 		//チェック
 		$pattern = '/' . preg_quote('View/Elements/UserAttributes/delete_form', '/') . '/';
 		$this->assertRegExp($pattern, $this->view);
 
-		$pattern = '/' . preg_quote('test_user_attributes/user_attributes/delete', '/') . '/';
-		$this->assertRegExp($pattern, $this->view);
-
+		$this->assertInput('form', null, 'user_attributes/user_attributes/delete', $this->view);
 		$this->assertInput('input', 'data[UserAttributeSetting][user_attribute_key]', 'user_attribute_key', $this->view);
+		$this->assertInput('button', 'delete', null, $this->view);
 	}
 
 }

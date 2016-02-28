@@ -55,7 +55,7 @@ class UserAttributeLayoutHelperAfterRenderFileTest extends NetCommonsControllerT
 		$this->generateNc('TestUserAttributes.TestUserAttributeLayoutHelperAfterRenderFile');
 
 		//テスト実行
-		$this->_testNcAction('/test_user_attributes/test_user_attribute_layout_helper_after_render_file/index', null);
+		$this->_testGetAction('/test_user_attributes/test_user_attribute_layout_helper_after_render_file/index', array('method' => 'assertNotEmpty'), null, 'view');
 
 		//チェック
 		$pattern = '/' . preg_quote('View/Helper/TestUserAttributeLayoutHelperAfterRenderFile', '/') . '/';

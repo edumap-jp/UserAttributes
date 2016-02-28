@@ -78,9 +78,8 @@ class UserAttributeLayoutComponentStartupTest extends NetCommonsControllerTestCa
 		TestAuthGeneral::login($this);
 
 		//テスト実行
-		$this->_testNcAction('/test_user_attributes/test_user_attribute_layout_component/index', array(
-			'method' => 'get'
-		));
+		$this->_testGetAction('/test_user_attributes/test_user_attribute_layout_component/index',
+				array('method' => 'assertNotEmpty'), null, 'view');
 
 		//チェック
 		$pattern = '/' . preg_quote('Controller/Component/UserAttributeLayoutComponent', '/') . '/';
@@ -108,9 +107,8 @@ class UserAttributeLayoutComponentStartupTest extends NetCommonsControllerTestCa
 		TestAuthGeneral::login($this);
 
 		//テスト実行
-		$this->_testNcAction('/test_user_attributes/test_user_attribute_layout_component/index_request_action', array(
-			'method' => 'get'
-		));
+		$this->_testGetAction('/test_user_attributes/test_user_attribute_layout_component/index_request_action',
+				array('method' => 'assertNotEmpty'), null, 'view');
 
 		//チェック
 		$pattern = '/' . preg_quote('Controller/Component/UserAttributeLayoutComponent', '/') . '/';
