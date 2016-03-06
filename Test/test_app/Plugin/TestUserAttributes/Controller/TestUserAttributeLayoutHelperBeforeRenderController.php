@@ -17,7 +17,7 @@ App::uses('AppController', 'Controller');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\UserAttributes\Test\test_app\Plugin\TestUserAttributes\Controller
  */
-class TestUserAttributeLayoutHelperAfterRenderFileController extends AppController {
+class TestUserAttributeLayoutHelperBeforeRenderController extends AppController {
 
 /**
  * 使用ヘルパー
