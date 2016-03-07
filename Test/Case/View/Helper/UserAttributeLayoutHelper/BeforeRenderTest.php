@@ -1,6 +1,6 @@
 <?php
 /**
- * UserAttributeLayoutHelper::afterRenderFile()のテスト
+ * UserAttributeLayoutHelper::beforeRender()のテスト
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
@@ -12,12 +12,12 @@
 App::uses('NetCommonsControllerTestCase', 'NetCommons.TestSuite');
 
 /**
- * UserAttributeLayoutHelper::afterRenderFile()のテスト
+ * UserAttributeLayoutHelper::beforeRender()のテスト
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\UserAttributes\Test\Case\Controller\Component\UserAttributeLayoutHelper
  */
-class UserAttributeLayoutHelperAfterRenderFileTest extends NetCommonsControllerTestCase {
+class UserAttributeLayoutHelperBeforeRenderTest extends NetCommonsControllerTestCase {
 
 /**
  * Fixtures
@@ -46,23 +46,25 @@ class UserAttributeLayoutHelperAfterRenderFileTest extends NetCommonsControllerT
 	}
 
 /**
- * afterRenderFile()のテスト
+ * beforeRender()のテスト
  *
  * @return void
  */
-	public function testAfterRenderFile() {
+	public function testBeforeRender() {
 		//テストコントローラ生成
-		$this->generateNc('TestUserAttributes.TestUserAttributeLayoutHelperAfterRenderFile');
+		$this->generateNc('TestUserAttributes.TestUserAttributeLayoutHelperBeforeRender');
 
 		//テスト実行
-		$this->_testGetAction('/test_user_attributes/test_user_attribute_layout_helper_after_render_file/index', array('method' => 'assertNotEmpty'), null, 'view');
+		$this->_testGetAction('/test_user_attributes/test_user_attribute_layout_helper_before_render/index',
+				array('method' => 'assertNotEmpty'), null, 'view');
 
 		//チェック
-		$pattern = '/' . preg_quote('View/Helper/TestUserAttributeLayoutHelperAfterRenderFile', '/') . '/';
+		$pattern = '/' . preg_quote('View/Helper/TestUserAttributeLayoutHelperBeforeRender', '/') . '/';
 		$this->assertRegExp($pattern, $this->view);
 
 		//cssのURLチェック
 		$pattern = '/<link.*?' . preg_quote('/user_attributes/css/style.css', '/') . '.*?>/';
+		$this->assertRegExp($pattern, $this->contents);
 	}
 
 }
