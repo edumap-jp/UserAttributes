@@ -10,4 +10,6 @@
  */
 ?>
 
+<?php echo $this->MessageFlash->description(__d('user_attributes', 'You can add, edit, delete and change the display order of items of user profile.<br>The items to be displayed to other members are controled at &#039;User role plugin > Information Policy&#039;.')); ?>
+
 <?php echo $this->UserAttributeLayout->renderRow('UserAttributes/render_index_row');
