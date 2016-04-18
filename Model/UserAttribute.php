@@ -172,7 +172,10 @@ class UserAttribute extends UserAttributesAppModel {
 			'name' => array(
 				'notBlank' => array(
 					'rule' => array('notBlank'),
-					'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('user_attributes', 'Item name')),
+					'message' => sprintf(
+						__d('net_commons', 'Please input %s.'),
+						__d('user_attributes', 'Item name')
+					),
 					'required' => true,
 				),
 			),
@@ -250,8 +253,10 @@ class UserAttribute extends UserAttributesAppModel {
 
 			} elseif (isset($dataTypes[$dataTypeKey]['DataTypeChoice'])) {
 				//DataTypeChoiceにデータがある場合
-				$results[$row][$col][$weight]['UserAttributeSetting']['data_type_key'] = DataType::DATA_TYPE_SELECT;
-				$results[$row][$col][$weight]['UserAttributeChoice'] = $dataTypes[$dataTypeKey]['DataTypeChoice'];
+				$results[$row][$col][$weight]['UserAttributeSetting']['data_type_key'] =
+																		DataType::DATA_TYPE_SELECT;
+				$results[$row][$col][$weight]['UserAttributeChoice'] =
+														$dataTypes[$dataTypeKey]['DataTypeChoice'];
 
 			} elseif (isset($userAttributeChoices[$userAttributeId])) {
 				//UserAttributeChoiceにデータがある場合
@@ -278,7 +283,9 @@ class UserAttribute extends UserAttributesAppModel {
 		if (! $result) {
 			return false;
 		}
-		$userAttribute['UserAttribute'] = Hash::combine($result, '{n}.UserAttribute.id', '{n}.UserAttribute');
+		$userAttribute['UserAttribute'] = Hash::combine(
+			$result, '{n}.UserAttribute.id', '{n}.UserAttribute'
+		);
 
 		//UserAttributeSettingデータ取得
 		$result = $this->UserAttributeSetting->find('first', array(
@@ -499,11 +506,15 @@ class UserAttribute extends UserAttributesAppModel {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 			//UserAttributeSettingの削除処理
-			if (! $this->UserAttributeSetting->deleteAll(array($colUserAttributeKey => $userAttributeKey), false)) {
+			$conditions = array($colUserAttributeKey => $userAttributeKey);
+			if (! $this->UserAttributeSetting->deleteAll($conditions, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 			//UserAttributeChoiceの削除処理
-			if (! $this->UserAttributeChoice->deleteAll(array($this->UserAttributeChoice->alias . '.user_attribute_id' => $userAttributeIds), false)) {
+			$conditions = array(
+				$this->UserAttributeChoice->alias . '.user_attribute_id' => $userAttributeIds
+			);
+			if (! $this->UserAttributeChoice->deleteAll($conditions, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 

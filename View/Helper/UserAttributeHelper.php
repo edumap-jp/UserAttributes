@@ -45,7 +45,9 @@ class UserAttributeHelper extends AppHelper {
 			'action' => 'edit',
 			$layout['UserAttributeLayout']['id']
 		));
-		$output .= $this->NetCommonsForm->create('UserAttributeLayout', array('type' => 'put', 'url' => $url));
+		$output .= $this->NetCommonsForm->create(
+			'UserAttributeLayout', array('type' => 'put', 'url' => $url)
+		);
 
 		$output .= $this->NetCommonsForm->hidden('UserAttributeLayout.id',
 				array('value' => $layout['UserAttributeLayout']['id']));
@@ -160,7 +162,8 @@ class UserAttributeHelper extends AppHelper {
  * @param string $message メッセージ
  * @return string HTML
  */
-	private function __moveSettingForm($formName, $userAttrSettingId, $updWeight, $updRow, $updCol, $disabled, $class, $message) {
+	private function __moveSettingForm($formName, $userAttrSettingId, $updWeight, $updRow, $updCol,
+											$disabled, $class, $message) {
 		$output = '';
 
 		$output .= '<li' . $disabled . '>';
@@ -426,8 +429,14 @@ class UserAttributeHelper extends AppHelper {
 
 			//HTML出力
 			$output .= $this->__moveSettingForm(
-				$formName . $moveLayout['UserAttributeLayout']['id'], $userAttrSettingId, null, $updRow, null,
-				$disabled, '', sprintf(__d('user_attributes', 'Go to %s row'), $moveLayout['UserAttributeLayout']['id'])
+				$formName . $moveLayout['UserAttributeLayout']['id'],
+				$userAttrSettingId,
+				null,
+				$updRow,
+				null,
+				$disabled,
+				'',
+				sprintf(__d('user_attributes', 'Go to %s row'), $moveLayout['UserAttributeLayout']['id'])
 			);
 		}
 

@@ -74,11 +74,15 @@ class UserAttributeBehavior extends ModelBehavior {
 				'origin_role_key' => $userRoleSetting['UserRoleSetting']['origin_role_key'],
 				'user_attribute_key' => $data['UserAttributeSetting']['user_attribute_key'],
 				'data_type_key' => $data['UserAttributeSetting']['data_type_key'],
-				'only_administrator_readable' => (bool)$data['UserAttributeSetting']['only_administrator_readable'],
-				'only_administrator_editable' => (bool)$data['UserAttributeSetting']['only_administrator_editable'],
+				'only_administrator_readable' =>
+								(bool)$data['UserAttributeSetting']['only_administrator_readable'],
+				'only_administrator_editable' =>
+								(bool)$data['UserAttributeSetting']['only_administrator_editable'],
 				'is_system' => (bool)$data['UserAttributeSetting']['is_system']
 			);
-			$enableUserManager = (bool)Hash::extract($pluginsRoles, '{n}.PluginsRole[role_key=' . $params['role_key'] . ']');
+			$enableUserManager = (bool)Hash::extract(
+				$pluginsRoles, '{n}.PluginsRole[role_key=' . $params['role_key'] . ']'
+			);
 
 			$userAttributeRole = $model->UserAttributesRole->find('first', array(
 				'recursive' => -1,
@@ -200,7 +204,8 @@ class UserAttributeBehavior extends ModelBehavior {
 		);
 
 		//公開項目フィールド
-		$this->cakeMigration->migration['up']['create_field'][$model->User->table][sprintf(UserAttribute::PUBLIC_FIELD_FORMAT, $userAttributeKey)] = array(
+		$key = sprintf(UserAttribute::PUBLIC_FIELD_FORMAT, $userAttributeKey);
+		$this->cakeMigration->migration['up']['create_field'][$model->User->table][$key] = array(
 			'type' => 'boolean',
 			'null' => false,
 			'default' => '0',
@@ -208,7 +213,8 @@ class UserAttributeBehavior extends ModelBehavior {
 		);
 		//メールの受信可否設定項目フィールド
 		if ($data[$model->UserAttributeSetting->alias]['data_type_key'] === DataType::DATA_TYPE_EMAIL) {
-			$this->cakeMigration->migration['up']['create_field'][$model->User->table][sprintf(UserAttribute::MAIL_RECEPTION_FIELD_FORMAT, $userAttributeKey)] = array(
+			$key = sprintf(UserAttribute::MAIL_RECEPTION_FIELD_FORMAT, $userAttributeKey);
+			$this->cakeMigration->migration['up']['create_field'][$model->User->table][$key] = array(
 				'type' => 'boolean',
 				'null' => false,
 				'default' => '0',
@@ -248,7 +254,7 @@ class UserAttributeBehavior extends ModelBehavior {
 											sprintf(UserAttribute::PUBLIC_FIELD_FORMAT, $userAttributeKey);
 		if ($data[$model->UserAttributeSetting->alias]['data_type_key'] === DataType::DATA_TYPE_EMAIL) {
 			$this->cakeMigration->migration['up']['drop_field'][$model->User->table][] =
-												sprintf(UserAttribute::MAIL_RECEPTION_FIELD_FORMAT, $userAttributeKey);
+									sprintf(UserAttribute::MAIL_RECEPTION_FIELD_FORMAT, $userAttributeKey);
 		}
 		return $this->cakeMigration->run('up');
 	}

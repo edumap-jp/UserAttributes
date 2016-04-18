@@ -78,10 +78,11 @@ class UserAttributeLayoutHelper extends AppHelper {
 			if ($layout['UserAttributeLayout']['col'] === '2' &&
 					! isset($this->_View->viewVars['userAttributes'][$row][1]) &&
 					isset($this->_View->viewVars['userAttributes'][$row][2])) {
-				$output .= '<div class="col-xs-12 col-sm-offset-6 col-sm-6">';
+				$colSm = 'col-sm-6';
 			} else {
-				$output .= '<div class="col-xs-12 col-sm-' . (12 / $layout['UserAttributeLayout']['col']) . '">';
+				$colSm = 'col-sm-' . (12 / $layout['UserAttributeLayout']['col']);
 			}
+			$output .= '<div class="col-xs-12 ' . $colSm . '">';
 
 			if (isset($this->_View->viewVars['userAttributes'][$row][$col])) {
 				foreach ($this->_View->viewVars['userAttributes'][$row][$col] as $userAttribute) {
