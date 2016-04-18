@@ -44,7 +44,9 @@ class UserAttributeLayoutsController extends UserAttributesAppController {
 			return;
 		}
 
-		$this->NetCommons->setFlashNotification(__d('net_commons', 'Successfully saved.'), array('class' => 'success'));
+		$this->NetCommons->setFlashNotification(
+			__d('net_commons', 'Successfully saved.'), array('class' => 'success')
+		);
 		$this->redirect('/user_attributes/user_attributes/index/');
 	}
 }

@@ -96,3 +96,6 @@ msgstr "移動"
 
 msgid "Users can use the 'user management' plugin, you can read and write all of the member item. However, you can not read the password."
 msgstr "会員管理プラグインを使えるユーザは、すべての会員項目を読み書きできます。但し、パスワードは読めません。"
+
+msgid "You can add, edit, delete and change the display order of items of user profile.<br>The items to be displayed to other members are controled at &#039;User role plugin > Information Policy&#039;."
+msgstr "会員情報の表示項目を追加・編集・表示順変更することができます。<br>会員の情報をどのように他の会員に開示するかは、「権限管理プラグイン > 個人情報設定」でコントロールしています。"

@@ -78,7 +78,8 @@ class UserAttributesController extends UserAttributesAppController {
 			//登録処理
 			$row = $this->request->data['UserAttributeSetting']['row'];
 			$col = $this->request->data['UserAttributeSetting']['col'];
-			$this->request->data['UserAttributeSetting']['weight'] = $this->UserAttributeSetting->getMaxWeight($row, $col) + 1;
+			$weight = $this->UserAttributeSetting->getMaxWeight($row, $col) + 1;
+			$this->request->data['UserAttributeSetting']['weight'] = $weight;
 
 			$result = $this->UserAttributeChoice->validateRequestData($this->request->data);
 			if ($result === false) {
@@ -170,7 +171,8 @@ class UserAttributesController extends UserAttributesAppController {
 			return;
 		}
 
-		if (! $this->UserAttribute->deleteUserAttribute(Hash::get($this->data, 'UserAttributeSetting.user_attribute_key'))) {
+		$key = Hash::get($this->data, 'UserAttributeSetting.user_attribute_key');
+		if (! $this->UserAttribute->deleteUserAttribute($key)) {
 			$this->throwBadRequest();
 			return;
 		}

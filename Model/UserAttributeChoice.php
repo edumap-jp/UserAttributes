@@ -87,7 +87,9 @@ class UserAttributeChoice extends UsersAppModel {
 			'name' => array(
 				'notBlank' => array(
 					'rule' => array('notBlank'),
-					'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('user_attributes', 'Item choice name')),
+					'message' => sprintf(
+						__d('net_commons', 'Please input %s.'), __d('user_attributes', 'Item choice name')
+					),
 					'required' => true,
 				),
 			),
@@ -147,7 +149,9 @@ class UserAttributeChoice extends UsersAppModel {
 		}
 
 		//登録処理
-		$userAttributeIds = Hash::combine($data['UserAttribute'], '{n}.UserAttribute.language_id', '{n}.UserAttribute.id');
+		$userAttributeIds = Hash::combine(
+			$data['UserAttribute'], '{n}.UserAttribute.language_id', '{n}.UserAttribute.id'
+		);
 		$useChoiceKeys = array();
 		foreach ($data['UserAttributeChoice'] as $choiceByWeight) {
 			$choiceKey = null;
