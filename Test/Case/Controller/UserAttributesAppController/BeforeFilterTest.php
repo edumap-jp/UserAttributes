@@ -25,7 +25,10 @@ class UserAttributesAppControllerBeforeFilterTest extends NetCommonsControllerTe
  *
  * @var array
  */
-	public $fixtures = array();
+	public $fixtures = array(
+		'plugin.user_attributes.plugin4permission',
+		'plugin.user_attributes.plugins_role4permission',
+	);
 
 /**
  * Plugin name
