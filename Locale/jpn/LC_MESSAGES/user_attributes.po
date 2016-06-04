@@ -91,6 +91,12 @@ msgstr "%s段目に移動"
 msgid "%s row"
 msgstr "%s 段目"
 
+msgid "Display"
+msgstr "表示"
+
+msgid "Non display"
+msgstr "非表示"
+
 msgid "Move"
 msgstr "移動"
 
