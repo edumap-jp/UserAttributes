@@ -67,8 +67,8 @@ class UserAttributeHelperDisplaySettingTest extends NetCommonsHelperTestCase {
 		$this->assertInput('input', 'data[UserAttributeSetting][id]', '1', $result);
 		$this->assertInput('input', 'data[UserAttributeSetting][display]', null, $result);
 		$this->assertContains('glyphicon-eye-open', $result);
-		$this->assertNotContains('glyphicon-eye-close', $result);
-		$this->assertContains('btn btn-xs btn-default active', $result);
+		$this->assertNotContains('glyphicon-minus', $result);
+		$this->assertContains('btn btn-xs btn-default user-attributes-display-btn active', $result);
 	}
 
 /**
@@ -89,8 +89,8 @@ class UserAttributeHelperDisplaySettingTest extends NetCommonsHelperTestCase {
 		$this->assertInput('input', 'data[UserAttributeSetting][id]', '1', $result);
 		$this->assertInput('input', 'data[UserAttributeSetting][display]', '0', $result);
 		$this->assertNotContains('glyphicon-eye-open', $result);
-		$this->assertContains('glyphicon-eye-close', $result);
-		$this->assertContains('btn btn-xs btn-default', $result);
+		$this->assertContains('glyphicon-minus', $result);
+		$this->assertContains('btn btn-xs btn-default user-attributes-display-btn', $result);
 	}
 
 }

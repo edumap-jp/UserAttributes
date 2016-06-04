@@ -30,3 +30,7 @@ div.user-attribute-label {
 .user-attribute-edit .list-group-item.disabled {
 	cursor: auto;
 }
+
+.user-attribute-edit button.user-attributes-display-btn {
+	min-width: 64px;
+}
