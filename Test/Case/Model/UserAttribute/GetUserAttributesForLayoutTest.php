@@ -174,9 +174,18 @@ class UserAttributeGetUserAttributesForLayoutTest extends NetCommonsGetTest {
 		$this->assertEquals('role_key', $actual['UserAttributesRole']['user_attribute_key']);
 		$this->assertEquals(
 			array(
-				1 => array('id' => '1', 'language_id' => '2', 'key' => 'system_administrator', 'name' => 'System administrator'),
-				2 => array('id' => '2', 'language_id' => '2', 'key' => 'administrator', 'name' => 'Site administrator'),
-				3 => array('id' => '3', 'language_id' => '2', 'key' => 'common_user', 'name' => 'Common user')
+				1 => array(
+					'id' => '1', 'language_id' => '2', 'key' => 'system_administrator',
+					'name' => 'System administrator', 'user_attribute_id' => '10'
+				),
+				2 => array(
+					'id' => '2', 'language_id' => '2', 'key' => 'administrator',
+					'name' => 'Site administrator', 'user_attribute_id' => '10'
+				),
+				3 => array(
+					'id' => '3', 'language_id' => '2', 'key' => 'common_user',
+					'name' => 'Common user', 'user_attribute_id' => '10'
+				)
 			),
 			$actual['UserAttributeChoice']
 		);
