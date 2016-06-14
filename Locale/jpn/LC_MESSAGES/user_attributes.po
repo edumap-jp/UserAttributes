@@ -44,7 +44,7 @@ msgstr "必須項目とする"
 
 #: UserAttributes/View/Elements/UserAttributes/edit_form.ctp:75
 msgid "Designate as multi-language items"
-msgstr "多言語入力とする"
+msgstr "言語ごとに入力させる"
 
 #: UserAttributes/View/Elements/UserAttributes/edit_form.ctp:86
 msgid "To prohibit the reading of non-members administrator"
