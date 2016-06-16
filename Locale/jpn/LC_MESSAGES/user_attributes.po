@@ -48,11 +48,11 @@ msgstr "言語ごとに入力させる"
 
 #: UserAttributes/View/Elements/UserAttributes/edit_form.ctp:86
 msgid "To prohibit the reading of non-members administrator"
-msgstr "会員管理プラグインを使えるユーザのみ読み取り可能にする"
+msgstr "会員管理プラグインを使えるユーザのみ閲覧できる"
 
 #: UserAttributes/View/Elements/UserAttributes/edit_form.ctp:86
 msgid "To prohibit the writing of non-members administrator"
-msgstr "会員管理プラグインを使えるユーザのみ書き込み可能にする"
+msgstr "会員管理プラグインを使えるユーザのみ編集できる"
 
 #: UserAttributes/View/Elements/UserAttributes/edit_form.ctp:97
 msgid "Enable individual public/private setting"
