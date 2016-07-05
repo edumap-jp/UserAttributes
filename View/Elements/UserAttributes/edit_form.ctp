@@ -80,7 +80,6 @@ if (! $this->request->data['UserAttributeSetting']['is_system']) {
 
 	echo '</div>';
 }
-
 echo '</div>';
 
 /**
@@ -147,10 +146,15 @@ echo $this->NetCommonsForm->inlineCheckbox('UserAttributeSetting.self_public_set
  * * システム項目の場合、disabled
  * * 入力タイプがメール以外、disabled
  */
+echo '<div class="form-group" ' .
+		'ng-hide="(' . (int)$this->request->data['UserAttributeSetting']['is_system'] . ' || userAttributeSetting.dataTypeKey !== \'' . DataType::DATA_TYPE_EMAIL . '\')">';
 echo $this->NetCommonsForm->inlineCheckbox('UserAttributeSetting.self_email_setting', array(
 	'label' => __d('user_attributes', 'Enable individual email receipt / non-receipt setting'),
 	'ng-disabled' => '(' . (int)$this->request->data['UserAttributeSetting']['is_system'] . ' || userAttributeSetting.dataTypeKey !== "' . DataType::DATA_TYPE_EMAIL . '")',
+	'div' => false,
 ));
+echo '</div>';
+
 
 foreach ($this->request->data['UserAttribute'] as $index => $userAttribute) {
 	$languageId = $userAttribute['language_id'];
