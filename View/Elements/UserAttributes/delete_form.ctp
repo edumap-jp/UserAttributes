@@ -13,7 +13,7 @@
 <div class="nc-danger-zone" ng-init="dangerZone=false;">
 	<?php echo $this->NetCommonsForm->create('UserAttribute', array('type' => 'delete', 'url' => array('action' => 'delete'))); ?>
 		<uib-accordion close-others="false">
-			<uib-accordion-group is-open="dangerZone" class="panel-danger">
+			<div uib-accordion-group is-open="dangerZone" class="panel-danger">
 				<uib-accordion-heading class="clearfix">
 					<span style="cursor: pointer">
 						<?php echo __d('net_commons', 'Danger Zone'); ?>
@@ -31,7 +31,7 @@
 						sprintf(__d('net_commons', 'Deleting the %s. Are you sure to proceed?'), __d('user_attributes', 'User attribute')),
 						array('addClass' => 'pull-right')
 					); ?>
-			</uib-accordion-group>
+			</div>
 		</uib-accordion>
 	<?php echo $this->NetCommonsForm->end(); ?>
 </div>
