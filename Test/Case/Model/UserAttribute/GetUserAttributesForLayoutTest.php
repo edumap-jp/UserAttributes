@@ -247,7 +247,8 @@ class UserAttributeGetUserAttributesForLayoutTest extends NetCommonsGetTest {
 		//データ生成
 		$force = false;
 
-		//static変数の初期化
+		//static変数の変更
+		$userAttributes = UserAttribute::$userAttributes;
 		UserAttribute::$userAttributes = array('dummy');
 
 		//テスト実施
@@ -257,6 +258,9 @@ class UserAttributeGetUserAttributesForLayoutTest extends NetCommonsGetTest {
 
 		//チェック
 		$this->assertEquals($result, UserAttribute::$userAttributes);
+
+		//static変数を戻す(以降のテストが'dummy'で動作しないように)
+		UserAttribute::$userAttributes = $userAttributes;
 	}
 
 }
