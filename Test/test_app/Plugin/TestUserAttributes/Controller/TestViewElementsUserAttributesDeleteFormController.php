@@ -32,6 +32,9 @@ class TestViewElementsUserAttributesDeleteFormController extends AppController {
 		$this->request->data = array(
 			'UserAttributeSetting' => (new UserAttributeSettingFixture())->records[0],
 		);
+
+		$this->request->params['plugin'] = 'user_attributes';
+		$this->request->params['controller'] = 'user_attributes';
 	}
 
 }

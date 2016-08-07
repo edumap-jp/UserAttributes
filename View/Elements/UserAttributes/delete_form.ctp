@@ -11,7 +11,8 @@
 ?>
 
 <div class="nc-danger-zone" ng-init="dangerZone=false;">
-	<?php echo $this->NetCommonsForm->create('UserAttribute', array('type' => 'delete', 'url' => array('action' => 'delete'))); ?>
+	<?php echo $this->NetCommonsForm->create('UserAttribute',
+			array('type' => 'delete', 'url' => NetCommonsUrl::actionUrlAsArray(array('action' => 'delete')))); ?>
 		<uib-accordion close-others="false">
 			<div uib-accordion-group is-open="dangerZone" class="panel-danger">
 				<uib-accordion-heading class="clearfix">
