@@ -56,7 +56,7 @@ msgstr "会員管理プラグインを使えるユーザのみ編集できる"
 
 #: UserAttributes/View/Elements/UserAttributes/edit_form.ctp:97
 msgid "Enable individual public/private setting"
-msgstr "各自で公開・非公開を設定可能にする （管理者に対しては個人情報管理に基づきます）"
+msgstr "各自で公開・非公開を設定可能にする （管理者に対しては権限管理の個人情報の設定に基づきます）"
 
 #: UserAttributes/View/Elements/UserAttributes/edit_form.ctp:108
 msgid "Enable individual email receipt / non-receipt setting"
