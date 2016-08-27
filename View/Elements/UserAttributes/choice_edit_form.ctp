@@ -28,7 +28,7 @@ foreach ($this->request->data['UserAttributeChoiceMap'] as $choiceMap) {
 $this->NetCommonsForm->unlockField('UserAttributeChoice');
 ?>
 
-<div class="panel panel-default">
+<div class="panel panel-default" ng-cloak>
 
 	<div class="panel-body">
 		<div class="form-group user-attribute-choices-form text-right">
