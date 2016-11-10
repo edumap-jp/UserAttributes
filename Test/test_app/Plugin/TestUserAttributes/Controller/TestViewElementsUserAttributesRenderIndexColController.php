@@ -56,6 +56,7 @@ class TestViewElementsUserAttributesRenderIndexColController extends AppControll
 	public function beforeFilter() {
 		parent::beforeFilter();
 		//テストデータ生成
+		Current::$current['Page']['id'] = null;
 		Current::$current['User']['role_key'] = UserRole::USER_ROLE_KEY_SYSTEM_ADMINISTRATOR;
 	}
 
