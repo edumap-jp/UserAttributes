@@ -13,73 +13,122 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: UserAttributes/Model/UserAttribute.php:152
-#: UserAttributes/View/Elements/UserAttributes/edit_form.ctp:26
+#: SiteManager/View/Elements/Membership/automatic_input_items.ctp:80
+#: UserAttributes/View/Helper/UserAttributeHelper.php:111
+msgid "Display"
+msgstr ""
+
+#: SiteManager/View/Elements/Membership/automatic_input_items.ctp:88
+#: UserAttributes/View/Helper/UserAttributeHelper.php:116
+msgid "Non display"
+msgstr ""
+
+#: UserAttributes/Model/UserAttribute.php:191
+#: UserAttributes/Test/Case/Controller/UserAttributesController/AddTest.php:204
+#: UserAttributes/Test/Case/Controller/UserAttributesController/EditTest.php:228
+#: UserAttributes/Test/Case/Model/UserAttribute/ValidateTest.php:81;83
+#: UserAttributes/View/Elements/UserAttributes/edit_form.ctp:33
 msgid "Item name"
 msgstr ""
 
-#: UserAttributes/View/Elements/UserAttributes/delete_form.ctp:25;35
-msgid "User attribute"
+#: UserAttributes/Model/UserAttributeChoice.php:131
+#: UserAttributes/Test/Case/Model/UserAttributeChoice/ValidateTest.php:81;83
+msgid "Item choice name"
 msgstr ""
 
-#: UserAttributes/View/Elements/UserAttributes/edit_col.ctp:30
-msgid "%s Col"
-msgstr ""
-
-#: UserAttributes/View/Elements/UserAttributes/edit_col.ctp:31
-msgid "%s Cols"
-msgstr ""
-
-#: UserAttributes/View/Elements/UserAttributes/edit_form.ctp:57
-msgid "Show the item name"
-msgstr ""
-
-#: UserAttributes/View/Elements/UserAttributes/edit_form.ctp:63
-msgid "Input type"
-msgstr ""
-
-#: UserAttributes/View/Elements/UserAttributes/edit_form.ctp:75
-msgid "Designate as required items"
-msgstr ""
-
-#: UserAttributes/View/Elements/UserAttributes/edit_form.ctp:86
-msgid "To prohibit the reading and writing of non-members administrator"
-msgstr ""
-
-#: UserAttributes/View/Elements/UserAttributes/edit_form.ctp:97
-msgid "Enable individual public/private setting"
-msgstr ""
-
-#: UserAttributes/View/Elements/UserAttributes/edit_form.ctp:108
-msgid "Enable individual email receipt / non-receipt setting"
-msgstr ""
-
-#: UserAttributes/View/Elements/UserAttributes/edit_form.ctp:119
-msgid "Description"
-msgstr ""
-
-#: UserAttributes/View/Elements/UserAttributes/move_setting.ctp:56
-msgid "Go to Up"
-msgstr ""
-
-#: UserAttributes/View/Elements/UserAttributes/move_setting.ctp:61
+#: UserAttributes/Test/Case/View/Helper/UserAttributeHelper/MoveSettingBottomMenuTest.php:97
+#: UserAttributes/View/Helper/UserAttributeHelper.php:318
 msgid "Go to Down"
 msgstr ""
 
-#: UserAttributes/View/Elements/UserAttributes/move_setting.ctp:66
+#: UserAttributes/Test/Case/View/Helper/UserAttributeHelper/MoveSettingLeftMenuTest.php:97
+#: UserAttributes/View/Helper/UserAttributeHelper.php:364
 msgid "Go to Left"
 msgstr ""
 
-#: UserAttributes/View/Elements/UserAttributes/move_setting.ctp:71
+#: UserAttributes/Test/Case/View/Helper/UserAttributeHelper/MoveSettingRightMenuTest.php:97
+#: UserAttributes/View/Helper/UserAttributeHelper.php:411
 msgid "Go to Right"
 msgstr ""
 
-#: UserAttributes/View/Elements/UserAttributes/move_setting.ctp:80
+#: UserAttributes/Test/Case/View/Helper/UserAttributeHelper/MoveSettingRowMenuTest.php:89;93;97
+#: UserAttributes/View/Helper/UserAttributeHelper.php:452
 msgid "Go to %s row"
 msgstr ""
 
-#: UserAttributes/View/Elements/UserAttributes/render_index_row.ctp:18
-#: UserRoles/View/Elements/UserAttributesRoles/render_edit_row.ctp:17
+#: UserAttributes/Test/Case/View/Helper/UserAttributeHelper/MoveSettingTopMenuTest.php:97
+#: UserAttributes/View/Helper/UserAttributeHelper.php:268
+msgid "Go to Up"
+msgstr ""
+
+#: UserAttributes/View/Elements/UserAttributes/choice_edit_form.ctp:41
+msgid "Not choices found."
+msgstr ""
+
+#: UserAttributes/View/Elements/UserAttributes/delete_form.ctp:26;32
+msgid "User attribute"
+msgstr ""
+
+#: UserAttributes/View/Elements/UserAttributes/edit_form.ctp:46
+msgid "Show the item name"
+msgstr ""
+
+#: UserAttributes/View/Elements/UserAttributes/edit_form.ctp:61
+msgid "Input type"
+msgstr ""
+
+#: UserAttributes/View/Elements/UserAttributes/edit_form.ctp:92
+msgid "Designate as multi-language items"
+msgstr ""
+
+#: UserAttributes/View/Elements/UserAttributes/edit_form.ctp:103
+msgid "Designate as required items"
+msgstr ""
+
+#: UserAttributes/View/Elements/UserAttributes/edit_form.ctp:116
+msgid "To prohibit the reading of non-members administrator"
+msgstr ""
+
+#: UserAttributes/View/Elements/UserAttributes/edit_form.ctp:131
+msgid "To prohibit the writing of non-members administrator"
+msgstr ""
+
+#: UserAttributes/View/Elements/UserAttributes/edit_form.ctp:141
+msgid "Enable individual public/private setting"
+msgstr ""
+
+#: UserAttributes/View/Elements/UserAttributes/edit_form.ctp:152
+msgid "Enable individual email receipt / non-receipt setting"
+msgstr ""
+
+#: UserAttributes/View/Elements/UserAttributes/edit_form.ctp:166
+msgid "Description"
+msgstr ""
+
+#: UserAttributes/View/Elements/UserAttributes/render_index_row.ctp:20
+#: UserRoles/Test/Case/View/Elements/UserAttributesRoles/RenderEditRowTest.php:65
+#: UserRoles/View/Elements/UserAttributesRoles/render_edit_row.ctp:18
+#: UserRoles/View/Elements/UserRoles/render_view_row.ctp:18
 msgid "%s row"
+msgstr ""
+
+#: UserAttributes/View/Helper/UserAttributeHelper.php:66
+msgid "%s Col"
+msgstr ""
+
+#: UserAttributes/View/Helper/UserAttributeHelper.php:68
+msgid "%s Cols"
+msgstr ""
+
+#: UserAttributes/View/Helper/UserAttributeHelper.php:145
+msgid "Move"
+msgstr ""
+
+#: UserAttributes/View/UserAttributes/edit.ctp:42
+msgid "Users can use the 'user management' plugin, you can read and write all of the member item. However, you can not read the password."
+msgstr ""
+
+#: UserAttributes/View/UserAttributes/index.ctp:13
+msgid "You can add, edit, delete and change the display order of items of user profile.<br>The items to be displayed to other members are controled at &#039;User role plugin > Information Policy&#039;."
 msgstr ""
 
