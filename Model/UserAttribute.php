@@ -20,6 +20,7 @@ App::uses('UserAttributesAppModel', 'UserAttributes.Model');
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\UserAttributes\Model
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
 class UserAttribute extends UserAttributesAppModel {
 
