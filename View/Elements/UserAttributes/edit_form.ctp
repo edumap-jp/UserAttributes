@@ -88,21 +88,40 @@ echo '</div>';
  * * システム項目の場合、disabled
  * * テキスト・テキストエリアタイプ以外の場合、disabled
  */
-echo $this->NetCommonsForm->inlineCheckbox('UserAttributeSetting.is_multilingualization', array(
-	'label' => __d('user_attributes', 'Designate as multi-language items'),
-	'ng-disabled' => '(' . (int)($this->params['action'] === 'edit' || $this->request->data['UserAttributeSetting']['is_system']) . ' || ' .
-							'userAttributeSetting.dataTypeKey !== "' . DataType::DATA_TYPE_TEXT . '" && userAttributeSetting.dataTypeKey !== "' . DataType::DATA_TYPE_TEXTAREA . '")',
-));
+if ($this->params['action'] === 'edit' ||
+		$this->request->data['UserAttributeSetting']['is_system'] ||
+		! in_array($this->request->data['UserAttributeSetting']['data_type_key'], [DataType::DATA_TYPE_TEXT, DataType::DATA_TYPE_TEXTAREA], true)) {
+	echo $this->NetCommonsForm->hidden('UserAttributeSetting.is_multilingualization');
+
+	echo $this->NetCommonsForm->inlineCheckbox('UserAttributeSetting.is_multilingualization', array(
+		'label' => __d('user_attributes', 'Designate as multi-language items'),
+		'hiddenField' => false,
+		'disabled' => true,
+	));
+} else {
+	echo $this->NetCommonsForm->inlineCheckbox('UserAttributeSetting.is_multilingualization', array(
+		'label' => __d('user_attributes', 'Designate as multi-language items'),
+	));
+}
+
 
 /**
  * 必須項目とする
  *
  * * システム項目の場合、disabled
  */
-echo $this->NetCommonsForm->inlineCheckbox('UserAttributeSetting.required', array(
-	'label' => __d('user_attributes', 'Designate as required items'),
-	'ng-disabled' => '(' . (int)$this->request->data['UserAttributeSetting']['is_system'] . ')',
-));
+if ($this->request->data['UserAttributeSetting']['is_system']) {
+	echo $this->NetCommonsForm->hidden('UserAttributeSetting.required');
+	echo $this->NetCommonsForm->inlineCheckbox('UserAttributeSetting.required', array(
+		'label' => __d('user_attributes', 'Designate as required items'),
+		'hiddenField' => false,
+		'disabled' => true,
+	));
+} else {
+	echo $this->NetCommonsForm->inlineCheckbox('UserAttributeSetting.required', array(
+		'label' => __d('user_attributes', 'Designate as required items'),
+	));
+}
 
 /**
  * 読み取り不可項目とする（管理者のみ読める）
@@ -112,14 +131,22 @@ echo $this->NetCommonsForm->inlineCheckbox('UserAttributeSetting.required', arra
  * * ラベルタイプ以外で書き込み可：チェックOFF固定
  * * パスワード・ハンドル・アバターの場合、disable
  */
-echo $this->NetCommonsForm->inlineCheckbox('UserAttributeSetting.only_administrator_readable', array(
-	'label' => __d('user_attributes', 'To prohibit the reading of non-members administrator'),
-	'ng-click' => 'onlyAdministratorClick($event, "' . $this->NetCommonsHtml->domId('UserAttributeSetting.only_administrator_readable') . '", "' .
-												$this->NetCommonsHtml->domId('UserAttributeSetting.only_administrator_editable') . '")',
-	'ng-disabled' => '(userAttributeSetting.userAttributeKey === "' . UserAttribute::HANDLENAME_FIELD . '" || ' .
-						'userAttributeSetting.userAttributeKey === "' . UserAttribute::PASSWORD_FIELD . '" || ' .
-						'userAttributeSetting.userAttributeKey === "' . UserAttribute::AVATAR_FIELD . '")',
-));
+$attributeKeys = [UserAttribute::HANDLENAME_FIELD, UserAttribute::PASSWORD_FIELD, UserAttribute::AVATAR_FIELD];
+if (in_array($this->request->data['UserAttributeSetting']['user_attribute_key'], $attributeKeys, true)) {
+	echo $this->NetCommonsForm->hidden('UserAttributeSetting.only_administrator_readable');
+
+	echo $this->NetCommonsForm->inlineCheckbox('UserAttributeSetting.only_administrator_readable', array(
+		'label' => __d('user_attributes', 'To prohibit the reading of non-members administrator'),
+		'hiddenField' => false,
+		'disabled' => true,
+	));
+} else {
+	echo $this->NetCommonsForm->inlineCheckbox('UserAttributeSetting.only_administrator_readable', array(
+		'label' => __d('user_attributes', 'To prohibit the reading of non-members administrator'),
+		'ng-click' => 'onlyAdministratorClick($event, "' . $this->NetCommonsHtml->domId('UserAttributeSetting.only_administrator_readable') . '", "' .
+													$this->NetCommonsHtml->domId('UserAttributeSetting.only_administrator_editable') . '")',
+	));
+}
 
 /**
  * 書き込み不可項目とする（管理者のみ書ける）
@@ -127,12 +154,21 @@ echo $this->NetCommonsForm->inlineCheckbox('UserAttributeSetting.only_administra
  * * ラベルタイプの場合、disabled
  * * 読み取り不可：チェックON固定
  */
-echo $this->NetCommonsForm->inlineCheckbox('UserAttributeSetting.only_administrator_editable', array(
-	'label' => __d('user_attributes', 'To prohibit the writing of non-members administrator'),
-	'ng-click' => 'onlyAdministratorClick($event, "' . $this->NetCommonsHtml->domId('UserAttributeSetting.only_administrator_readable') . '", "' .
-												$this->NetCommonsHtml->domId('UserAttributeSetting.only_administrator_editable') . '")',
-	'ng-disabled' => '(userAttributeSetting.dataTypeKey === "' . DataType::DATA_TYPE_LABEL . '")',
-));
+if (in_array($this->request->data['UserAttributeSetting']['data_type_key'], [DataType::DATA_TYPE_LABEL], true)) {
+	echo $this->NetCommonsForm->hidden('UserAttributeSetting.only_administrator_editable');
+
+	echo $this->NetCommonsForm->inlineCheckbox('UserAttributeSetting.only_administrator_editable', array(
+		'label' => __d('user_attributes', 'To prohibit the writing of non-members administrator'),
+		'hiddenField' => false,
+		'disabled' => true,
+	));
+} else {
+	echo $this->NetCommonsForm->inlineCheckbox('UserAttributeSetting.only_administrator_editable', array(
+		'label' => __d('user_attributes', 'To prohibit the writing of non-members administrator'),
+		'ng-click' => 'onlyAdministratorClick($event, "' . $this->NetCommonsHtml->domId('UserAttributeSetting.only_administrator_readable') . '", "' .
+													$this->NetCommonsHtml->domId('UserAttributeSetting.only_administrator_editable') . '")',
+	));
+}
 
 /**
  * 各自で公開・非公開を設定可能にする
