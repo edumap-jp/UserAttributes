@@ -334,7 +334,9 @@ class UserAttributeChoiceSaveUserAttributeChoicesTest extends NetCommonsModelTes
 		$method = $this->_methodName;
 
 		//Mockの生成
-		$this->_mockForReturn($model, 'UserAttributes.UserAttributeChoice', 'save', true, $count);
+		$this->_mockForReturn($model, 'UserAttributes.UserAttributeChoice', 'save', [
+			'UserAttributeChoice' => ['key' => $dataType . '_choice']
+		], $count);
 
 		//テストデータ
 		$data = $this->__data('default', $dataType);
